@@ -18,7 +18,7 @@ public class BoardDAO {
 		String pw = "root";
 		
 		try {
-//			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection(url, id, pw);
 			System.out.println(conn);
 			
@@ -43,6 +43,8 @@ public class BoardDAO {
 			System.out.println("tot row : " + row);
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
