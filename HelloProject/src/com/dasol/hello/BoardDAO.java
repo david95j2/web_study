@@ -45,7 +45,16 @@ public class BoardDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			
+			try {
+				if(set != null)
+					set.close();
+				if(stmt != null)
+					stmt.close();
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
