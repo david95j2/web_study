@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,21 +17,21 @@ public class BoardDAOImpl implements BoardDAO {
 	private String pw = "root";
 	
 	@Override
-	public void insertBoard(BoardVO boardVO) {
+	public void insertBoard(String bid, String btitle, String bmemo) {
 		try ( Connection conn = DriverManager.getConnection(url, id, pw); 
 				PreparedStatement pstmt 
 				= conn.prepareStatement("insert into board value(null, ?, ?, ?, now(), 0)"); ){
 			
-			pstmt.setString(1, boardVO.getUsername());
-			pstmt.setString(2, boardVO.getTitle());
-			pstmt.setString(3, boardVO.getMemo());
+			pstmt.setString(1, bid);
+			pstmt.setString(2, btitle);
+			pstmt.setString(3, bmemo);
 
 			pstmt.executeUpdate();
+
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override
@@ -46,9 +47,31 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<BoardVO> selectData(int num) {
-		// TODO Auto-generated method stub
-		return null;
+	public BoardVO selectData(int boardNum) {
+		BoardVO vo = null;
+		try ( Connection conn = DriverManager.getConnection(url, id, pw); 
+				Statement stmt = conn.createStatement(); ){
+			String sql = "update board set HIT = HIT + 1 where num = " + boardNum;
+			stmt.execute(sql);
+			sql = "select * from board where num =" + boardNum;
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while(rs.next()) {
+				int num = rs.getInt("NUM");
+				String username = rs.getString("USERNAME");
+				String title = rs.getString("TITLE");
+				String memo = rs.getString("MEMO");
+				Date time = rs.getTimestamp("TIME");
+				int hit = rs.getInt("HIT");
+				
+				vo = new BoardVO(num, username, title, memo, time, hit);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return vo;
 	}
 
 	@Override
