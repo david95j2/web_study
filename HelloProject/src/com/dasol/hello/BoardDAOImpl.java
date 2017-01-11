@@ -57,7 +57,7 @@ public class BoardDAOImpl implements BoardDAO {
 		
 		try ( Connection conn = DriverManager.getConnection(url, id, pw); 
 				PreparedStatement pstmt 
-				= conn.prepareStatement("select * from board"); ){
+				= conn.prepareStatement("select * from board limit 10 offset 20"); ){
 
 			ResultSet rs = pstmt.executeQuery();
 
