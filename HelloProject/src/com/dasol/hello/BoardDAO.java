@@ -8,6 +8,6 @@ public interface BoardDAO {
 	public void deleteBoard(int num);
 	public void updateBoard(int num);
 	public List<BoardVO> selectData(int num);
-	public List<BoardVO> selectAllData();
+	public List<BoardVO> selectAllData(int pageNum);
 
 }

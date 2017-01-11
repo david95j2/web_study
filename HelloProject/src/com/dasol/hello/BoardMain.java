@@ -14,10 +14,10 @@ public class BoardMain {
 		List<BoardVO> boardList = new ArrayList<>();
 
 		while(true) {
-			boardList = dao.selectAllData();
-			readBoardAll(boardList);
+			int pageNum = 0;
+			readBoardAll(boardList, dao, pageNum);
 			System.out.println("----------------------------------------------------------------------------------");
-			System.out.println("현재 " + null + "페이지 입니다...");
+			System.out.println("현재 " + (pageNum/10) + "페이지 입니다...");
 			System.out.println("[1]게시글쓰기 [2]게시글읽기 [3]게시글수정 [4]게시글삭제 [5]작성자검색 [6]페이지이동 [7]종료");
 			String menuChoice = scan.nextLine();
 			System.out.println(menuChoice);
@@ -45,7 +45,8 @@ public class BoardMain {
 		
 	}
 	
-	public static void readBoardAll(List<BoardVO> boardList) {
+	public static void readBoardAll(List<BoardVO> boardList, BoardDAO dao, int pageNum) {
+		boardList = dao.selectAllData(pageNum);
 		System.out.println("글번호" + "\t| " + "게시자" + "\t\t| " + "제목" + "\t\t\t| " + "게시날짜" + "\t\t\t| " + "조회수");
 		for (BoardVO vo : boardList) {
 			System.out.println("----------------------------------------------------------------------------------");

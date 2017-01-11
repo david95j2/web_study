@@ -52,12 +52,12 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<BoardVO> selectAllData() {
+	public List<BoardVO> selectAllData(int pageNum) {
 		List<BoardVO> boardList = new ArrayList<>();
 		
 		try ( Connection conn = DriverManager.getConnection(url, id, pw); 
 				PreparedStatement pstmt 
-				= conn.prepareStatement("select * from board limit 10 offset 20"); ){
+				= conn.prepareStatement("select * from board limit 10 offset " + pageNum ); ){
 
 			ResultSet rs = pstmt.executeQuery();
 
