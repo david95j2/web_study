@@ -35,6 +35,7 @@ public class BoardMain {
 				break;
 			case "4":
 				System.out.println("페이지 이동..");
+				pageNum = movePage(pageNum);
 				break;
 			case "5":
 				System.out.println("종료..");
@@ -45,7 +46,7 @@ public class BoardMain {
 		
 	}
 	
-	public static void readBoardAll(List<BoardVO> boardList, BoardDAO dao, int pageNum) {
+	public static void readBoardAll(List<BoardVO> boardList, BoardDAO dao, int pageNum) { //boardList size
 		System.out.println("글번호" + "\t| " + "게시자" + "\t\t| " + "제목" + "\t\t\t| " + "게시날짜" + "\t\t\t| " + "조회수");
 		for (BoardVO vo : boardList) {
 			System.out.println("----------------------------------------------------------------------------------");
@@ -119,8 +120,8 @@ public class BoardMain {
 		int pageNum = 0;
 		System.out.print("게시자ID : ");
 		String bid = scan.nextLine();
-		boardList = dao.searchUserBoard(bid, pageNum);
 		while (true) {
+			boardList = dao.searchUserBoard(bid, pageNum);
 			readBoardAll(boardList, dao, pageNum);
 			System.out.println("----------------------------------------------------------------------------------");
 			System.out.println("현재 " + (pageNum / 10) + "페이지 입니다...");
@@ -131,9 +132,28 @@ public class BoardMain {
 			else if (menuChoice.equals("2")) {
 				readBoard(dao);
 			} else if (menuChoice.equals("3")) {
-				System.out.println("준비중..");
+				pageNum = movePage(pageNum);
 			}
 		}
 	}
 
+	public static int movePage(int pageNum) {
+		int rtvNum = 0;
+		System.out.println("[<]이전 10 페이지  [>]다음 10페이지");
+		String pageCursor = scan.nextLine();
+		
+		if (pageNum != 0) { 
+			if(pageCursor.equals("<"))
+				rtvNum = pageNum - 10;
+			else if(pageCursor.equals(">"))
+				rtvNum = pageNum + 10;
+		} else if (pageNum == 0) {
+			if(pageCursor.equals("<"))
+				rtvNum = 0;
+			else if(pageCursor.equals(">"))
+				rtvNum = pageNum + 10;
+		}
+		
+		return rtvNum;
+	}
 }

@@ -121,7 +121,7 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public List<BoardVO> searchUserBoard(String bid, int pageNum) {
-List<BoardVO> boardList = new ArrayList<>();
+		List<BoardVO> boardList = new ArrayList<>();
 		
 		try ( Connection conn = DriverManager.getConnection(url, id, pw); 
 				PreparedStatement pstmt 
@@ -129,14 +129,14 @@ List<BoardVO> boardList = new ArrayList<>();
 
 			ResultSet rs = pstmt.executeQuery();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				int num = rs.getInt("NUM");
 				String username = rs.getString("USERNAME");
 				String title = rs.getString("TITLE");
 				String memo = rs.getString("MEMO");
 				Date time = rs.getTimestamp("TIME");
 				int hit = rs.getInt("HIT");
-				
+
 				boardList.add(new BoardVO(num, username, title, memo, time, hit));
 			}
 			
