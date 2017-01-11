@@ -41,9 +41,20 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void updateBoard(int num) {
-		// TODO Auto-generated method stub
-		
+	public void updateBoard(int num, String title, String memo) {
+		try ( Connection conn = DriverManager.getConnection(url, id, pw); 
+				PreparedStatement pstmt 
+				= conn.prepareStatement("update board set TITLE = ?, MEMO = ? where num = " + num );){
+			
+			pstmt.setString(1, title);
+			pstmt.setString(2, memo);
+
+			pstmt.executeUpdate();
+
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
