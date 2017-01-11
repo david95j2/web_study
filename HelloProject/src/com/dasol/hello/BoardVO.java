@@ -1,6 +1,6 @@
 package com.dasol.hello;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class BoardVO {
 	private int num;
@@ -9,9 +9,6 @@ public class BoardVO {
 	private String memo;
 	private Date time;
 	private int hit;
-	private int ref;
-	private int indent;
-	private int step;
 	
 	public BoardVO(String username, String title, String memo) {
 		this.username = username;
@@ -20,17 +17,13 @@ public class BoardVO {
 	}
 
 	public BoardVO(int num, String username, String title, String memo, 
-			Date time, int hit, int ref, int indent,
-			int step) {
+			Date time, int hit) {
 		this.num = num;
 		this.username = username;
 		this.title = title;
 		this.memo = memo;
 		this.time = time;
 		this.hit = hit;
-		this.ref = ref;
-		this.indent = indent;
-		this.step = step;
 	}
 
 	public String getUsername() {
@@ -81,34 +74,11 @@ public class BoardVO {
 		this.hit = hit;
 	}
 
-	public int getRef() {
-		return ref;
-	}
-
-	public void setRef(int ref) {
-		this.ref = ref;
-	}
-
-	public int getIndent() {
-		return indent;
-	}
-
-	public void setIndent(int indent) {
-		this.indent = indent;
-	}
-
-	public int getStep() {
-		return step;
-	}
-
-	public void setStep(int step) {
-		this.step = step;
-	}
 
 	@Override
 	public String toString() {
 		return "BoardVO [num=" + num + ", username=" + username + ", title=" + title + ", memo=" + memo + ", time="
-				+ time + ", hit=" + hit + ", ref=" + ref + ", indent=" + indent + ", step=" + step + "]";
+				+ time + ", hit=" + hit + "]";
 	}
 	
 }
