@@ -119,4 +119,32 @@ public class BoardDAOImpl implements BoardDAO {
 		return boardList;
 	}
 
+	@Override
+	public List<BoardVO> searchUserBoard(String bid, int pageNum) {
+List<BoardVO> boardList = new ArrayList<>();
+		
+		try ( Connection conn = DriverManager.getConnection(url, id, pw); 
+				PreparedStatement pstmt 
+				= conn.prepareStatement("select * from board where USERNAME = '"+ bid +"' limit 10 offset " + pageNum); ){
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				int num = rs.getInt("NUM");
+				String username = rs.getString("USERNAME");
+				String title = rs.getString("TITLE");
+				String memo = rs.getString("MEMO");
+				Date time = rs.getTimestamp("TIME");
+				int hit = rs.getInt("HIT");
+				
+				boardList.add(new BoardVO(num, username, title, memo, time, hit));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return boardList;
+	}
+
 }

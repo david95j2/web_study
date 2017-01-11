@@ -14,7 +14,8 @@ public class BoardMain {
 		List<BoardVO> boardList = new ArrayList<>();
 		int pageNum = 20;
 		while(true) {
-			readBoardAll(boardList, dao, pageNum);
+			boardList = dao.selectAllData(pageNum);
+			readBoardAll(boardList, dao, pageNum); // cls 추가?
 			System.out.println("----------------------------------------------------------------------------------");
 			System.out.println("현재 " + (pageNum/10) + "페이지 입니다...");
 			System.out.println("[1]게시글쓰기 [2]게시글읽기 [3]작성자검색 [4]페이지이동 [5]종료");
@@ -23,7 +24,6 @@ public class BoardMain {
 			case "1":
 				System.out.println("게시글 쓰기..");
 				insertBoard(dao);
-				System.out.println("완료");
 				break;
 			case "2":
 				System.out.println("게시글 읽기..");
@@ -31,13 +31,14 @@ public class BoardMain {
 				break;
 			case "3":
 				System.out.println("작성자 검색..");
-				
+				searchUserBoard(dao);
 				break;
 			case "4":
 				System.out.println("페이지 이동..");
+				break;
 			case "5":
 				System.out.println("종료..");
-				System.out.println("이용해주셔서 감사합니다.");
+				System.out.println("이용해 주셔서 감사합니다.");
 				System.exit(0);
 			}
 		}
@@ -45,7 +46,6 @@ public class BoardMain {
 	}
 	
 	public static void readBoardAll(List<BoardVO> boardList, BoardDAO dao, int pageNum) {
-		boardList = dao.selectAllData(pageNum);
 		System.out.println("글번호" + "\t| " + "게시자" + "\t\t| " + "제목" + "\t\t\t| " + "게시날짜" + "\t\t\t| " + "조회수");
 		for (BoardVO vo : boardList) {
 			System.out.println("----------------------------------------------------------------------------------");
@@ -88,7 +88,6 @@ public class BoardMain {
 			} else if (menuChoice.equals("2")) {
 				System.out.println("게시글수정..");
 				updateBoard(dao, Integer.parseInt(boardNum));
-				System.out.println("완료");
 			} else if (menuChoice.equals("3")) {
 				System.out.println("게시글 삭제..");
 				deleteBoard(dao, Integer.parseInt(boardNum));
@@ -110,8 +109,30 @@ public class BoardMain {
 	public static void deleteBoard(BoardDAO dao, int boardNum) {
 		System.out.println("현재 게시글을 삭제하시겠습니까? (y/n)");
 		String isdelete = scan.nextLine();
-		if (isdelete.toLowerCase().equals("y")) {
+		if (isdelete.toLowerCase().equals("y")) { // 리턴 손보기
 			dao.deleteBoard(boardNum);
+		}
+	}
+	
+	public static void searchUserBoard(BoardDAO dao) {
+		List<BoardVO> boardList = null;
+		int pageNum = 0;
+		System.out.print("게시자ID : ");
+		String bid = scan.nextLine();
+		boardList = dao.searchUserBoard(bid, pageNum);
+		while (true) {
+			readBoardAll(boardList, dao, pageNum);
+			System.out.println("----------------------------------------------------------------------------------");
+			System.out.println("현재 " + (pageNum / 10) + "페이지 입니다...");
+			System.out.println("[1]되돌아가기 [2]게시글읽기  [3]페이지이동");
+			String menuChoice = scan.nextLine();
+			if (menuChoice.equals("1"))
+				break;
+			else if (menuChoice.equals("2")) {
+				readBoard(dao);
+			} else if (menuChoice.equals("3")) {
+				System.out.println("준비중..");
+			}
 		}
 	}
 
