@@ -37,6 +37,7 @@ public class BoardMain {
 				System.out.println("페이지 이동..");
 			case "5":
 				System.out.println("종료..");
+				System.out.println("이용해주셔서 감사합니다.");
 				System.exit(0);
 			}
 		}
@@ -70,7 +71,7 @@ public class BoardMain {
 		String boardNum = scan.nextLine();
 		
 		while (true) {
-			vo = dao.selectData(Integer.parseInt(boardNum));
+			vo = dao.selectData(Integer.parseInt(boardNum)); // 조회수 손보기...
 			System.out.println("------------------------------------------------------");
 			System.out.println("글번호 : " + vo.getNum() + " | " + "게시날짜 : " 
 									+ sdf.format(vo.getTime()) + "  | 조회수 : " + vo.getHit());
@@ -90,6 +91,8 @@ public class BoardMain {
 				System.out.println("완료");
 			} else if (menuChoice.equals("3")) {
 				System.out.println("게시글 삭제..");
+				deleteBoard(dao, Integer.parseInt(boardNum));
+				break;
 			} else
 				System.out.println("재선택..");
 		}
@@ -102,6 +105,14 @@ public class BoardMain {
 		System.out.print("글내용 : ");
 		String memo = scan.nextLine();
 		dao.updateBoard(boardNum, title, memo);
+	}
+	
+	public static void deleteBoard(BoardDAO dao, int boardNum) {
+		System.out.println("현재 게시글을 삭제하시겠습니까? (y/n)");
+		String isdelete = scan.nextLine();
+		if (isdelete.toLowerCase().equals("y")) {
+			dao.deleteBoard(boardNum);
+		}
 	}
 
 }

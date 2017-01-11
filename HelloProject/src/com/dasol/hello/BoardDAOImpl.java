@@ -27,7 +27,6 @@ public class BoardDAOImpl implements BoardDAO {
 			pstmt.setString(3, bmemo);
 
 			pstmt.executeUpdate();
-
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -36,8 +35,15 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public void deleteBoard(int num) {
-		// TODO Auto-generated method stub
-		
+		try ( Connection conn = DriverManager.getConnection(url, id, pw); 
+				PreparedStatement pstmt 
+				= conn.prepareStatement("delete from board where num = " + num );){
+
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
