@@ -15,7 +15,7 @@ public class BoardMain {
 		int pageNum = 20;
 		while(true) {
 			boardList = dao.selectAllData(pageNum);
-			readBoardAll(boardList, dao, pageNum); // cls 추가?
+			readBoardAll(boardList, dao, pageNum); // cls? 추가
 			System.out.println("----------------------------------------------------------------------------------");
 			System.out.println("현재 " + (pageNum/10) + "페이지 입니다...");
 			System.out.println("[1]게시글쓰기 [2]게시글읽기 [3]작성자검색 [4]페이지이동 [5]종료");
@@ -66,7 +66,7 @@ public class BoardMain {
 		dao.insertBoard(id, title, memo);
 	}
 	
-	public static void readBoard(BoardDAO dao) {
+	public static void readBoard(BoardDAO dao) { //검색값 없을 때 null포인터
 		BoardVO vo = null;
 		System.out.print("보고싶은 게시글 번호 : ");
 		String boardNum = scan.nextLine();
