@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="HelloProject">
+    <wb-module deploy-name="helloproject">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="HelloProject"/>
-        <property name="java-output-path" value="/HelloProject/bin"/>
+        <property name="java-output-path" value="/helloproject/bin"/>
+        <property name="context-root" value="helloproject"/>
     </wb-module>
 </project-modules>
