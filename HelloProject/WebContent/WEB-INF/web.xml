@@ -12,4 +12,23 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<listener>
+		<listener-class>com.dasol.jdbc.DBCPInitListener</listener-class>
+	</listener>
+	
+	<context-param>
+		<param-name>poolConfig</param-name>
+		<param-value>
+			jdbcdriver=com.mysql.jdbc.Driver
+	  		jdbcUrl=jdbc:mysql://localhost:3306/myboard?characterEncoding=utf8
+	  		dbUser=luke
+	  		dbPass=luke
+	  		validationQuery=select 1
+	  		minIdle=3
+	  		maxTotal=30
+	  		poolName=myboard
+		</param-value>
+	</context-param>
+	
 </web-app>
