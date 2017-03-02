@@ -9,6 +9,7 @@ import java.util.Date;
 
 import com.dasol.jdbc.JdbcUtil;
 import com.dasol.member.model.Member;
+import com.dasol.util.AES256Util;
 
 public class MemberDAO {
 	
@@ -31,20 +32,25 @@ public class MemberDAO {
 	}
 	
 	private Member transeferResultsetToMember(ResultSet rs) throws SQLException {
-		return new Member(rs.getString("email"), 
+		return new Member(rs.getInt("member_id"), 
+				rs.getString("email"), 
 				rs.getString("password"), 
+				rs.getString("nickname"), 
 				new Date(rs.getTimestamp("regdate").getTime()), 
-				rs.getString("profile_image"));
+				rs.getString("profile_image"), 
+				rs.getString("register_code"), 
+				rs.getBoolean("register_check"));
 	}
 	
 	public void insertData(Connection conn, Member member) throws SQLException {
 		try (PreparedStatement pstmt = conn.prepareStatement
-				("insert into members values(?, ?, ?, ?)")) {
+				("insert into members(email, password, regdate, profile_image) values(?, ?, ?, ?)")) {
 			pstmt.setString(1, member.getEmail());
 			pstmt.setString(2, member.getPassword());
 			pstmt.setTimestamp(3, new Timestamp(member.getRegdate().getTime()));
-			pstmt.setString(4, member.getProfile_image());
+			pstmt.setString(4, member.getProfileImage());
 			pstmt.executeUpdate();
 		}
 	}
+	
 }
