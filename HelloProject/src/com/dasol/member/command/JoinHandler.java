@@ -14,12 +14,12 @@ import com.dasol.mvc.command.CommandHandler;
 public class JoinHandler implements CommandHandler {
 	private static final String FORM_VIEW = "/WEB-INF/view/joinForm.jsp";
 	private JoinService joinService = new JoinService();
-	
+
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		if(request.getMethod().equalsIgnoreCase("GET")) {
+		if (request.getMethod().equalsIgnoreCase("GET")) {
 			return processForm(request, response);
-		} else if(request.getMethod().equalsIgnoreCase("POST")) {
+		} else if (request.getMethod().equalsIgnoreCase("POST")) {
 			return processSubmit(request, response);
 		} else {
 			response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -32,16 +32,16 @@ public class JoinHandler implements CommandHandler {
 		joinRequest.setEmail(request.getParameter("email"));
 		joinRequest.setPassword(request.getParameter("password"));
 		joinRequest.setConfirmPassword(request.getParameter("confirmPassword"));
-		
+
 		Map<String, Boolean> errors = new HashMap<>();
 		request.setAttribute("errors", errors);
-		
+
 		joinRequest.validate(errors);
-		
-		if(!errors.isEmpty()) {
+
+		if (!errors.isEmpty()) {
 			return FORM_VIEW;
 		}
-		
+
 		try {
 			joinService.join(joinRequest);
 			return "/WEB-INF/view/joinSuccess.jsp";

@@ -15,21 +15,29 @@ public class JoinService {
 
 	public void join(JoinRequest joinRequest) {
 		Connection conn = null;
-
+		Member member = null;
+		
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-
-			Member member = memberDAO.selectByEmail(conn, joinRequest.getEmail());
-
+	
+			member = memberDAO.selectByEmail(conn, joinRequest.getEmail());
+			
 			if (member != null) {
 				JdbcUtil.rollback(conn);
 				throw new DuplicateIdException();
 			}
 			
-			memberDAO.insertData(conn, new Member(joinRequest.getEmail(), joinRequest.getPassword(), new Date(), null));
+			memberDAO.insertData(conn, 
+					new Member(joinRequest.getEmail(), 
+							joinRequest.getPassword(),
+							null, // 유저 닉네임 생성
+							new Date(), 
+							null, // 유저 기본 프로필 설정
+							null, // 이메일 인증 코드
+							false)); // 이메일 인증 체크 기본 false
 			conn.commit();
-
+			
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException();
