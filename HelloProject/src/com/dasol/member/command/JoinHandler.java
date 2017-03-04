@@ -35,12 +35,12 @@ public class JoinHandler implements CommandHandler {
 
 		Map<String, Boolean> errors = new HashMap<>();
 		request.setAttribute("errors", errors);
-
-		joinRequest.validate(errors);
-
-		if (!errors.isEmpty()) {
-			return FORM_VIEW;
-		}
+//
+//		joinRequest.validate(errors);
+//
+//		if (!errors.isEmpty()) {
+//			return FORM_VIEW;
+//		}
 
 		try {
 			joinService.join(joinRequest);
