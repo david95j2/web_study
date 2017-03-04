@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <style>
     .help-block {
         color: red;
@@ -24,30 +25,28 @@
 			<div class="form-group">
 				<label for="email">이메일 주소</label> 
                 <input type="text"
-						class="form-control" id="email" name="email" value="${param.email }" placeholder="이메일 주소">
-				<c:if test="${errors.email }"> <p class="help-block">*이메일을 입력하세요.</p> </c:if>
-				<c:if test="${errors.duplicatedId }"> <p class="help-block">*중복된 이메일 입니다.</p> </c:if>
-				<c:if test="${errors.emailRegEx }"> <p class="help-block">*잘못된 형식의 이메일 입니다.</p> </c:if>
+						class="form-control" id="email" name="email"}" placeholder="이메일 주소">
+				<c:if test="${!errors.duplicatedId }"> <p class="help-block" id="email-error"></p> </c:if>
+				<c:if test="${errors.duplicatedId }"> <p class="help-block" id="email-error">*중복된 이메일 입니다.</p> </c:if>
 			</div>
             
 			<div class="form-group">
 				<label for="pwd">비밀 번호</label> 
                 <input type="password"
 						class="form-control" id="password" name="password" placeholder="비밀번호 (영문+숫자혼합 8자리 이상)">
-				<c:if test="${errors.password }"> <p class="help-block">*비밀번호를 입력하세요.</p> </c:if>
-				<c:if test="${errors.passwordRegEx }"> <p class="help-block">*잘못된 형식의 비밀번호 입니다.</p> </c:if>
+						<p class="help-block" id="password-error"></p>
 			</div>
             
 			<div class="form-group">
 				<label for="Confirm">비밀번호 확인</label> 
                 <input type="password"
 						class="form-control" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인">
-				<c:if test="${errors.confirmPassword }"> <p class="help-block">*비밀번호 확인을 입력하세요.</p> </c:if>
-				<c:if test="${errors.noMatch }"> <p class="help-block">*비밀번호와 확인이 일치하지 않습니다.</p> </c:if>
+						<p class="help-block" id="passwordConfirm-error"></p>
 			</div>
-            <button type="submit" class="btn btn-primary btn-block">회원 가입</button>
-            
+            <button type="submit" id="btn_join" class="btn btn-primary btn-block">회원 가입</button>
 		</form>
 	</div>
-</body>
+	
+	<script src="js/joinForm.js"></script>
+	</body>
 </html>
