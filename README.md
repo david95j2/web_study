@@ -3,3 +3,5 @@
 제 블로그에서 함께 진행합니다.
 
 http://blog.naver.com/PostList.nhn?blogId=gksdnr89&from=postList&categoryNo=56
+
+최범균의 JSP 2.3 웹 프로그래밍 책을 보고 응용해서 제작합니다.
