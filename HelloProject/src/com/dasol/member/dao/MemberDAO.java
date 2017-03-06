@@ -44,11 +44,13 @@ public class MemberDAO {
 	
 	public void insertData(Connection conn, Member member) throws SQLException {
 		try (PreparedStatement pstmt = conn.prepareStatement
-				("insert into members(email, password, regdate, profile_image) values(?, ?, ?, ?)")) {
+				("insert into members(email, password, regdate, profile_image, register_check) "
+						+ "values(?, ?, ?, ?, ?)")) {
 			pstmt.setString(1, member.getEmail());
 			pstmt.setString(2, member.getPassword());
 			pstmt.setTimestamp(3, new Timestamp(member.getRegdate().getTime()));
 			pstmt.setString(4, member.getProfileImage());
+			pstmt.setBoolean(5, member.isRegisterCheck());
 			pstmt.executeUpdate();
 		}
 	}
