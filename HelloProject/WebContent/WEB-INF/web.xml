@@ -54,6 +54,7 @@
 	<filter-mapping>
 		<filter-name>AESFilter</filter-name>
 		<url-pattern>/join.do</url-pattern>
+		<url-pattern>/login.do</url-pattern>
 	</filter-mapping>
 
 	<servlet>
