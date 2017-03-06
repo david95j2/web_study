@@ -4,7 +4,7 @@ $(document).ready(function (){
 	var $email = $('#email');
 	var $password = $('#password');
 	var $passwordConfirm = $('#confirmPassword');
-	var $btSubmit = $('#btn_join');
+	var $btSubmit = $('#btn_submit');
 	
 	$btSubmit.on('click', function() {
 		  var email = $email.val();

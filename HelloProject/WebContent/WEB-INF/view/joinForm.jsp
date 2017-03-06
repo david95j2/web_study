@@ -25,13 +25,13 @@
 			<div class="form-group">
 				<label for="email">이메일 주소</label> 
                 <input type="text"
-						class="form-control" id="email" name="email"}" placeholder="이메일 주소">
+						class="form-control" id="email" name="email" placeholder="이메일 주소">
 				<c:if test="${!errors.duplicatedId }"> <p class="help-block" id="email-error"></p> </c:if>
 				<c:if test="${errors.duplicatedId }"> <p class="help-block" id="email-error">*중복된 이메일 입니다.</p> </c:if>
 			</div>
             
 			<div class="form-group">
-				<label for="pwd">비밀 번호</label> 
+				<label for="pwd">비밀번호</label> 
                 <input type="password"
 						class="form-control" id="password" name="password" placeholder="비밀번호 (영문+숫자혼합 8자리 이상)">
 						<p class="help-block" id="password-error"></p>
@@ -43,7 +43,7 @@
 						class="form-control" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인">
 						<p class="help-block" id="passwordConfirm-error"></p>
 			</div>
-            <button type="submit" id="btn_join" class="btn btn-primary btn-block">회원 가입</button>
+            <button type="submit" id="btn_submit" class="btn btn-primary btn-block">회원 가입</button>
 		</form>
 	</div>
 	
