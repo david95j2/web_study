@@ -66,5 +66,9 @@ public class Member {
 	public boolean isRegisterCheck() {
 		return registerCheck;
 	}
+	
+	public boolean matchPassword(String password) {
+		return this.password.equals(password);
+	}
 
 }
