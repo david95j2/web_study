@@ -13,75 +13,83 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dasol.auth.command.AutoLoginHandler;
 import com.dasol.mvc.command.CommandHandler;
 import com.dasol.mvc.command.NullHandler;
+import com.dasol.util.CookieBox;
 
 public class ControllerUsingURI extends HttpServlet {
-	private Map<String, CommandHandler> commandHandlerMap =
-			new HashMap<>();
-	
+	private Map<String, CommandHandler> commandHandlerMap = new HashMap<>();
+
 	public void init() throws ServletException {
 		String configFile = getInitParameter("configFile");
 		Properties prop = new Properties();
 		String configFilePath = getServletContext().getRealPath(configFile);
-		try(FileReader fis = new FileReader(configFilePath)) {
+		try (FileReader fis = new FileReader(configFilePath)) {
 			prop.load(fis);
 		} catch (IOException e) {
 			throw new ServletException(e);
 		}
-		
+
 		Iterator<Object> keyIter = prop.keySet().iterator();
-		while(keyIter.hasNext()) {
+		while (keyIter.hasNext()) {
 			String command = (String) keyIter.next();
 			String handlerClassName = prop.getProperty(command);
 			try {
 				Class<?> handlerClass = Class.forName(handlerClassName);
-				CommandHandler handlerInstance = 
-						(CommandHandler) handlerClass.newInstance();
+				CommandHandler handlerInstance = (CommandHandler) handlerClass.newInstance();
 				commandHandlerMap.put(command, handlerInstance);
 			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 				throw new ServletException(e);
 			}
 		}
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		process(req, resp);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		process(req, resp);
 	}
-	
-	private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	private void process(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Map<String, String> cookiesMap = null;
+		cookiesMap = CookieBox.getCookiesValueMap(request);
+
 		String command = request.getRequestURI();
-		
+
 		System.out.println(command);
-		
-		if(command.indexOf(request.getContextPath()) == 0) {
+
+		if (command.indexOf(request.getContextPath()) == 0) {
 			command = command.substring(request.getContextPath().length());
 			System.out.println(command);
 		}
-		
+
 		CommandHandler handler = commandHandlerMap.get(command);
-		if(handler == null) {
+		if (handler == null) {
 			handler = new NullHandler();
+		} else if (!command.equals("/logout.do") 
+				&& cookiesMap.get("aT") != null) {
+			handler = new AutoLoginHandler();
 		}
-		
+
 		String viewPage = null;
-		
+
 		try {
 			viewPage = handler.process(request, response);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
-		
-		if(viewPage != null) {
+
+		if (viewPage != null) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 			dispatcher.forward(request, response);
 		}
-		
+
 	}
+
 }
