@@ -1,7 +1,5 @@
 package com.dasol.member.service;
 
-import java.util.Map;
-
 public class JoinRequest {
 	private String email;
 	private String password;

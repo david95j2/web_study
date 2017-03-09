@@ -35,7 +35,9 @@ public class JoinService {
 							new Date(), 
 							null, // 유저 기본 프로필 설정
 							null, // 이메일 인증 코드
-							false)); // 이메일 인증 체크 기본 false
+							false, // 이메일 인증 체크 기본 false
+							null, // 로그인 유지 토큰
+							null)); // 접근 토큰 //*나중에 생성하기
 			conn.commit();
 			
 		} catch (SQLException e) {
