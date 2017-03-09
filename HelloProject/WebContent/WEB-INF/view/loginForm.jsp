@@ -9,6 +9,8 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <style>
     .help-block {
         color: red;
@@ -21,6 +23,7 @@
 	<div class="container">
 		<h1>로그인</h1>
 		<p>로그인 페이지</p>
+		
 		<form action="login.do" method="post">
 			<div class="form-group">
 				<label for="email">이메일 주소</label> 
@@ -40,14 +43,27 @@
 				</c:if>
 			</div>
 			<div class="checkbox">
-				<label><input type="checkbox" checked="checked">로그인 유지</label> <br>
+				<label><input type="checkbox" name="remember" checked="checked">로그인 유지</label> <br>
 				<a href="#">비밀번호 찾기</a>
 			</div>
 
 			<button type="submit" id="btn_submit" class="btn btn-primary btn-block">로그인</button>
 			<a href="join.do" class="btn btn-info btn-block" role="button">회원가입</a>
+			<br>
+			<div id="naver_id_login"></div>
+  			<!-- //네이버아이디로로그인 버튼 노출 영역 -->
+			<script type="text/javascript">
+				var naver_id_login = new naver_id_login("EDVRCkCrw7wo3UNay3lP",
+						"http://localhost:8080/helloproject/callback.html");
+				var state = naver_id_login.getUniqState();
+				naver_id_login.setButton("green", 3, 40);
+				naver_id_login.setDomain("http://localhost:8080/helloproject/");
+				naver_id_login.setState(state);
+				naver_id_login.init_naver_id_login();
+			</script>
 		</form>
 	</div>
+		  
 	<script src="js/loginForm.js"></script>
 </body>
 </html>
