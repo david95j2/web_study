@@ -11,9 +11,12 @@ public class Member {
 	private String profileImage;
 	private String registerCode;
 	private boolean registerCheck;
+	private String rememberToken;
+	private String accessToken;
 	
 	public Member(String email, String password, String nickname, Date regdate, 
-			String profileImage, String registerCode, boolean registerCheck) {
+			String profileImage, String registerCode, boolean registerCheck, 
+			String rememberToken, String accessToken) {
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
@@ -21,10 +24,13 @@ public class Member {
 		this.profileImage = profileImage;
 		this.registerCode = registerCode;
 		this.registerCheck = registerCheck;
+		this.rememberToken = rememberToken;
+		this.accessToken = accessToken;
 	}
 	
 	public Member(int memberId, String email, String password, String nickname, Date regdate, 
-			String profileImage, String registerCode, boolean registerCheck) {
+			String profileImage, String registerCode, boolean registerCheck, 
+			String rememberToken, String accessToken) {
 		this.memberId = memberId;
 		this.email = email;
 		this.password = password;
@@ -33,6 +39,8 @@ public class Member {
 		this.profileImage = profileImage;
 		this.registerCode = registerCode;
 		this.registerCheck = registerCheck;
+		this.rememberToken = rememberToken;
+		this.accessToken = accessToken;
 	}
 
 	public int getMemberId() {
@@ -66,7 +74,15 @@ public class Member {
 	public boolean isRegisterCheck() {
 		return registerCheck;
 	}
+
+	public String getRememberToken() {
+		return rememberToken;
+	}
 	
+	public String getAccessToken() {
+		return accessToken;
+	}
+
 	public boolean matchPassword(String password) {
 		return this.password.equals(password);
 	}
