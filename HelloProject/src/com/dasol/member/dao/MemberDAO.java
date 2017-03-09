@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import com.dasol.auth.service.LoginRequest;
 import com.dasol.jdbc.JdbcUtil;
 import com.dasol.member.model.Member;
-import com.dasol.util.AES256Util;
 
 public class MemberDAO {
 	
@@ -31,6 +31,33 @@ public class MemberDAO {
 		}
 	}
 	
+	public void updateToken(Connection conn, int memberId, String token) throws SQLException { // 토큰 삽입
+		try (PreparedStatement pstmt 
+				= conn.prepareStatement("update members set remember_token=? where member_id=?")) {
+			pstmt.setString(1, token);
+			pstmt.setInt(2, memberId);
+			pstmt.executeUpdate();
+		}
+	}
+	
+	public Member selectByToken(Connection conn, String token) throws SQLException { // 토큰으로 정보 찾기
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from members where remember_token=?");
+			pstmt.setString(1, token);
+			rs = pstmt.executeQuery();
+			Member member = null;
+			if(rs.next()) {
+				member = transeferResultsetToMember(rs);
+			}
+			return member;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
 	private Member transeferResultsetToMember(ResultSet rs) throws SQLException {
 		return new Member(rs.getInt("member_id"), 
 				rs.getString("email"), 
@@ -39,20 +66,37 @@ public class MemberDAO {
 				new Date(rs.getTimestamp("regdate").getTime()), 
 				rs.getString("profile_image"), 
 				rs.getString("register_code"), 
-				rs.getBoolean("register_check"));
+				rs.getBoolean("register_check"),
+				rs.getString("remember_token"),
+				rs.getString("access_token"));
 	}
 	
 	public void insertData(Connection conn, Member member) throws SQLException {
 		try (PreparedStatement pstmt = conn.prepareStatement
-				("insert into members(email, password, regdate, profile_image, register_check) "
-						+ "values(?, ?, ?, ?, ?)")) {
+				("insert into members(email, password, nickname, "
+						+ "regdate, profile_image, register_check, "
+						+ "access_token) "
+						+ "values(?, ?, ?, ?, ?, ?, ?)")) {
 			pstmt.setString(1, member.getEmail());
 			pstmt.setString(2, member.getPassword());
-			pstmt.setTimestamp(3, new Timestamp(member.getRegdate().getTime()));
-			pstmt.setString(4, member.getProfileImage());
-			pstmt.setBoolean(5, member.isRegisterCheck());
+			pstmt.setString(3, member.getNickname());
+			pstmt.setTimestamp(4, new Timestamp(member.getRegdate().getTime()));
+			pstmt.setString(5, member.getProfileImage());
+			pstmt.setBoolean(6, member.isRegisterCheck());
+			pstmt.setString(7, member.getAccessToken());
 			pstmt.executeUpdate();
 		}
 	}
 	
+	public void updateDataWithNaverInfo(Connection conn, LoginRequest loginRequest) 
+			throws SQLException { // 네아로 정보 업뎃
+		try (PreparedStatement pstmt = conn.prepareStatement
+				("update members set nickname=?, profile_image=?, access_token=? where email=?")) {
+			pstmt.setString(1, loginRequest.getNickname());
+			pstmt.setString(2, loginRequest.getProfileImage());
+			pstmt.setString(3, loginRequest.getAccessToken());
+			pstmt.setString(4, loginRequest.getEmail());
+			pstmt.executeUpdate();
+		}
+	}
 }
