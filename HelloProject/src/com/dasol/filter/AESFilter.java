@@ -19,14 +19,14 @@ public class AESFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("filter");
-		AESRequestWrapper wrapper = new AESRequestWrapper((HttpServletRequest)req);
+		System.out.println("AESFILTER");
+		AESRequestWrapper wrapper = new AESRequestWrapper((HttpServletRequest) req);
 		chain.doFilter(wrapper, resp);
 	}
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		
+
 	}
 
 }
