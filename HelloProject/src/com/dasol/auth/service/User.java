@@ -2,11 +2,13 @@ package com.dasol.auth.service;
 
 public class User {
 	private String email;
-	private boolean register_check;
+	private boolean registerCheck;
+	private String rememberToken;
 
-	public User(String email, boolean register_check) {
+	public User(String email, boolean registerCheck, String rememberToken) {
 		this.email = email;
-		this.register_check = register_check;
+		this.registerCheck = registerCheck;
+		this.rememberToken = rememberToken;
 	}
 
 	public String getEmail() {
@@ -14,7 +16,11 @@ public class User {
 	}
 
 	public boolean isRegister_check() {
-		return register_check;
+		return registerCheck;
+	}
+	
+	public String getRememberToken() {
+		return rememberToken;
 	}
 	
 }
