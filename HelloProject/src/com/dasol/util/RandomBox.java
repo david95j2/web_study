@@ -1,0 +1,20 @@
+package com.dasol.util;
+
+import java.util.Random;
+
+public class RandomBox {
+	Random random = new Random();
+
+	public static String getRandomImage() {
+		Random random = new Random();
+		int num = random.nextInt(3);
+		return "profileimg\\user-default" + num + ".png";
+	}
+
+	public static String getRandomNickname() {
+		Random random = new Random();
+		random.setSeed(System.currentTimeMillis());
+		int num = Math.abs(random.nextInt());
+		return "USER" + num;
+	}
+}
