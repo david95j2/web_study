@@ -29,4 +29,5 @@ public class JoinRequest {
 		this.confirmPassword = confirmPassword;
 	}
 	
+
 }

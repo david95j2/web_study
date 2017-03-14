@@ -72,10 +72,12 @@ public class ControllerUsingURI extends HttpServlet {
 		CommandHandler handler = commandHandlerMap.get(command);
 		if (handler == null) {
 			handler = new NullHandler();
-		} else if (!command.equals("/logout.do") 
-				&& cookiesMap.get("aT") != null) {
-			handler = new AutoLoginHandler();
-		}
+		} 
+		
+//		else if (!command.equals("/logout.do") 
+//				&& cookiesMap.get("aT") != null) {
+//			handler = new AutoLoginHandler();
+//		}
 
 		String viewPage = null;
 

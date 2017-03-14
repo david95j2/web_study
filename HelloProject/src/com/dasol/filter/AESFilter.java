@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class AESFilter implements Filter {
 
@@ -20,8 +21,11 @@ public class AESFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
 		System.out.println("AESFILTER");
-		AESRequestWrapper wrapper = new AESRequestWrapper((HttpServletRequest) req);
-		chain.doFilter(wrapper, resp);
+		AESRequestWrapper reqWrapper = new AESRequestWrapper((HttpServletRequest) req);
+		AESResponseWrapper respWrapper = new AESResponseWrapper((HttpServletResponse) resp);
+		chain.doFilter(reqWrapper, resp);
+
+		
 	}
 
 	@Override

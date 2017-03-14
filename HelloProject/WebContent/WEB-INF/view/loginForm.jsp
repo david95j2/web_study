@@ -48,7 +48,7 @@
 			</div>
 
 			<button type="submit" id="btn_submit" class="btn btn-primary btn-block">로그인</button>
-			<a href="join.do" class="btn btn-info btn-block" role="button">회원가입</a>
+			<a href="join.do" class="btn btn-primary btn-block" role="button">회원가입</a>
 			<br>
 			<div id="naver_id_login"></div>
   			<!-- //네이버아이디로로그인 버튼 노출 영역 -->

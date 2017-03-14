@@ -24,6 +24,7 @@ public class AutoLoginHandler implements CommandHandler {
 		User user = autoLoginService.autoLogin(token);
 		
 		if (user.getRememberToken() != null) {
+			System.out.println("userToken=" + user.getRememberToken());
 			Cookie cookie = new Cookie("aT", user.getRememberToken());
 			cookie.setMaxAge(14*24*60*60);
 			response.addCookie(cookie);
@@ -32,7 +33,6 @@ public class AutoLoginHandler implements CommandHandler {
 		request.getSession().setAttribute("authUser", user);
 		response.sendRedirect(request.getContextPath() + "/index.jsp");
 		return null;
-		
 	}
 
 }

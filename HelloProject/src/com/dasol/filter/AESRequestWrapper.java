@@ -22,8 +22,16 @@ public class AESRequestWrapper extends HttpServletRequestWrapper {
 	public String getParameter(String str) {
 		try {
 			String retVal = request.getParameter(str);
-			if (str.equals("email") || str.equals("password"))
+//			if (str.equals("email") || str.equals("password"))
+			if (str.equals("password"))
 				retVal = doEncryption(retVal);
+			
+			if (str.equals("curPwd"))
+				retVal = doEncryption(retVal);
+			
+			if (str.equals("newPwd"))
+				retVal = doEncryption(retVal);
+			
 			return retVal;
 		} catch (Exception e) {
 			e.printStackTrace();
