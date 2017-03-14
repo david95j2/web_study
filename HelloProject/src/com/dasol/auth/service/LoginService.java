@@ -34,12 +34,20 @@ public class LoginService {
 				memberDAO.updateToken(conn, member.getMemberId(), token);
 			}
 			
+			boolean passwordCheck = member.getPassword() == null ? false : true;
+			
 			conn.commit();
-			return new User(member.getEmail(), member.isRegisterCheck(), token);
+			return new User(member.getMemberId(), 
+					member.getEmail(), 
+					member.isRegisterCheck(), 
+					token,
+					passwordCheck);
 			
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException(e);
+		} finally {
+			JdbcUtil.close(conn);
 		}
 
 	}

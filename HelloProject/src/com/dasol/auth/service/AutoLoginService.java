@@ -25,15 +25,27 @@ public class AutoLoginService {
 				throw new LoginFailException();
 			}
 			
+			boolean passwordCheck = member.getPassword() == null ? false : true;
+			
 			token = TokenGenerator.getTokenKey(); // 토큰키 재생성해서
 			memberDAO.updateToken(conn, member.getMemberId(), token); // 업데이트
+			
+//			boolean passwordCheck1 = member.getPassword() == null ? false : true;
+//			boolean passwordCheck = false;
+			
 			conn.commit();
 			
-			return new User(member.getEmail(), member.isRegisterCheck(), token);
+			return new User(member.getMemberId(), 
+					member.getEmail(), 
+					member.isRegisterCheck(), 
+					token,
+					passwordCheck);
 			
 		} catch (SQLException e) {
 			JdbcUtil.close(conn);
 			throw new RuntimeException(e);
+		} finally {
+			JdbcUtil.close(conn);
 		}
 		
 		

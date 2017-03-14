@@ -34,14 +34,25 @@ public class NLoginService {
 								loginRequest.getAccessToken()));
 			} else {
 				// 기존 회원이라면 추가 정보만 업뎃
+				if(member.getNickname() != null)
+					loginRequest.setNickname(member.getNickname());
+				if(member.getProfileImage() != null)
+					loginRequest.setProfileImage(member.getProfileImage());
+					
 				memberDAO.updateDataWithNaverInfo(conn, loginRequest);
 				System.out.println("acToken " + loginRequest.getAccessToken());
 			}
 			
 			member = memberDAO.selectByEmail(conn, loginRequest.getEmail());
+			
+			boolean passwordCheck = member.getPassword() == null ? false : true;
 			conn.commit();
 
-			return new User(member.getEmail(), member.isRegisterCheck(), member.getRememberToken());
+			return new User(member.getMemberId(), 
+					member.getEmail(), 
+					member.isRegisterCheck(), 
+					member.getRememberToken(),
+					passwordCheck);
 			
 		} catch (SQLException e) {
 			JdbcUtil.close(conn);
