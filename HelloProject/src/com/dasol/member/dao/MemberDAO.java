@@ -21,7 +21,7 @@ public class MemberDAO {
 			pstmt.setString(1, email);
 			rs = pstmt.executeQuery();
 			Member member = null;
-			if(rs.next()) {
+			if (rs.next()) {
 				member = transeferResultsetToMember(rs);
 			}
 			return member;
@@ -48,7 +48,7 @@ public class MemberDAO {
 			pstmt.setString(1, token);
 			rs = pstmt.executeQuery();
 			Member member = null;
-			if(rs.next()) {
+			if (rs.next()) {
 				member = transeferResultsetToMember(rs);
 			}
 			return member;
@@ -96,6 +96,52 @@ public class MemberDAO {
 			pstmt.setString(2, loginRequest.getProfileImage());
 			pstmt.setString(3, loginRequest.getAccessToken());
 			pstmt.setString(4, loginRequest.getEmail());
+			pstmt.executeUpdate();
+		}
+	}
+	
+	public Member selectByMemberId(Connection conn, int memberId) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from members where member_id=?");
+			pstmt.setInt(1, memberId);
+			rs = pstmt.executeQuery();
+			Member member = null;
+			if (rs.next()) {
+				member = transeferResultsetToMember(rs);
+			}
+			return member;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public void updateDataByModifyMyInfo(Connection conn, String profileImage, String nickname, int memberId) 
+			throws SQLException {
+		try (PreparedStatement pstmt = conn.prepareStatement
+				("update members set profile_image=?, nickname=? where member_id=?")) {
+			pstmt.setString(1, profileImage);
+			pstmt.setString(2, nickname);
+			pstmt.setInt(3, memberId);
+			pstmt.executeUpdate();
+		}
+	}
+	
+	public void changePassword(Connection conn, String newPwd, int memberId) throws SQLException {
+		try (PreparedStatement pstmt = conn.prepareStatement
+				("update members set password=? where member_id=?")) {
+			pstmt.setString(1, newPwd);
+			pstmt.setInt(2, memberId);
+			pstmt.executeUpdate();
+		}
+	}
+	
+	public void deleteMyAccount(Connection conn, int memberId) throws SQLException {
+		try (PreparedStatement pstmt = conn.prepareStatement
+				("delete from members where member_id=?")) {
+			pstmt.setInt(1, memberId);
 			pstmt.executeUpdate();
 		}
 	}
