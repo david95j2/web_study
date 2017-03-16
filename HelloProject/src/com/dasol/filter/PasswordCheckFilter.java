@@ -31,7 +31,7 @@ public class PasswordCheckFilter implements Filter {
 		
 		if (!user.getHasPassword()) {
 			HttpServletResponse resp = (HttpServletResponse) response;
-			resp.sendRedirect(req.getContextPath() + "/changePwd.do");
+			resp.sendRedirect(req.getContextPath() + "/setPwd.do");
 		} else {
 			chain.doFilter(request, response);
 		}

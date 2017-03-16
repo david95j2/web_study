@@ -33,7 +33,7 @@ public class ChangePasswordHandler implements CommandHandler {
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		User user = (User) request.getSession().getAttribute("authUser");
+		User authUser = (User) request.getSession().getAttribute("authUser");
 		
 		Map<String, Boolean> errors = new HashMap<>();
 		request.setAttribute("errors", errors);
@@ -42,9 +42,9 @@ public class ChangePasswordHandler implements CommandHandler {
 		String newPwd = request.getParameter("newPwd");
 		
 		try {
-			changePasswordService.changePwd(user.getMemberId(), curPwd, newPwd);
-			user.setHasPassword(true);
-			request.getSession().setAttribute("authUser", user);
+			changePasswordService.changePwd(authUser.getMemberId(), curPwd, newPwd);
+			authUser.setHasPassword(true);
+			request.getSession().setAttribute("authUser", authUser);
 			return FORM_VIEW;
 		} catch (InvalidPasswordException e) {
 			errors.put("badCurPwd", Boolean.TRUE);

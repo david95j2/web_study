@@ -2,6 +2,8 @@ package com.dasol.member.model;
 
 import java.util.Date;
 
+import com.dasol.member.service.MyInfo;
+
 public class Member {
 	private int memberId;
 	private String email;
@@ -85,6 +87,15 @@ public class Member {
 
 	public boolean matchPassword(String password) {
 		return this.password.equals(password);
+	}
+	
+	public void changeMyInfo(MyInfo myInfo) {
+		this.nickname = myInfo.getNickname();
+		this.profileImage = myInfo.getProfileImage();
+	}
+	
+	public void changePwd(String newPwd) {
+		this.password = newPwd;
 	}
 
 }

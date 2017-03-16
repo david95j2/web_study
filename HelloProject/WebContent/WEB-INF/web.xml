@@ -57,6 +57,7 @@
 		<url-pattern>/login.do</url-pattern>
 		<url-pattern>/nlogin.do</url-pattern>
 		<url-pattern>/changePwd.do</url-pattern>
+		<url-pattern>/setPwd.do</url-pattern>
 		<url-pattern>/deleteMyAccount.do</url-pattern>
 	</filter-mapping>
 
@@ -80,8 +81,8 @@
 
 	<filter-mapping>
 		<filter-name>PasswordCheckFilter</filter-name>
-		<url-pattern>/noti.do</url-pattern>
 		<url-pattern>/deleteMyAccount.do</url-pattern>
+		<url-pattern>/changePwd.do</url-pattern>
 	</filter-mapping>
 	
 	<servlet>

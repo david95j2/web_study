@@ -41,6 +41,7 @@
 				<c:if test="${errors.idOrPwNotMatch }"> 
 					<p class="help-block" id="password-error">*이메일 혹은 패스워드를 다시 한 번 확인하세요.</p>
 				</c:if>
+				
 			</div>
 			<div class="checkbox">
 				<label><input type="checkbox" name="remember" checked="checked">로그인 유지</label> <br>

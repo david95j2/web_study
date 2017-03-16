@@ -24,7 +24,11 @@ public class LoginService {
 			if (member == null) {
 				throw new LoginFailException();
 			}
-
+			
+			if(member.getPassword() == null) {
+				throw new PasswordNotFoundException();
+			}
+			
 			if (!member.matchPassword(password)) {
 				throw new LoginFailException();
 			}

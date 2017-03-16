@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.dasol.auth.service.LoginFailException;
 import com.dasol.auth.service.LoginService;
+import com.dasol.auth.service.PasswordNotFoundException;
 import com.dasol.auth.service.User;
 import com.dasol.mvc.command.CommandHandler;
 
@@ -56,6 +57,10 @@ public class LoginHandler implements CommandHandler {
 		} catch (LoginFailException e) {
 			errors.put("idOrPwNotMatch", Boolean.TRUE);
 			return FORM_VIEW;
+		} catch(PasswordNotFoundException e) { // *네아로 유저 패스워드 입력 처리
+			request.getSession().setAttribute("email", email);
+			response.sendRedirect(request.getContextPath() + "setPwd.do");
+			return null;
 		}
 		
 	}
