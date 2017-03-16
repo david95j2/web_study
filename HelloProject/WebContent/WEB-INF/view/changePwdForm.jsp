@@ -22,7 +22,7 @@
 		<h1>비밀번호 변경</h1>
 		<p>비밀번호 변경 페이지</p>
 		
-		<form action="changePwd.do" method="post">
+		<form id="pwdForm" action="changePwd.do" method="post" >
 		
 		<c:if test="${authUser.hasPassword }">			
 			<div class="form-group">
@@ -49,6 +49,6 @@
             <button type="submit" id="btn_submit" class="btn btn-primary btn-block">변경 하기</button>
 		</form>
 	</div>
-	<script src="js/changePwdForm.js"></script>
+	<script src="js/changePwdForm.js?ver=2"></script>
 </body>
 </html>

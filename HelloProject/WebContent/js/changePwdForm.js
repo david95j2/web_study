@@ -5,17 +5,17 @@ $(document).ready(function() {
 	var $newPwd = $('#newPwd');
 	var $confirmNewPwd = $('#confirmNewPwd');
 	var $btSubmit = $('#btn_submit');
+	
+	if($curPwd.val() === undefined) {
+		$("#pwdForm").attr("action", "setPwd.do");
+	}
 
 	$btSubmit.on('click', function() {
 		var curPwd = $curPwd.val();
 		var newPwd = $newPwd.val();
 		var confirmNewPwd = $confirmNewPwd.val();
 		
-		if(curPwd === undefined) {
-			curPwd = newPwd;
-		}
-		
-		if (!password_check(curPwd)) {
+		if (curPwd !== undefined && !password_check(curPwd)) {
 			$("#curPwd-error").text('*비밀번호가 올바르지 않습니다.');
 			$curPwd.focus();
 			return false;
