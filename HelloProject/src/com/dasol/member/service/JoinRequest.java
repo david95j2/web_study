@@ -11,7 +11,6 @@ public class JoinRequest {
 		this.email = email;
 		this.password = password;
 		this.registerCode = RandomBox.getRandomRegisterCode();
-		System.out.println("joinrequest="+registerCode);
 	}
 
 	public String getEmail() {

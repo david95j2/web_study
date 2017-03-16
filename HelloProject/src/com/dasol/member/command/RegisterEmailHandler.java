@@ -11,7 +11,7 @@ import com.dasol.mvc.command.CommandHandler;
 
 public class RegisterEmailHandler implements CommandHandler {
 
-	RegisterEmailService registerEmailService = new RegisterEmailService();
+	private RegisterEmailService registerEmailService = new RegisterEmailService();
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {

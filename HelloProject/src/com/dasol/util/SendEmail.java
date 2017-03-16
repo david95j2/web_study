@@ -17,6 +17,7 @@ public class SendEmail {
 	public static void send(MailInfo mailInfo) {
 		String admin = "emailAccount";
 		
+		//네이버 이용
 		Properties props = System.getProperties();
 		props.put("mail.smtp.user", admin);
 		props.put("mail.smtp.host", "smtp.naver.com");
@@ -44,9 +45,6 @@ public class SendEmail {
 			msg.setSubject("안녕하세요. 게시판 프로젝트입니다."); // 제목 설정
 			msg.setSentDate(new java.util.Date()); // 보내는 날짜 설정
 			msg.setContent(mailInfo.getContent(), "text/html;charset=euc-kr"); // 내용 설정 (HTML 형식)
-			
-			System.out.println("sendemail=" + mailInfo.getContent());
-			
 			Transport.send(msg);
 		} catch (MessagingException e) {
 			e.printStackTrace();

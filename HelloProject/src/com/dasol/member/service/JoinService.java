@@ -29,8 +29,6 @@ public class JoinService {
 				throw new DuplicateIdException();
 			}
 			
-			System.out.println("service="+joinRequest.getRegisterCode());
-			
 			memberDAO.insertData(conn, 
 					new Member(joinRequest.getEmail(), 
 							joinRequest.getPassword(),

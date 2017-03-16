@@ -23,7 +23,8 @@
 			<a href="logout.do">[로그아웃]</a>
 			<a href="myinfo.do">[내정보]</a>
 			<a href="noti.do">[알림]</a>
-			<p>${authUser.email}님, 반가워요.</p>
+			<p>${authUser.email}님, 반가워요.</p> <br>
+			<p>이메일 인증 = ${authUser.register_check}</p>
 		</c:if>
 		<hr>
 
