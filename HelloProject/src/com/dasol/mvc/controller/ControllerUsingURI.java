@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dasol.auth.command.AutoLoginHandler;
 import com.dasol.mvc.command.CommandHandler;
 import com.dasol.mvc.command.NullHandler;
 import com.dasol.util.CookieBox;
@@ -43,6 +42,8 @@ public class ControllerUsingURI extends HttpServlet {
 				throw new ServletException(e);
 			}
 		}
+		
+		
 	}
 
 	@Override
@@ -59,11 +60,12 @@ public class ControllerUsingURI extends HttpServlet {
 			throws ServletException, IOException {
 		Map<String, String> cookiesMap = null;
 		cookiesMap = CookieBox.getCookiesValueMap(request);
-
+		
 		String command = request.getRequestURI();
 
 		System.out.println(command);
-
+//		System.out.println(cookiesMap);
+		
 		if (command.indexOf(request.getContextPath()) == 0) {
 			command = command.substring(request.getContextPath().length());
 			System.out.println(command);
@@ -72,12 +74,7 @@ public class ControllerUsingURI extends HttpServlet {
 		CommandHandler handler = commandHandlerMap.get(command);
 		if (handler == null) {
 			handler = new NullHandler();
-		} 
-		
-//		else if (!command.equals("/logout.do") 
-//				&& cookiesMap.get("aT") != null) {
-//			handler = new AutoLoginHandler();
-//		}
+		}
 
 		String viewPage = null;
 

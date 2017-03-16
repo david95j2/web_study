@@ -31,7 +31,7 @@ public class AutoLoginHandler implements CommandHandler {
 		}
 		
 		request.getSession().setAttribute("authUser", user);
-		response.sendRedirect(request.getContextPath() + "/index.jsp");
+		response.sendRedirect(request.getContextPath() + "/listArticle.jsp");
 		return null;
 	}
 
