@@ -45,7 +45,7 @@
 			</div>
 			<div class="checkbox">
 				<label><input type="checkbox" name="remember" checked="checked">로그인 유지</label> <br>
-				<a href="#">비밀번호 찾기</a>
+				<a href="findPwd.do">비밀번호가 기억나지 않으신다구요?</a>
 			</div>
 
 			<button type="submit" id="btn_submit" class="btn btn-primary btn-block">로그인</button>

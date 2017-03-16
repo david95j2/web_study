@@ -4,7 +4,9 @@ public class MailInfo {
 	private String email;
 	private String registerCode;
 	private String content;
-
+	
+	public MailInfo() {}
+	
 	public MailInfo(String email, String registerCode) {
 		this.email = email;
 		this.registerCode = registerCode;
@@ -12,6 +14,10 @@ public class MailInfo {
 
 	public String getEmail() {
 		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getRegisterCode() {
@@ -23,14 +29,15 @@ public class MailInfo {
 	}
 	
 	public void setRegisterContent() {
-		System.out.println("mailInfo="+registerCode);
 		this.content = "<a href="
 				+ "'http://localhost:8080/helloproject/register.do?email="+email+"&registerCode="+registerCode+"'>"
 				+ "지금 이곳을 눌러 바로 인증하세요.</a>";
 	}
 	
 	public void setPasswordContent() {
-		this.content = "";
+		this.content = "<a href="
+				+ "'http://localhost:8080/helloproject/setPwd.do?email="+email+"'>"
+				+ "지금 이곳을 눌러 비밀번호를 재설정하세요.</a>";
 	}
 
 }

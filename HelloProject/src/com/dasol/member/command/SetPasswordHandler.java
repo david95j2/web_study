@@ -25,6 +25,8 @@ public class SetPasswordHandler implements CommandHandler {
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
+		String email = request.getParameter("email");
+		request.getSession().setAttribute("email", email);
 		return FORM_VIEW;
 	}
 
@@ -39,7 +41,7 @@ public class SetPasswordHandler implements CommandHandler {
 		
 		try {
 			changePasswordService.setPwd(email, newPwd);
-			response.sendRedirect(request.getContextPath() + "myinfo.do");
+			response.sendRedirect("myinfo.do");
 			return null;
 		} catch (MemberNotFoundException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
