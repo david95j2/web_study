@@ -20,16 +20,18 @@ public class ModifyMyInfoService {
 			Member member = memberDAO.selectByMemberId(conn, memberId);
 
 			if (member == null) {
+				JdbcUtil.rollback(conn);
 				new MemberNotFoundException();
 			}
 
-			if(myInfo.getProfileImage() == null && member.getProfileImage() != null) {
+			if (myInfo.getProfileImage() == null 
+					&& member.getProfileImage() != null) {
 				myInfo.setProfileImage(member.getProfileImage());
 			}
-			
-			memberDAO.updateDataByModifyMyInfo(conn, myInfo.getProfileImage(), myInfo.getNickname(), memberId);
+
+			member.changeMyInfo(myInfo);
+			memberDAO.updateMyInfo(conn, member);
 			conn.commit();
-			
 			return myInfo;
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);

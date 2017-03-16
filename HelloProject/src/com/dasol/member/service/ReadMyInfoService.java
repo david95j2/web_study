@@ -16,7 +16,7 @@ public class ReadMyInfoService {
 			Member member = memberDAO.selectByMemberId(conn, memberId);
 
 			if (member == null) {
-				throw new RuntimeException();
+				throw new MemberNotFoundException();
 			}
 
 			return new MyInfo(member.getNickname(), member.getProfileImage());

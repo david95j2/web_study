@@ -47,7 +47,6 @@ public class DeleteMyAccountHandler implements CommandHandler {
 			return null;
 		}
 		
-		
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {

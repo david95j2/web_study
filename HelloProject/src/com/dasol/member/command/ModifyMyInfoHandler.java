@@ -6,13 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dasol.auth.service.User;
+import com.dasol.member.service.MemberNotFoundException;
 import com.dasol.member.service.ModifyMyInfoService;
 import com.dasol.member.service.MyInfo;
 import com.dasol.member.service.ReadMyInfoService;
 import com.dasol.mvc.command.CommandHandler;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.sun.glass.ui.Application;
 
 public class ModifyMyInfoHandler implements CommandHandler {
 	private static final String FORM_VIEW = "/WEB-INF/view/modifyMyInfoForm.jsp";
@@ -43,7 +43,7 @@ public class ModifyMyInfoHandler implements CommandHandler {
 		return FORM_VIEW;
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String path = request.getSession().getServletContext().getRealPath("profileimg");
 		User authUser = (User) request.getSession().getAttribute("authUser");
 		int memberId = authUser.getMemberId();
@@ -78,10 +78,12 @@ public class ModifyMyInfoHandler implements CommandHandler {
 			request.setAttribute("myinfo", myInfo);
 			return FORM_VIEW;
 
+		} catch (MemberNotFoundException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
-		}
+		} 
 
 	}
 

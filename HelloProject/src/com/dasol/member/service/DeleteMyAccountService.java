@@ -20,6 +20,7 @@ public class DeleteMyAccountService {
 			Member member = memberDAO.selectByMemberId(conn, memberId);
 
 			if (member == null) {
+				JdbcUtil.rollback(conn);
 				throw new MemberNotFoundException();
 			}
 
@@ -27,7 +28,7 @@ public class DeleteMyAccountService {
 				throw new InvalidPasswordException();
 			}
 
-			memberDAO.deleteMyAccount(conn, memberId);
+			memberDAO.deleteMyAccount(conn, member.getMemberId());
 			conn.commit();
 
 		} catch (SQLException e) {

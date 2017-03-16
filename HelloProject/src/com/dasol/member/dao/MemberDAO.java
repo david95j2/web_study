@@ -118,30 +118,21 @@ public class MemberDAO {
 		}
 	}
 	
-	public void updateDataByModifyMyInfo(Connection conn, String profileImage, String nickname, int memberId) 
-			throws SQLException {
-		try (PreparedStatement pstmt = conn.prepareStatement
-				("update members set profile_image=?, nickname=? where member_id=?")) {
-			pstmt.setString(1, profileImage);
-			pstmt.setString(2, nickname);
-			pstmt.setInt(3, memberId);
-			pstmt.executeUpdate();
-		}
-	}
-	
-	public void changePassword(Connection conn, String newPwd, int memberId) throws SQLException {
-		try (PreparedStatement pstmt = conn.prepareStatement
-				("update members set password=? where member_id=?")) {
-			pstmt.setString(1, newPwd);
-			pstmt.setInt(2, memberId);
-			pstmt.executeUpdate();
-		}
-	}
-	
 	public void deleteMyAccount(Connection conn, int memberId) throws SQLException {
 		try (PreparedStatement pstmt = conn.prepareStatement
 				("delete from members where member_id=?")) {
 			pstmt.setInt(1, memberId);
+			pstmt.executeUpdate();
+		}
+	}
+	
+	public void updateMyInfo(Connection conn, Member member) throws SQLException {
+		try (PreparedStatement pstmt = conn.prepareStatement
+				("update members set password=?, nickname=?, profile_image=? where member_id=?")) {
+			pstmt.setString(1, member.getPassword());
+			pstmt.setString(2, member.getNickname());
+			pstmt.setString(3, member.getProfileImage());
+			pstmt.setInt(4, member.getMemberId());
 			pstmt.executeUpdate();
 		}
 	}

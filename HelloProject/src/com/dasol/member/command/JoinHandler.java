@@ -31,9 +31,7 @@ public class JoinHandler implements CommandHandler {
 		JoinRequest joinRequest = new JoinRequest();
 		joinRequest.setEmail(request.getParameter("email"));
 		joinRequest.setPassword(request.getParameter("password"));
-		joinRequest.setConfirmPassword(request.getParameter("confirmPassword"));
 		
-
 		Map<String, Boolean> errors = new HashMap<>();
 		request.setAttribute("errors", errors);
 
