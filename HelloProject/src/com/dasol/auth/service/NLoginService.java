@@ -29,7 +29,7 @@ public class NLoginService {
 								new Date(), 
 								loginRequest.getProfileImage(), 
 								null, 
-								false, 
+								true, 
 								null, 
 								loginRequest.getAccessToken()));
 			} else {

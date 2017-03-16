@@ -74,16 +74,17 @@ public class MemberDAO {
 	public void insertData(Connection conn, Member member) throws SQLException {
 		try (PreparedStatement pstmt = conn.prepareStatement
 				("insert into members(email, password, nickname, "
-						+ "regdate, profile_image, register_check, "
+						+ "regdate, profile_image, register_code, register_check, "
 						+ "access_token) "
-						+ "values(?, ?, ?, ?, ?, ?, ?)")) {
+						+ "values(?, ?, ?, ?, ?, ?, ?, ?)")) {
 			pstmt.setString(1, member.getEmail());
 			pstmt.setString(2, member.getPassword());
 			pstmt.setString(3, member.getNickname());
 			pstmt.setTimestamp(4, new Timestamp(member.getRegdate().getTime()));
 			pstmt.setString(5, member.getProfileImage());
-			pstmt.setBoolean(6, member.isRegisterCheck());
-			pstmt.setString(7, member.getAccessToken());
+			pstmt.setString(6, member.getRegisterCode());
+			pstmt.setBoolean(7, member.isRegisterCheck());
+			pstmt.setString(8, member.getAccessToken());
 			pstmt.executeUpdate();
 		}
 	}
@@ -128,11 +129,12 @@ public class MemberDAO {
 	
 	public void updateMyInfo(Connection conn, Member member) throws SQLException {
 		try (PreparedStatement pstmt = conn.prepareStatement
-				("update members set password=?, nickname=?, profile_image=? where member_id=?")) {
+				("update members set password=?, nickname=?, profile_image=?, register_check=? where member_id=?")) {
 			pstmt.setString(1, member.getPassword());
 			pstmt.setString(2, member.getNickname());
 			pstmt.setString(3, member.getProfileImage());
-			pstmt.setInt(4, member.getMemberId());
+			pstmt.setBoolean(4, member.isRegisterCheck());
+			pstmt.setInt(5, member.getMemberId());
 			pstmt.executeUpdate();
 		}
 	}

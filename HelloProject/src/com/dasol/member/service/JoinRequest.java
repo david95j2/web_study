@@ -1,9 +1,19 @@
 package com.dasol.member.service;
 
+import com.dasol.util.RandomBox;
+
 public class JoinRequest {
 	private String email;
 	private String password;
-	
+	private String registerCode;
+
+	public JoinRequest(String email, String password) {
+		this.email = email;
+		this.password = password;
+		this.registerCode = RandomBox.getRandomRegisterCode();
+		System.out.println("joinrequest="+registerCode);
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -18,6 +28,10 @@ public class JoinRequest {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getRegisterCode() {
+		return registerCode;
 	}
 
 }

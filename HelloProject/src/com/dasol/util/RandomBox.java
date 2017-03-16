@@ -11,10 +11,11 @@ public class RandomBox {
 		return "profileimg\\user-default" + num + ".png";
 	}
 
-	public static String getRandomNickname() {
+	public static String getRandomRegisterCode() {
 		Random random = new Random();
 		random.setSeed(System.currentTimeMillis());
 		int num = Math.abs(random.nextInt());
-		return "USER" + num;
+		System.out.println("randombox="+"U" + num);
+		return "U" + num;
 	}
 }

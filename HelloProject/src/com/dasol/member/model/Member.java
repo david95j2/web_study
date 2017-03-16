@@ -89,6 +89,10 @@ public class Member {
 		return this.password.equals(password);
 	}
 	
+	public boolean matchRegisterCode(String registerCode) {
+		return this.registerCode.equals(registerCode);
+	}
+	
 	public void changeMyInfo(MyInfo myInfo) {
 		this.nickname = myInfo.getNickname();
 		this.profileImage = myInfo.getProfileImage();
@@ -96,6 +100,10 @@ public class Member {
 	
 	public void changePwd(String newPwd) {
 		this.password = newPwd;
+	}
+	
+	public void setRegisterCheck(boolean check) {
+		this.registerCheck = check;
 	}
 
 }
