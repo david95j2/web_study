@@ -52,7 +52,8 @@ public class NLoginService {
 					member.getEmail(), 
 					member.isRegisterCheck(), 
 					member.getRememberToken(),
-					passwordCheck);
+					passwordCheck,
+					member.getNickname());
 			
 		} catch (SQLException e) {
 			JdbcUtil.close(conn);

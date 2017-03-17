@@ -36,7 +36,8 @@ public class RegisterEmailService {
 					member.getEmail(), 
 					member.isRegisterCheck(), 
 					member.getRememberToken(), 
-					passwordCheck);
+					passwordCheck,
+					member.getNickname());
 			
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);

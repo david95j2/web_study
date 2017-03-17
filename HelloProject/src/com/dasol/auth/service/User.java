@@ -6,14 +6,16 @@ public class User {
 	private boolean registerCheck;
 	private String rememberToken;
 	private boolean hasPassword;
+	private String nickname;
 
 	public User(int memberId, String email, boolean registerCheck, String rememberToken,
-			boolean hasPassword) {
+			boolean hasPassword, String nickname) {
 		this.memberId = memberId;
 		this.email = email;
 		this.registerCheck = registerCheck;
 		this.rememberToken = rememberToken;
 		this.hasPassword = hasPassword;
+		this.nickname = nickname;
 	}
 
 	public int getMemberId() {
@@ -38,5 +40,13 @@ public class User {
 	
 	public void setHasPassword(boolean check){
 		this.hasPassword = check;
+	}
+	
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	
+	public String getNickname() {
+		return nickname;
 	}
 }
