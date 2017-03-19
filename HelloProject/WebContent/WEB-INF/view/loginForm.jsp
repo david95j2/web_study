@@ -24,7 +24,7 @@
 		<h1>로그인</h1>
 		<p>로그인 페이지</p>
 		
-		<form action="login.do" method="post">
+		<form action="/login.do" method="post">
 			<div class="form-group">
 				<label for="email">이메일 주소</label> 
                 <input type="text"
@@ -45,20 +45,20 @@
 			</div>
 			<div class="checkbox">
 				<label><input type="checkbox" name="remember" checked="checked">로그인 유지</label> <br>
-				<a href="findPwd.do">비밀번호가 기억나지 않으신다구요?</a>
+				<a href="/findPwd.do">비밀번호가 기억나지 않으신다구요?</a>
 			</div>
 
 			<button type="submit" id="btn_submit" class="btn btn-primary btn-block">로그인</button>
-			<a href="join.do" class="btn btn-primary btn-block" role="button">회원가입</a>
+			<a href="/join.do" class="btn btn-primary btn-block" role="button">회원가입</a>
 			<br>
 			<div id="naver_id_login"></div>
   			<!-- //네이버아이디로로그인 버튼 노출 영역 -->
 			<script type="text/javascript">
 				var naver_id_login = new naver_id_login("EDVRCkCrw7wo3UNay3lP",
-						"http://localhost:8080/helloproject/callback.html");
+						"http://localhost:8080/callback.html");
 				var state = naver_id_login.getUniqState();
 				naver_id_login.setButton("green", 3, 40);
-				naver_id_login.setDomain("http://localhost:8080/helloproject/");
+				naver_id_login.setDomain("http://localhost:8080/");
 				naver_id_login.setState(state);
 				naver_id_login.init_naver_id_login();
 			</script>

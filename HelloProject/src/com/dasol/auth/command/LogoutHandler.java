@@ -19,7 +19,7 @@ public class LogoutHandler implements CommandHandler {
 		
 		Cookie cookie = new Cookie("aT", null);
 		cookie.setMaxAge(0);
-		cookie.setPath("/helloproject");
+		cookie.setPath("/");
 		response.addCookie(cookie);
 		
 		response.sendRedirect(request.getContextPath() + "/index.jsp");

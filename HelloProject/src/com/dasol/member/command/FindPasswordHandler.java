@@ -35,7 +35,7 @@ public class FindPasswordHandler implements CommandHandler {
 		
 		try {
 			findPasswordService.find(email);
-			return "logout.do";
+			return "/logout.do";
 		} catch (MemberNotFoundException e) {
 			errors.put("emailNotFound", Boolean.TRUE);
 			return FORM_VIEW;

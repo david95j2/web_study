@@ -30,13 +30,13 @@ public class MailInfo {
 	
 	public void setRegisterContent() {
 		this.content = "<a href="
-				+ "'http://localhost:8080/helloproject/register.do?email="+email+"&registerCode="+registerCode+"'>"
+				+ "'http://localhost:8080/register.do?email="+email+"&registerCode="+registerCode+"'>"
 				+ "지금 이곳을 눌러 바로 인증하세요.</a>";
 	}
 	
 	public void setPasswordContent() {
 		this.content = "<a href="
-				+ "'http://localhost:8080/helloproject/setPwd.do?email="+email+"'>"
+				+ "'http://localhost:8080/setPwd.do?email="+email+"'>"
 				+ "지금 이곳을 눌러 비밀번호를 재설정하세요.</a>";
 	}
 

@@ -19,9 +19,9 @@
 		cookiesMap = CookieBox.getCookiesValueMap(request);
 		System.out.println(cookiesMap);
 		if(cookiesMap.get("aT") != null)
-			response.sendRedirect("alogin.do");
+			response.sendRedirect("/alogin.do");
 		else
-			response.sendRedirect(request.getContextPath() + "/listArticle.jsp");
+			response.sendRedirect("/board/list.do");
 	%>
 </body>
 </html>

@@ -7,7 +7,7 @@ $(document).ready(function() {
 	var $btSubmit = $('#btn_submit');
 	
 	if($curPwd.val() === undefined) {
-		$("#pwdForm").attr("action", "setPwd.do");
+		$("#pwdForm").attr("action", "/setPwd.do");
 	}
 
 	$btSubmit.on('click', function() {

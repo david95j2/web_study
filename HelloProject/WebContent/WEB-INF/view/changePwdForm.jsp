@@ -22,7 +22,7 @@
 		<h1>비밀번호 변경</h1>
 		<p>비밀번호 변경 페이지</p>
 		
-		<form id="pwdForm" action="changePwd.do" method="post" >
+		<form id="pwdForm" action="/changePwd.do" method="post" >
 		
 		<c:if test="${authUser.hasPassword }">			
 			<div class="form-group">

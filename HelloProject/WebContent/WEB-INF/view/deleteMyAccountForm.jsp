@@ -25,7 +25,7 @@
 		
 		<p>정말로 삭제하시겠습니까?</p><br>
 		<p>계정을 삭제하시려면 비밀번호를 입력하세요.</p>
-		<form action="deleteMyAccount.do" method="post">
+		<form action="/deleteMyAccount.do" method="post">
 			<div class="form-group">
 				<label for="password">비밀번호</label> 
                 <input type="password"

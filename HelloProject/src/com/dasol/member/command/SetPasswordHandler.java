@@ -37,11 +37,14 @@ public class SetPasswordHandler implements CommandHandler {
 		if(email == null) {
 			User authUser = (User)request.getSession().getAttribute("authUser");
 			email = authUser.getEmail();
+			if (email == null) {
+				throw new EmailNotFoundException();
+			}
 		}
 		
 		try {
 			changePasswordService.setPwd(email, newPwd);
-			response.sendRedirect("myinfo.do");
+			response.sendRedirect("/myinfo.do");
 			return null;
 		} catch (MemberNotFoundException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);

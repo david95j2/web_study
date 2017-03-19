@@ -38,7 +38,7 @@ public class DeleteMyAccountHandler implements CommandHandler {
 		
 		try {
 			deleteMyAccountService.deleteAccount(user.getMemberId(), password);
-			return "logout.do";
+			return "/logout.do";
 		} catch (InvalidPasswordException e) {
 			errors.put("badCurPwd", Boolean.TRUE);
 			return FORM_VIEW;

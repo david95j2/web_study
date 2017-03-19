@@ -37,7 +37,7 @@ public class JoinHandler implements CommandHandler {
 
 		try {
 			joinService.join(joinRequest);
-			return "login.do";
+			return "/login.do";
 		} catch (DuplicateIdException e) {
 			errors.put("duplicatedId", Boolean.TRUE);
 			return FORM_VIEW;

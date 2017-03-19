@@ -22,7 +22,7 @@ public class AESFilter implements Filter {
 			throws IOException, ServletException {
 		System.out.println("AESFILTER");
 		AESRequestWrapper reqWrapper = new AESRequestWrapper((HttpServletRequest) req);
-		AESResponseWrapper respWrapper = new AESResponseWrapper((HttpServletResponse) resp);
+//		AESResponseWrapper respWrapper = new AESResponseWrapper((HttpServletResponse) resp);
 		chain.doFilter(reqWrapper, resp);
 
 		

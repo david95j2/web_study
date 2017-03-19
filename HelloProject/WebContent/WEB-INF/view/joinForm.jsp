@@ -24,7 +24,7 @@
 		<h1>회원 가입</h1>
 		<p>회원 가입 페이지</p>
 		
-		<form action="join.do" method="post">
+		<form action="/join.do" method="post">
 			<div class="form-group">
 				<label for="email">이메일 주소</label> 
                 <input type="text"

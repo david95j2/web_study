@@ -37,7 +37,8 @@ public class AutoLoginService {
 					member.isRegisterCheck(), 
 					token,
 					passwordCheck, 
-					member.getNickname());
+					member.getNickname(),
+					member.getProfileImage());
 			
 		} catch (SQLException e) {
 			JdbcUtil.close(conn);

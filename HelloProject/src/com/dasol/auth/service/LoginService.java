@@ -46,7 +46,8 @@ public class LoginService {
 					member.isRegisterCheck(), 
 					token,
 					passwordCheck,
-					member.getNickname());
+					member.getNickname(),
+					member.getProfileImage());
 			
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);

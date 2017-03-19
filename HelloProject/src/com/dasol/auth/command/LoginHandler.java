@@ -59,7 +59,7 @@ public class LoginHandler implements CommandHandler {
 			return FORM_VIEW;
 		} catch(PasswordNotFoundException e) { // *네아로 유저 패스워드 입력 처리
 			request.getSession().setAttribute("email", email);
-			response.sendRedirect(request.getContextPath() + "setPwd.do");
+			response.sendRedirect("/setPwd.do");
 			return null;
 		}
 		

@@ -25,7 +25,7 @@
 		
 		<p>비밀번호가 기억나지 않으시다구요?</p><br>
 		<p>가입한 이메일 계정을 입력하세요.</p>
-		<form action="findPwd.do" method="post">
+		<form action="/findPwd.do" method="post">
 			<div class="form-group">
 				<label for="email">이메일</label> 
                 <input type="text"

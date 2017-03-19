@@ -16,7 +16,7 @@
         <h1>회원정보</h1>
 		<p>회원 정보 페이지</p>
         
-        <form action="myinfo.do" method="post" enctype="multipart/form-data">
+        <form action="/myinfo.do" method="post" enctype="multipart/form-data">
         	<p>${myinfo.nickname} <br></p>
 			<p>${authUser.email}</p>
             <div class="content">
@@ -31,8 +31,8 @@
             </div>
 
             <button type="submit" id="btn_submit" class="btn btn-primary btn-block">회원정보 변경</button>
-            <a href="changePwd.do" class="btn btn-primary btn-block" role="button">비밀번호 변경</a>
-            <a href="deleteMyAccount.do" class="btn btn-primary btn-block" role="button">계정 삭제</a>
+            <a href="/changePwd.do" class="btn btn-primary btn-block" role="button">비밀번호 변경</a>
+            <a href="/deleteMyAccount.do" class="btn btn-primary btn-block" role="button">계정 삭제</a>
         </form>
     </div>
     

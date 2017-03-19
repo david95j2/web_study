@@ -11,7 +11,7 @@
 </head>
 <body onload="calls()">
 	
-	<form id="nLoginForm" action="nlogin.do" method="post">	
+	<form id="nLoginForm" action="/nlogin.do" method="post">	
 		<input type="hidden" id="email" name="email" value="">
 		<input type="hidden" id="nickname" name="nickname" value="">
 		<input type="hidden" id="profile_image" name="profile_image" value="">
@@ -20,7 +20,7 @@
 	
 	<script type="text/javascript">
 		var naver_id_login = new naver_id_login("EDVRCkCrw7wo3UNay3lP",
-				"http://localhost:8080/helloproject/");
+				"http://localhost:8080/");
 		// 접근 토큰 값 출력
 		var access_token = naver_id_login.oauthParams.access_token;
 		// 네이버 사용자 프로필 조회

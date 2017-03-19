@@ -7,15 +7,17 @@ public class User {
 	private String rememberToken;
 	private boolean hasPassword;
 	private String nickname;
+	private String profileImage; // *
 
 	public User(int memberId, String email, boolean registerCheck, String rememberToken,
-			boolean hasPassword, String nickname) {
+			boolean hasPassword, String nickname, String profileImage) {
 		this.memberId = memberId;
 		this.email = email;
 		this.registerCheck = registerCheck;
 		this.rememberToken = rememberToken;
 		this.hasPassword = hasPassword;
 		this.nickname = nickname;
+		this.profileImage = profileImage;
 	}
 
 	public int getMemberId() {
@@ -49,4 +51,13 @@ public class User {
 	public String getNickname() {
 		return nickname;
 	}
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+	
 }
