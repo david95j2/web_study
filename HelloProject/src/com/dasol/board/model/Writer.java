@@ -1,18 +1,18 @@
 package com.dasol.board.model;
 
 public class Writer {
-	private Integer memberId;
+	private Integer id;
 	private String nickname;
 	private String profileImage;
 
 	public Writer(Integer memberId, String nickname, String profileImage) {
-		this.memberId = memberId;
+		this.id = memberId;
 		this.nickname = nickname;
 		this.profileImage = profileImage;
 	}
 
-	public Integer getMemberId() {
-		return memberId;
+	public Integer getId() {
+		return id;
 	}
 
 	public String getNickname() {

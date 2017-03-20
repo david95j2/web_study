@@ -70,10 +70,9 @@
 					<th width="10%" nowrap>글 번호</th>
 					<th width="40%" nowrap>제목</th>
 					<th width="20%" nowrap>작성자</th>
-					<th width="10%" nowrap>작성일</th>
+					<th width="10%" nowrap><i class="fa fa-clock-o" style="font-size:15px"></i></th>
 					<th width="10%" nowrap><i class="fa fa-eye" style="font-size:18px"></i></th>
 					<th width="10%" nowrap><i class="fa fa-heart" style="font-size:18px;color:red"></i></th>
-					
 				</tr>
 			</thead>
 			<c:if test="${articlePage.hasNoArticles() }">
@@ -87,7 +86,7 @@
 					<tr>
 						<td width="10%" nowrap><p>${article.number}</p></td>
 						<td width="40%" nowrap>
-						<p><a href="#">
+						<p><a href="/board/read.do?no=${article.number}&pageNo=${articlePage.currentPage}">
 						<c:out value="${article.title }" />
 						<span class="badge">${article.replyCnt }</span>
 						</a></p>

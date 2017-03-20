@@ -1,7 +1,7 @@
 package com.dasol.auth.service;
 
 public class User {
-	private int memberId;
+	private int id;
 	private String email;
 	private boolean registerCheck;
 	private String rememberToken;
@@ -11,7 +11,7 @@ public class User {
 
 	public User(int memberId, String email, boolean registerCheck, String rememberToken,
 			boolean hasPassword, String nickname, String profileImage) {
-		this.memberId = memberId;
+		this.id = memberId;
 		this.email = email;
 		this.registerCheck = registerCheck;
 		this.rememberToken = rememberToken;
@@ -20,8 +20,8 @@ public class User {
 		this.profileImage = profileImage;
 	}
 
-	public int getMemberId() {
-		return memberId;
+	public int getId() {
+		return id;
 	}
 	
 	public String getEmail() {

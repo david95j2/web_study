@@ -28,13 +28,14 @@ public class WriteArticleHandler implements CommandHandler {
 		
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User authUser = (User)request.getSession().getAttribute("authUser");
 		WriteRequest writeRequest = createWriteRequest(authUser, request);
 		
-		int newArticleNo = writeArticleService.write(writeRequest);
-		request.setAttribute("newArticleNO", newArticleNo);
+		int no = writeArticleService.write(writeRequest);
+//		request.setAttribute("no", no);
 		
+		response.sendRedirect("/board/read.do?no="+no);
 		return null;
 	}
 
@@ -43,7 +44,7 @@ public class WriteArticleHandler implements CommandHandler {
 	}
 	
 	private WriteRequest createWriteRequest(User authUser, HttpServletRequest request) {
-		return new WriteRequest(new Writer(authUser.getMemberId(), authUser.getNickname(), authUser.getProfileImage()), 
+		return new WriteRequest(new Writer(authUser.getId(), authUser.getNickname(), authUser.getProfileImage()), 
 				request.getParameter("title"), 
 				request.getParameter("content"));
 	}

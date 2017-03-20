@@ -33,7 +33,7 @@ public class ModifyMyInfoHandler implements CommandHandler {
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 		User authUser = (User) request.getSession().getAttribute("authUser");
-		int memberId = authUser.getMemberId();
+		int memberId = authUser.getId();
 		MyInfo myInfo = readMyInfoService.getMyInfo(memberId);
 		
 		if (myInfo.getProfileImage() == null)
@@ -46,7 +46,7 @@ public class ModifyMyInfoHandler implements CommandHandler {
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String path = request.getSession().getServletContext().getRealPath("profileimg");
 		User authUser = (User) request.getSession().getAttribute("authUser");
-		int memberId = authUser.getMemberId();
+		int memberId = authUser.getId();
 
 		int size = 1024 * 1024 * 10;
 		String file = "";

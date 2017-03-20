@@ -42,7 +42,7 @@ public class ChangePasswordHandler implements CommandHandler {
 		String newPwd = request.getParameter("newPwd");
 		
 		try {
-			changePasswordService.changePwd(authUser.getMemberId(), curPwd, newPwd);
+			changePasswordService.changePwd(authUser.getId(), curPwd, newPwd);
 			authUser.setHasPassword(true);
 			request.getSession().setAttribute("authUser", authUser);
 			return FORM_VIEW;
