@@ -69,7 +69,7 @@ public class ArticleDAO {
 	}
 	
 	private Date toDate(Timestamp timestamp) {
-		return new Date(timestamp.getTime());
+		return timestamp == null? null : new Date(timestamp.getTime());
 	}
 	
 	public Article insert(Connection conn, Article article) throws SQLException {
@@ -116,7 +116,7 @@ public class ArticleDAO {
 	}
 	
 	private Timestamp toTimestamp(Date date) {
-		return new Timestamp(date.getTime());
+		return date == null? null : new Timestamp(date.getTime());
 	}
 	
 	public Article selectById(Connection conn, int no) throws SQLException {
@@ -152,6 +152,24 @@ public class ArticleDAO {
 				+ "where article_no=?")) {
 			pstmt.setInt(1, no);
 			pstmt.executeUpdate();
+		}
+	}
+
+	public int update(Connection conn, int no, String title) throws SQLException {
+		try (PreparedStatement pstmt 
+				= conn.prepareStatement("update article set title = ?, moddate = now() "
+						+ "where article_no=?")) {
+			pstmt.setString(1, title);
+			pstmt.setInt(2, no);
+			return pstmt.executeUpdate();
+		}
+	}
+	
+	public int delete(Connection conn, int no) throws SQLException {
+		try (PreparedStatement pstmt 
+				= conn.prepareStatement("delete from article where article_no=?")) {
+			pstmt.setInt(1, no);
+			return pstmt.executeUpdate();
 		}
 	}
 }
