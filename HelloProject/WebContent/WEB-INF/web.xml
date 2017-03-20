@@ -72,6 +72,7 @@
 		<url-pattern>/changePwd.do</url-pattern>
 		<url-pattern>/noti.do</url-pattern>
 		<url-pattern>/deleteMyAccount.do</url-pattern>
+		<url-pattern>/board/write.do</url-pattern>
 	</filter-mapping>
 
 	<filter>
