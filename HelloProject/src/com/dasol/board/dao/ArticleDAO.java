@@ -87,7 +87,7 @@ public class ArticleDAO {
 			pstmt.setInt(4, article.getReadCnt());
 			pstmt.setTimestamp(5, toTimestamp(article.getRegDate()));
 			pstmt.setTimestamp(6, toTimestamp(article.getModDate()));
-			pstmt.setInt(7, article.getWriter().getMemberId());
+			pstmt.setInt(7, article.getWriter().getId());
 			pstmt.setString(8, article.getWriter().getNickname());
 			pstmt.setString(9, article.getWriter().getProfileImage());
 			int insertedCount = pstmt.executeUpdate();
@@ -117,5 +117,41 @@ public class ArticleDAO {
 	
 	private Timestamp toTimestamp(Date date) {
 		return new Timestamp(date.getTime());
+	}
+	
+	public Article selectById(Connection conn, int no) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from article where article_no=?");
+			pstmt.setInt(1, no);
+			rs = pstmt.executeQuery();
+			Article article = null;
+			if(rs.next()) {
+				article = convertArticle(rs);
+			}
+			return article;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public void increaseReadCount(Connection conn, int no) throws SQLException {
+		try (PreparedStatement pstmt 
+				= conn.prepareStatement("update article set read_cnt = read_cnt + 1 "
+				+ "where article_no=?")) {
+			pstmt.setInt(1, no);
+			pstmt.executeUpdate();
+		}
+	}
+	
+	public void increaseLikeCount(Connection conn, int no) throws SQLException {
+		try (PreparedStatement pstmt 
+				= conn.prepareStatement("update article set like_cnt = like_cnt + 1 "
+				+ "where article_no=?")) {
+			pstmt.setInt(1, no);
+			pstmt.executeUpdate();
+		}
 	}
 }
