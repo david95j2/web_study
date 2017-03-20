@@ -92,8 +92,9 @@
 						</a></p>
 						</td>
 						<td width="20%" nowrap>
-						<img src="${article.writer.profileImage}" class="img-circle" id="profile" style="width: 40px; height: 40px;">
-						${article.writer.nickname }</td>
+						<a href="#"><img src="${article.writer.profileImage}" class="img-circle" id="profile" style="width: 40px; height: 40px;"></a>
+						<a href="#">${article.writer.nickname }</a>
+						</td>
 						<td width="10%" nowrap><p>${article.transferRegDate }전</p></td>
 						<td width="10%" nowrap><p>${article.readCnt }</p></td>
 						<td width="10%" nowrap><p>${article.likeCnt }</p></td>

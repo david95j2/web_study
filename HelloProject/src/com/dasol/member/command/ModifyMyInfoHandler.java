@@ -76,8 +76,8 @@ public class ModifyMyInfoHandler implements CommandHandler {
 				myInfo.setDefaultProfile();
 			
 			request.setAttribute("myinfo", myInfo);
-			authUser.setNickname(nickname);
-			authUser.setProfileImage(profileImage);
+			authUser.setNickname(myInfo.getNickname());
+			authUser.setProfileImage(myInfo.getProfileImage());
 			request.getSession().setAttribute("authUser", authUser);
 			return FORM_VIEW;
 

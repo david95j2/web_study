@@ -35,6 +35,15 @@
 		padding-bottom: 0px;
 	}
 	
+	.bsummery {
+		padding-bottom: 20px;
+	}
+	
+	.bsummery > #moddate {
+		float: right;
+		font-size: 11px;
+		
+	}
 </style>
 </head>
 
@@ -48,8 +57,8 @@
 			<c:set var="pageNo" value="${empty param.pageNo ? '1' : param.pageNo}"/>
 			<a href="/board/list.do?pageNo=${pageNo }"  class="btn btn-primary" role="button">목록보기</a>
 			<c:if test="${authUser.id == articleData.article.writer.id}">
-			<a href="/board/modify.do" class="btn btn-primary" role="button">글 수정</a>
-			<a href="/board/delete.do" class="btn btn-primary" role="button">글 삭제</a>
+			<a href="/board/modify.do?no=${articleData.article.number }" class="btn btn-primary" role="button">글 수정</a>
+			<a href="/board/delete.do?no=${articleData.article.number }" class="btn btn-primary" role="button">글 삭제</a>
 			</c:if>
 			<a href="/board/write.do" class="btn btn-primary" id="writebutton" role="button">새 글쓰기</a>
 		</div>
@@ -71,7 +80,11 @@
 			</div>
 			<hr>
 			<div class="panel-body">${articleData.articleContent.content }</div>
-			<div class="panel-heading"></div>
+			<div class="panel-heading bsummery">
+				<c:if test="${articleData.article.modDate != null }">
+					<p id="moddate">${articleData.article.transferModDate } 에 마지막 수정됨</p>
+				</c:if>
+			</div>
 		</div>
 
 	</div>

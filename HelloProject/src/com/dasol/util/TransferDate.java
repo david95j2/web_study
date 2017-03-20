@@ -32,5 +32,10 @@ public class TransferDate {
 
 		return sdf.format(date);
 	}
+	
+	public static String getRegularDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH:mm:ss");
+		return sdf.format(date);
+	}
 
 }

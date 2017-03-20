@@ -53,6 +53,6 @@ public class WriteArticleService {
 
 	private Article toArticle(WriteRequest writeRequest) {
 		Date now = new Date();
-		return new Article(null, writeRequest.getTitle(), 0, 0, 0, now, now, writeRequest.getWriter());
+		return new Article(null, writeRequest.getTitle(), 0, 0, 0, now, null, writeRequest.getWriter());
 	}
 }

@@ -57,6 +57,10 @@ public class Article {
 	public Date getModDate() {
 		return modDate;
 	}
+	
+	public String getTransferModDate() {
+		return TransferDate.getRegularDate(modDate);
+	}
 
 	public Writer getWriter() {
 		return writer;

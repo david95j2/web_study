@@ -32,10 +32,9 @@ public class WriteArticleHandler implements CommandHandler {
 		User authUser = (User)request.getSession().getAttribute("authUser");
 		WriteRequest writeRequest = createWriteRequest(authUser, request);
 		
-		int no = writeArticleService.write(writeRequest);
-//		request.setAttribute("no", no);
+		int articleNo = writeArticleService.write(writeRequest);
 		
-		response.sendRedirect("/board/read.do?no="+no);
+		response.sendRedirect("/board/read.do?no="+articleNo);
 		return null;
 	}
 
