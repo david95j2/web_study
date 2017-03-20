@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.dasol.auth.service.User;
 import com.dasol.member.service.ChangePasswordService;
+import com.dasol.member.service.EmailNotFoundException;
 import com.dasol.member.service.MemberNotFoundException;
 import com.dasol.mvc.command.CommandHandler;
 
@@ -31,11 +32,12 @@ public class SetPasswordHandler implements CommandHandler {
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User authUser = null;
 		String email = (String)request.getSession().getAttribute("email");
 		String newPwd = request.getParameter("newPwd");
 		
 		if(email == null) {
-			User authUser = (User)request.getSession().getAttribute("authUser");
+			authUser = (User)request.getSession().getAttribute("authUser");
 			email = authUser.getEmail();
 			if (email == null) {
 				throw new EmailNotFoundException();
@@ -44,6 +46,8 @@ public class SetPasswordHandler implements CommandHandler {
 		
 		try {
 			changePasswordService.setPwd(email, newPwd);
+			authUser.setHasPassword(true);
+			request.getSession().setAttribute("authUser", authUser);
 			response.sendRedirect("/myinfo.do");
 			return null;
 		} catch (MemberNotFoundException e) {

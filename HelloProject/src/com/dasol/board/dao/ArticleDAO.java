@@ -39,10 +39,7 @@ public class ArticleDAO {
 
 		try {
 			pstmt = conn.prepareStatement
-					("select article.*, members.profile_image"
-						+ " from article inner join members"
-							+ " on article.writer_id = members.member_id"
-								+ " order by article_no desc limit ?, ?");
+					("select * from article order by article_no desc limit ?, ?");
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, size);
 			rs = pstmt.executeQuery();
@@ -50,6 +47,7 @@ public class ArticleDAO {
 			while (rs.next()) {
 				articleList.add(convertArticle(rs));
 			}
+			
 			return articleList;
 		} finally {
 			JdbcUtil.close(rs);
@@ -66,12 +64,58 @@ public class ArticleDAO {
 				toDate(rs.getTimestamp("regdate")),
 				toDate(rs.getTimestamp("moddate")), 
 				new Writer(rs.getInt("writer_id"), 
-						rs.getString("nickname"), 
+						rs.getString("nickname"),
 						rs.getString("profile_image")));
 	}
 	
 	private Date toDate(Timestamp timestamp) {
 		return new Date(timestamp.getTime());
 	}
-
+	
+	public Article insert(Connection conn, Article article) throws SQLException {
+		PreparedStatement pstmt = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement("insert into article "
+					+ "(title, reply_cnt, like_cnt, read_cnt, regdate, moddate, writer_id, nickname, profile_image) "
+					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			pstmt.setString(1, article.getTitle());
+			pstmt.setInt(2, article.getReplyCnt());
+			pstmt.setInt(3, article.getLikeCnt());
+			pstmt.setInt(4, article.getReadCnt());
+			pstmt.setTimestamp(5, toTimestamp(article.getRegDate()));
+			pstmt.setTimestamp(6, toTimestamp(article.getModDate()));
+			pstmt.setInt(7, article.getWriter().getMemberId());
+			pstmt.setString(8, article.getWriter().getNickname());
+			pstmt.setString(9, article.getWriter().getProfileImage());
+			int insertedCount = pstmt.executeUpdate();
+			
+			if(insertedCount > 0) {
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery("select last_insert_id() from article");
+				if(rs.next()) {
+					Integer newNum = rs.getInt(1);
+					return new Article(newNum, 
+							article.getTitle(), 
+							article.getReplyCnt(), 
+							article.getLikeCnt(), 
+							article.getReadCnt(), 
+							article.getRegDate(), 
+							article.getModDate(), 
+							article.getWriter());
+				}
+			}
+			return null;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(stmt);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	private Timestamp toTimestamp(Date date) {
+		return new Timestamp(date.getTime());
+	}
 }

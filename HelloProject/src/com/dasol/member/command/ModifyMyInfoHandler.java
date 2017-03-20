@@ -67,7 +67,7 @@ public class ModifyMyInfoHandler implements CommandHandler {
 			String profileImage = file;
 			
 			if(file != null)
-				profileImage = "profileimg\\" + file;
+				profileImage = "/profileimg/" + file;
 			
 			MyInfo myInfo = new MyInfo(nickname, profileImage);
 			myInfo = modifyMyInfoService.modify(myInfo, memberId);
@@ -76,6 +76,9 @@ public class ModifyMyInfoHandler implements CommandHandler {
 				myInfo.setDefaultProfile();
 			
 			request.setAttribute("myinfo", myInfo);
+			authUser.setNickname(nickname);
+			authUser.setProfileImage(profileImage);
+			request.getSession().setAttribute("authUser", authUser);
 			return FORM_VIEW;
 
 		} catch (MemberNotFoundException e) {

@@ -28,7 +28,6 @@
 
 .menu {
 	float: right;
-	margin-bottom: auto;
 }
 
 </style>
@@ -38,6 +37,7 @@
 		<c:if test="${authUser.email == null}">
 			<a class="menu" href="/join.do">[회원가입]</a>
 			<a class="menu" href="/login.do">[로그인]</a>
+			
 		</c:if>
 		<c:if test="${authUser.email != null}">
 			<a class="menu" href="/noti.do">[알림]<span class="badge" style="background-color: red;">1</span></a>
