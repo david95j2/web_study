@@ -14,13 +14,16 @@ public class ListArticleHandler implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String pageNum = request.getParameter("page");
+		String sort = request.getParameter("sort");
+		
+		System.out.println("sort=" + sort);
 		int page = 1;
 		
 		if(pageNum != null) {
 			page = Integer.parseInt(pageNum);
 		}
 		
-		ArticlePage articlePage = listArticleService.getArticlePage(page);
+		ArticlePage articlePage = listArticleService.getArticlePage(page, sort);
 		request.setAttribute("articlePage", articlePage);
 		
 		return "/WEB-INF/board/listArticle.jsp";

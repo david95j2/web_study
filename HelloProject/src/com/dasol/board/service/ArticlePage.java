@@ -12,12 +12,14 @@ public class ArticlePage {
 	private int startPage; // 각 페이지 그룹의 첫번째 페이지
 	private int endPage; // 각 페이지 그룹의 마지막 페이지
 	private int pageGroupSize;
+	private String sort;
 
-	public ArticlePage(int total, int currentPage, List<Article> articleList, int pageSize, int pageGroupSize) {
+	public ArticlePage(int total, int currentPage, List<Article> articleList, int pageSize, int pageGroupSize, String sort) {
 		this.total = total;
 		this.currentPage = currentPage;
 		this.articleList = articleList;
 		this.pageGroupSize = pageGroupSize;
+		this.sort = sort;
 		
 		if (total == 0) {
 			totalPages = 0;
@@ -83,5 +85,15 @@ public class ArticlePage {
 	public int getPageGroupSize() {
 		return pageGroupSize;
 	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+	
+	
 
 }

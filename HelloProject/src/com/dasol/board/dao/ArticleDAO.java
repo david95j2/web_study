@@ -31,15 +31,18 @@ public class ArticleDAO {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(stmt);
 		}
+		
 	}
 
-	public List<Article> select(Connection conn, int startRow, int size) throws SQLException {
+	public List<Article> select(Connection conn, int startRow, int size, String sort) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
+		if(sort==null)
+			sort = "article_no";
+		
 		try {
 			pstmt = conn.prepareStatement
-					("select * from article order by article_no desc limit ?, ?");
+					("select * from article order by "+ sort +" desc limit ?, ?");
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, size);
 			rs = pstmt.executeQuery();

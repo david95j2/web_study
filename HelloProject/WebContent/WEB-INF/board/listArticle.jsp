@@ -59,10 +59,10 @@
 		</c:if>
 		<hr>
 		
-		<a href="#">[최신순]</a>
-		<a href="#">[추천순]</a>
-		<a href="#">[댓글순]</a>
-		<a href="#">[조회순]</a>
+		<a href="/board/list.do?sort=article_no">[최신순]</a>
+		<a href="/board/list.do?sort=like_cnt">[추천순]</a>
+		<a href="/board/list.do?sort=reply_cnt">[댓글순]</a>
+		<a href="/board/list.do?sort=read_cnt">[조회순]</a>
 		<a href="/board/write.do" class="btn btn-primary" role="button">새 글쓰기</a>
 		<table class="table table-striped">
 			<thead>
@@ -111,21 +111,21 @@
 						<li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
 					</c:if>
 					<c:if test="${1 < articlePage.currentPage }">
-						<li><a href="/board/list.do?page=${articlePage.currentPage - 1 }"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+						<li><a href="/board/list.do?page=${articlePage.currentPage - 1 }&sort=${articlePage.sort }"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
 					</c:if>
 					
 					<c:forEach var="page" begin="${articlePage.startPage }"
 						end="${articlePage.endPage }">
 						<c:if test="${articlePage.currentPage == page }">
-							<li class="active"><a href="/board/list.do?page=${page }">${page }</a></li>
+							<li class="active"><a href="/board/list.do?page=${page }&sort=${articlePage.sort }">${page }</a></li>
 						</c:if>
 						<c:if test="${articlePage.currentPage != page }">
-							<li><a href="/board/list.do?page=${page }">${page }</a></li>
+							<li><a href="/board/list.do?page=${page }&sort=${articlePage.sort }">${page }</a></li>
 						</c:if>
 					</c:forEach>
 					
 					<c:if test="${articlePage.totalPages > articlePage.currentPage }">
-						<li><a href="/board/list.do?page=${articlePage.currentPage + 1 }"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+						<li><a href="/board/list.do?page=${articlePage.currentPage + 1 }&sort=${articlePage.sort }"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
 					</c:if>
 					<c:if test="${articlePage.totalPages <= articlePage.currentPage }">
 						<li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
