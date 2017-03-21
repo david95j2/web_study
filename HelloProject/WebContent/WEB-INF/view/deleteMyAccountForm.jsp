@@ -13,18 +13,18 @@
     .help-block {
         color: red;
         font-size: 12px;
-    }    
+    }
 </style>
 </head>
 <body>
 
-<div class="container">
-		<h1>계정 삭제</h1>
-		<p>계정 삭제 페이지</p>
+		<%@ include file="/WEB-INF/view/header.jsp" %>
+		<section>
+		<h3>계정 삭제</h3>
 		<br>
 		
-		<p>정말로 삭제하시겠습니까?</p><br>
-		<p>계정을 삭제하시려면 비밀번호를 입력하세요.</p>
+		<p>정말로 계정을 삭제하시겠습니까?</p>
+		<p>계정을 삭제하시려면 비밀번호를 입력하세요.</p><br>
 		<form action="/deleteMyAccount.do" method="post">
 			<div class="form-group">
 				<label for="password">비밀번호</label> 
@@ -34,7 +34,9 @@
 				<c:if test="${errors.badCurPwd }"> <p class="help-block" id="password-error">*비밀번호가 일치하지 않습니다.</p> </c:if>
 			</div>
 		<button type="submit" id="btn_submit" class="btn btn-primary btn-block">삭제 하기</button>
+		<a href="myinfo.do" class="btn btn-primary btn-block" role="button">취소</a>
 		</form>
+		</section>
 	</div>
 	<script src="js/deleteAccountForm.js"></script>
 

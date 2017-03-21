@@ -10,21 +10,34 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<style type="text/css">
+	.content {
+		text-align: left;
+	}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>회원정보</h1>
-		<p>회원 정보 페이지</p>
+    	<%@ include file="/WEB-INF/view/header.jsp" %>
+        <section>
+        <h3>회원정보</h3>
         
+        <c:if test="${isSuccess }">
+		<div class="alert alert-info alert-dismissable">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			<strong>알림!</strong> 입력하신 정보가 성공적으로 변경되었습니다.
+		</div>
+		</c:if>
+		<br>
+		
+        <!-- modify myinfo form -->
         <form action="/myinfo.do" method="post" enctype="multipart/form-data">
-        	<p>${myinfo.nickname} <br></p>
-			<p>${authUser.email}</p>
             <div class="content">
-                <img src="${myinfo.profileImage}" class="img-circle" id="profile" style="width: 100px; height: 100px;">
+                <p><img src="${myinfo.profileImage}" class="img-circle" id="profile" style="width: 100px; height: 100px;">
                 <a id="profileChange" href="#">사진 변경하기</a>
-                <input type="file" id="file" name="profile_image" style="display:none;">
+                <input type="file" id="file" name="profile_image" style="display:none;"><p>
+            	<p><i class="fa fa-user"> ${myinfo.nickname}</i></p>
+            	<p><i class="fa fa-envelope"> ${authUser.email}</i></p>
             </div>
-			<br>
             <div class="form-group">
                 <input type="text"
                     class="form-control" id="nickname" name="nickname" value="${myinfo.nickname}">	
@@ -34,37 +47,40 @@
             <a href="/changePwd.do" class="btn btn-primary btn-block" role="button">비밀번호 변경</a>
             <a href="/deleteMyAccount.do" class="btn btn-primary btn-block" role="button">계정 삭제</a>
         </form>
+        </section>
+        <br>
     </div>
     
-    <script type="text/javascript">
-    	$('#profileChange').click(
-    		function() {
-				MyFunction();
-				return false;
-		});
-    	
-    	function MyFunction() {
-			console.log("Hello jquery");
-			$('#file').click();
-		}
-    	
-    	$('#file').change(
-    		function () {
-				if(window.FileReader){ 
-					//image 파일만 
-					if (!$(this)[0].files[0].type.match(/image\//)) 
-						return; 
-					var reader = new FileReader(); 
-					reader.onload = function(e){ 
-						var src = e.target.result; 
-						$('#profile').attr("src", src);
-					} 
-					reader.readAsDataURL($(this)[0].files[0]);
-				}
-				
-			}		
-    	);
-    </script>
+	    <!-- profile image preview change jquery -->
+	    <script type="text/javascript">
+	    	$('#profileChange').click(
+	    		function() {
+					MyFunction();
+					return false;
+			});
+	    	
+	    	function MyFunction() {
+				console.log("Hello jquery");
+				$('#file').click();
+			}
+	    	
+	    	$('#file').change(
+	    		function () {
+					if(window.FileReader){ 
+						//image 파일만 
+						if (!$(this)[0].files[0].type.match(/image\//)) 
+							return; 
+						var reader = new FileReader(); 
+						reader.onload = function(e){ 
+							var src = e.target.result; 
+							$('#profile').attr("src", src); // 미리보기
+						} 
+						reader.readAsDataURL($(this)[0].files[0]);
+					}
+					
+				}		
+	    	);
+	    </script>
     
 </body>
 </html>

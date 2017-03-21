@@ -1,0 +1,79 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="com.dasol.util.CookieBox"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <!-- include libraries(jQuery, bootstrap) --> 
+   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> 
+   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+   <!-- include summernote css/js--> 
+   <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet"> 
+   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
+   <script src="../js/summernote-ko-KR.js"></script>
+</head>
+<style>
+.menu {
+	float: right;
+}
+
+.notlogin {
+	padding-bottom: 10px;
+}
+
+.help-block {
+        color: red;
+        font-size: 12px;
+    }
+h1 > a {
+	color: black;
+}	
+</style>
+<body>
+	<div class="container">
+		<header>
+			<h1><a href="http://localhost:8080">게시판 프로젝트</a></h1>
+			
+			<div class="notlogin">
+			<!-- login false -->
+			<c:if test="${authUser.email == null}">
+				<a class="menu" href="/join.do">[회원가입]</a>
+				<a class="menu" href="/login.do">[로그인]</a>
+				
+			</c:if>
+			</div>
+			<!-- login true -->
+			<c:if test="${authUser.email != null}">
+				<a class="menu" href="/noti.do">[알림]<span class="badge" style="background-color: red;">1</span></a>
+				<a class="menu" href="/myinfo.do">[내정보]</a>
+				<a class="menu" href="/logout.do">[로그아웃]</a>
+				<p><strong>${authUser.nickname}</strong>님,반가워요.</p>
+				
+				<!-- email register true -->
+				<c:if test="${authUser.register_check}">
+					<div class="alert alert-success alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+						<strong>성공!</strong> 이메일 인증이 완료 되었습니다.
+					</div>
+				</c:if>
+				
+				<!-- email register false -->
+				<c:if test="${!authUser.register_check}">
+					<div class="alert alert-warning alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+						<strong>주의!</strong> 이메일 인증을 하지 않으면 서비스를 이용하실 수 없습니다. 
+						<a href="#" class="alert-link"><i class="fa fa-retweet" style="font-size:18px"></i>이메일 인증 재전송</a>
+					</div>
+				</c:if>
+				
+			</c:if>
+			
+		</header>
+		<hr>
+</body>
+</html>

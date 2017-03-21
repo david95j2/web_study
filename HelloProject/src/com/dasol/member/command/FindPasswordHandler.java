@@ -34,13 +34,13 @@ public class FindPasswordHandler implements CommandHandler {
 		request.setAttribute("errors", errors);
 		
 		try {
-			findPasswordService.find(email);
-			return "/logout.do";
+			boolean isSuccess = findPasswordService.find(email);
+			request.setAttribute("isSuccess", isSuccess);
+			return FORM_VIEW;
 		} catch (MemberNotFoundException e) {
 			errors.put("emailNotFound", Boolean.TRUE);
 			return FORM_VIEW;
 		}
-		
 		
 	}
 

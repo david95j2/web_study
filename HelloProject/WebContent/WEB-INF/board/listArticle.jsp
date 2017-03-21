@@ -1,20 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="com.dasol.util.CookieBox"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <style>
-.jb-center {
-	text-align: center;
+div .paginator {
+	text-align: center; 
 }
 
 .table > tbody > tr > td > p {
@@ -25,49 +23,27 @@
 	float: right;
 	margin-bottom: 20px;
 }
-
-.menu {
-	float: right;
-}
-
 </style>
 <body>
-	<div class="container">
-		<h2>게시판 프로젝트</h2>
-		<c:if test="${authUser.email == null}">
-			<a class="menu" href="/join.do">[회원가입]</a>
-			<a class="menu" href="/login.do">[로그인]</a>
-			
-		</c:if>
-		<c:if test="${authUser.email != null}">
-			<a class="menu" href="/noti.do">[알림]<span class="badge" style="background-color: red;">1</span></a>
-			<a class="menu" href="/myinfo.do">[내정보]</a>
-			<a class="menu" href="/logout.do">[로그아웃]</a>
-			<p><strong>${authUser.nickname}</strong>님,반가워요.</p>
-			<c:if test="${authUser.register_check}">
-				<div class="alert alert-success alert-dismissable">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-					<strong>성공!</strong> 이메일 인증이 완료 되었습니다.
-				</div>
-			</c:if>
-			<c:if test="${!authUser.register_check}">
-				<div class="alert alert-warning alert-dismissable">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-					<strong>주의!</strong> 이메일 인증을 하지 않으면 서비스를 이용하실 수 없습니다. <a href="#" class="alert-link"><i class="fa fa-retweet" style="font-size:18px"></i>이메일 인증 재전송</a>
-				</div>
-			</c:if>
-		</c:if>
-		<hr>
+		<!-- header -->
+		<%@ include file="/WEB-INF/view/header.jsp" %>
 		
-		<a href="/board/list.do?sort=article_no">[최신순]</a>
-		<a href="/board/list.do?sort=like_cnt">[추천순]</a>
-		<a href="/board/list.do?sort=reply_cnt">[댓글순]</a>
-		<a href="/board/list.do?sort=read_cnt">[조회순]</a>
-		<a href="/board/write.do" class="btn btn-primary" role="button">새 글쓰기</a>
+		<section>
+		<!-- board sort -->
+		<div class="boardsort">
+			<a href="/board/list.do?sort=article_no">[최신순]</a>
+			<a href="/board/list.do?sort=like_cnt">[추천순]</a>
+			<a href="/board/list.do?sort=reply_cnt">[댓글순]</a>
+			<a href="/board/list.do?sort=read_cnt">[조회순]</a>
+			<a href="/board/write.do" class="btn btn-primary" role="button"><i class="fa fa-pencil"></i> 새 글쓰기</a>
+		</div>
+		<br>
+		<!-- board list -->
+		<div class="boardlist"></div>
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="10%" nowrap>글 번호</th>
+					<th width="10%" nowrap>번호</th>
 					<th width="40%" nowrap>제목</th>
 					<th width="20%" nowrap>작성자</th>
 					<th width="10%" nowrap><i class="fa fa-clock-o" style="font-size:15px"></i></th>
@@ -103,9 +79,9 @@
 			</c:forEach>
 		</table>
 		
-		
+		<!-- board pagination -->
 		<c:if test="${articlePage.hasArticles() }">
-			<div class="jb-center">
+			<div class="paginator">
 				<ul class="pagination">
 					<c:if test="${1 >= articlePage.currentPage }">
 						<li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
@@ -133,6 +109,7 @@
 				</ul>
 			</div>
 		</c:if>
+		</section>
 		
 	</div>
 </body>

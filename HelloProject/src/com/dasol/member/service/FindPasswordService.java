@@ -11,7 +11,7 @@ import com.dasol.util.SendEmail;
 public class FindPasswordService {
 	MemberDAO memberDAO = new MemberDAO();
 	
-	public void find(String email) {
+	public boolean find(String email) {
 		
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			
@@ -26,6 +26,7 @@ public class FindPasswordService {
 			mailInfo.setPasswordContent();
 			SendEmail.send(mailInfo);
 			
+			return true;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

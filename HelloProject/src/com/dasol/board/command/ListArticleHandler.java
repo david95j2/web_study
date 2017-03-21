@@ -16,7 +16,6 @@ public class ListArticleHandler implements CommandHandler {
 		String pageNum = request.getParameter("page");
 		String sort = request.getParameter("sort");
 		
-		System.out.println("sort=" + sort);
 		int page = 1;
 		
 		if(pageNum != null) {

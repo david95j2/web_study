@@ -4,26 +4,16 @@
 
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-   <!-- include libraries(jQuery, bootstrap) --> 
-   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> 
-   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
-   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-   <!-- include summernote css/js--> 
-   <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet"> 
-   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
-   <script src="../js/summernote-ko-KR.js"></script>
-    <title>게시글 쓰기</title>
+   <title></title>
 </head>
 
 <body>
-
-    <div class="container">
-        <h1>게시글 수정</h1>
-        <p>게시글 수정 페이지</p>
-
+    	<%@ include file="/WEB-INF/view/header.jsp" %>
+		<section>    	
+        <h3>게시글 수정</h3>
+		
+		<!-- modify article form -->
         <form action="/board/modify.do" method="post">
         	<div class="form-group" style="margin-bottom: 0px;">
         	<img src="${authUser.profileImage}" class="img-circle" id="profile" style="width: 70px; height: 70px;">
@@ -35,10 +25,12 @@
                 <input type="text" class="form-control" id="title" name="title" value="${modReq.title }" placeholder="제목을 입력하세요.">
                 <p class="help-block" id="title-error"></p>
             </div>
-           
+			
+			<!-- summernote -->			           
             <textarea id="summernote" name="content" >${modReq.content }</textarea>
             
 			<script>
+				<!-- summernote jquery ajax-->
 				$(document).ready(function() {
 					$('#summernote').summernote({
 						height: 280,
@@ -71,10 +63,37 @@
 					}					
 				});
 			</script>
+			
 			<input type="hidden" name="no" value="${modReq.articleNumber}">
+			
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title"><i class="fa fa-exclamation-circle" style="font-size:20px;color:red"></i> 알림</h4>
+						</div>
+						<div class="modal-body">
+							<p>정말 취소 하시겠습니까?</p>
+						</div>
+						<div class="modal-footer">
+							<a href="read.do?no=${modReq.articleNumber }" class="btn btn-default" role="button" 
+								>확인</a>
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">취소</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<button type="submit" id="btn_submit" class="btn btn-primary btn-block">등록</button>
-            <button id="btn_submit" class="btn btn-primary btn-block">취소</button>
+            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">취소</button>
         </form>
+        </section>
+        <br>
     </div>
 
 </body>

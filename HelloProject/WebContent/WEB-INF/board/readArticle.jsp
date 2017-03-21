@@ -13,59 +13,61 @@
    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
-    <title>게시글 읽기</title>
-<style type="text/css">
-	.summery {
-		padding: 20px;
-	}
-	.summery > i {
-		float: right;
-		padding-right : 20px;
-	}
-	
-	.button {
-		margin-bottom: 10px;
-	}
-	
-	.button > #writebutton {
-		float: right;
-	}
-	
-	.title {
-		padding-bottom: 0px;
-	}
-	
-	.bsummery {
-		padding-bottom: 20px;
-	}
-	
-	.bsummery > #moddate {
-		float: right;
-		font-size: 11px;
+    <title></title>
+    
+	<style type="text/css">
+		.summary {
+			padding: 20px;
+		}
+		.summary > i {
+			float: right;
+			padding-right : 20px;
+		}
 		
-	}
-</style>
+		.writebutton {
+			margin-bottom: 10px;
+			text-align: right;
+		}
+		
+		.title {
+			padding-bottom: 0px;
+		}
+		
+		.bsummary {
+			height: 35px;
+		}
+		
+		.bsummary ul {
+    		padding-left: 0;
+		}
+		
+		.bsummary ul li {
+			font-size: 11px;
+			display: inline;
+		}
+		
+		.bsummary a {
+			color:black;
+			float: right;
+			margin-right: 15px;
+		}
+	</style>
 </head>
 
 <body>
 
-    <div class="container">
-        <h1>게시글 읽기</h1>
-        <p>게시글 페이지</p>
-        
-        <div class="button">
-			<c:set var="pageNo" value="${empty param.pageNo ? '1' : param.pageNo}"/>
-			<a href="/board/list.do?pageNo=${pageNo }"  class="btn btn-primary" role="button">목록보기</a>
-			<c:if test="${authUser.id == articleData.article.writer.id}">
-			<a href="/board/modify.do?no=${articleData.article.number }" class="btn btn-primary" role="button">글 수정</a>
-			<a href="/board/delete.do?no=${articleData.article.number }" class="btn btn-primary" role="button">글 삭제</a>
-			</c:if>
-			<a href="/board/write.do" class="btn btn-primary" id="writebutton" role="button">새 글쓰기</a>
+    	<%@ include file="/WEB-INF/view/header.jsp" %>
+    	
+    	<section>
+		<h3>게시글 읽기</h3>
+		
+		<div class="writebutton">
+			<a href="/board/write.do" class="btn btn-primary" role="button" id="writebutton"><i class="fa fa-pencil"></i> 새 글쓰기</a>
 		</div>
 		
-
+		<!-- head summary -->		
 		<div class="panel panel-default">
-			<div class="panel-heading summery">
+			<div class="panel-heading summary">
 				<img src="${articleData.article.writer.profileImage}" class="img-circle" id="profile" style="width: 70px; height: 70px;">
 				${articleData.article.writer.nickname}
 			
@@ -74,19 +76,56 @@
 				<i class="fa fa-clock-o" style="font-size:15px"> ${articleData.article.transferRegDate }전</i>
 			</div>
 			
+		<!-- title -->	
 			<div class="panel-body title">
 				<p>${articleData.article.number }번째 글 
 				<h3><strong>${articleData.article.title }</strong></h3>
 			</div>
 			<hr>
+		<!-- content -->			
 			<div class="panel-body">${articleData.articleContent.content }</div>
-			<div class="panel-heading bsummery">
-				<c:if test="${articleData.article.modDate != null }">
-					<p id="moddate">${articleData.article.transferModDate } 에 마지막 수정됨</p>
+			
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title"><i class="fa fa-exclamation-circle" style="font-size:20px;color:red"></i> 알림</h4>
+						</div>
+						<div class="modal-body">
+							<p>정말 삭제 하시겠습니까?</p>
+						</div>
+						<div class="modal-footer">
+							<a href="/board/delete.do?no=${articleData.article.number }" class="btn btn-default" role="button" 
+								>확인</a>
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">취소</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- bottom summary -->
+			<div class="panel-heading bsummary">
+			<ul>
+				<li><c:set var="pageNo"
+					value="${empty param.pageNo ? '1' : param.pageNo}" />
+				<a href="/board/list.do?pageNo=${pageNo }">목록보기</a> </li>
+				<c:if test="${authUser.id == articleData.article.writer.id}">
+					<li><a href="#" data-toggle="modal" data-target="#myModal" ><i class="fa fa-trash-o"> 삭제</i></a></li>
+					<li><a href="/board/modify.do?no=${articleData.article.number }"><i class="fa fa-edit"> 수정</i></a></li>
 				</c:if>
+			
+				<c:if test="${articleData.article.modDate != null }">
+					<li><p id="moddate"><i class="fa fa-history"> ${articleData.article.transferModDate } 에 마지막 수정됨</i></p></li>
+				</c:if>
+			</ul>
 			</div>
 		</div>
-
+		</section>
 	</div>
 
 </body>

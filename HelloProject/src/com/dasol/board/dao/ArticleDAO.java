@@ -37,8 +37,6 @@ public class ArticleDAO {
 	public List<Article> select(Connection conn, int startRow, int size, String sort) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		if(sort==null)
-			sort = "article_no";
 		
 		try {
 			pstmt = conn.prepareStatement

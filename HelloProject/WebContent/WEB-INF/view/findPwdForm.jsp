@@ -18,13 +18,19 @@
 </head>
 <body>
 
-<div class="container">
-		<h1>비밀번호 찾기</h1>
-		<p>비밀번호 찾기 페이지</p>
+	<%@ include file="/WEB-INF/view/header.jsp" %>
+		<section>
+		<h3>비밀번호 찾기</h3>
+		<c:if test="${isSuccess }">
+		<div class="alert alert-info alert-dismissable">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			<strong>알림!</strong> 입력하신 이메일 계정으로 비밀번호 재설정 메일을 전송하였습니다.
+		</div>
+		</c:if>
 		<br>
-		
-		<p>비밀번호가 기억나지 않으시다구요?</p><br>
+		<p>비밀번호가 기억나지 않으시다구요?</p>
 		<p>가입한 이메일 계정을 입력하세요.</p>
+		<br>
 		<form action="/findPwd.do" method="post">
 			<div class="form-group">
 				<label for="email">이메일</label> 
@@ -34,7 +40,9 @@
 				<c:if test="${errors.emailNotFound }"> <p class="help-block" id="email-error">*존재하지 않는 계정입니다.</p> </c:if>
 			</div>
 		<button type="submit" id="btn_submit" class="btn btn-primary btn-block">비밀번호 찾기</button>
+		<a href="login.do" class="btn btn-primary btn-block" role="button">취소</a>
 		</form>
+		</section>
 	</div>
 	<script src="js/findPwdForm.js"></script>
 

@@ -42,9 +42,10 @@ public class ChangePasswordHandler implements CommandHandler {
 		String newPwd = request.getParameter("newPwd");
 		
 		try {
-			changePasswordService.changePwd(authUser.getId(), curPwd, newPwd);
+			boolean isSuccess = changePasswordService.changePwd(authUser.getId(), curPwd, newPwd);
 			authUser.setHasPassword(true);
 			request.getSession().setAttribute("authUser", authUser);
+			request.setAttribute("isSuccess", isSuccess);
 			return FORM_VIEW;
 		} catch (InvalidPasswordException e) {
 			errors.put("badCurPwd", Boolean.TRUE);
@@ -53,6 +54,7 @@ public class ChangePasswordHandler implements CommandHandler {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
+		
 	}
 
 }

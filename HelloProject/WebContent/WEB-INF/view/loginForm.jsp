@@ -20,9 +20,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="container">
-		<h1>로그인</h1>
-		<p>로그인 페이지</p>
+		<%@ include file="/WEB-INF/view/header.jsp" %>
+		<section>
+		<h3>로그인</h3>
 		
 		<form action="/login.do" method="post">
 			<div class="form-group">
@@ -63,6 +63,7 @@
 				naver_id_login.init_naver_id_login();
 			</script>
 		</form>
+		</section>
 	</div>
 		  
 	<script src="js/loginForm.js"></script>

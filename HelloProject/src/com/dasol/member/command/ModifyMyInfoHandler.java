@@ -79,6 +79,7 @@ public class ModifyMyInfoHandler implements CommandHandler {
 			authUser.setNickname(myInfo.getNickname());
 			authUser.setProfileImage(myInfo.getProfileImage());
 			request.getSession().setAttribute("authUser", authUser);
+			request.setAttribute("isSuccess", true);
 			return FORM_VIEW;
 
 		} catch (MemberNotFoundException e) {

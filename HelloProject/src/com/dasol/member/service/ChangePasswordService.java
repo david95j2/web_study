@@ -11,7 +11,7 @@ import com.dasol.member.model.Member;
 public class ChangePasswordService {
 	MemberDAO memberDAO = new MemberDAO();
 	
-	public void changePwd(int memberId, String curPwd, String newPwd) {
+	public boolean changePwd(int memberId, String curPwd, String newPwd) {
 		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection();
@@ -33,7 +33,7 @@ public class ChangePasswordService {
 			member.changePwd(newPwd);
 			memberDAO.updateMyInfo(conn, member);
 			conn.commit();
-
+			return true;
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException(e);
@@ -42,7 +42,7 @@ public class ChangePasswordService {
 		}
 	}
 	
-	public void setPwd(String email, String newPwd) {
+	public boolean setPwd(String email, String newPwd) {
 		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection();
@@ -58,7 +58,7 @@ public class ChangePasswordService {
 			member.changePwd(newPwd);
 			memberDAO.updateMyInfo(conn, member);
 			conn.commit();
-
+			return true;
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException(e);
