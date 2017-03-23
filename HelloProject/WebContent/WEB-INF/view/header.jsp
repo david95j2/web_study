@@ -41,33 +41,30 @@ h1 > a {
 			
 			<div class="notlogin">
 			<!-- login false -->
-			<c:if test="${authUser.email == null}">
+			<c:if test="${empty authUser.email}">
 				<a class="menu" href="/join.do">[회원가입]</a>
 				<a class="menu" href="/login.do">[로그인]</a>
 				
 			</c:if>
 			</div>
 			<!-- login true -->
-			<c:if test="${authUser.email != null}">
+			<c:if test="${!empty authUser.email}">
 				<a class="menu" href="/noti.do">[알림]<span class="badge" style="background-color: red;">1</span></a>
 				<a class="menu" href="/myinfo.do">[내정보]</a>
 				<a class="menu" href="/logout.do">[로그아웃]</a>
-				<p><strong>${authUser.nickname}</strong>님,반가워요.</p>
-				
-				<!-- email register true -->
-				<c:if test="${authUser.register_check}">
-					<div class="alert alert-success alert-dismissable">
-						<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-						<strong>성공!</strong> 이메일 인증이 완료 되었습니다.
-					</div>
+				<c:if test="${!empty authUser.nickname}">
+					<p><strong>${authUser.nickname}</strong>님,반가워요.</p>
 				</c:if>
+				<c:if test="${empty authUser.nickname }">
+					<p><strong style="color: red;">닉네임</strong>을 설정하세요.</p>
+				</c:if>									
 				
 				<!-- email register false -->
 				<c:if test="${!authUser.register_check}">
 					<div class="alert alert-warning alert-dismissable">
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
 						<strong>주의!</strong> 이메일 인증을 하지 않으면 서비스를 이용하실 수 없습니다. 
-						<a href="#" class="alert-link"><i class="fa fa-retweet" style="font-size:18px"></i>이메일 인증 재전송</a>
+						<a href="/join.do?email=${authUser.email }" class="alert-link"><i class="fa fa-retweet" style="font-size:18px"></i>이메일 인증 재전송</a>
 					</div>
 				</c:if>
 				

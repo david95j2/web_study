@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dasol.auth.service.User;
 import com.dasol.member.service.DuplicateIdException;
+import com.dasol.member.service.EmailNotFoundException;
 import com.dasol.member.service.JoinRequest;
 import com.dasol.member.service.JoinService;
 import com.dasol.mvc.command.CommandHandler;
@@ -44,8 +46,27 @@ public class JoinHandler implements CommandHandler {
 		}
 	}
 
-	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return FORM_VIEW;
+	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+			User user = (User) request.getSession().getAttribute("authUser");
+			String email = user.getEmail();
+			
+			if (email.equals("") && email.isEmpty()) {
+				email = request.getParameter("email");
+				if (email.equals("") && email.isEmpty()) {
+					throw new EmailNotFoundException();
+				}
+			}
+			System.out.println("email=" + email);
+			joinService.sendEmail(email, null);
+			response.sendRedirect(request.getContextPath() + "/index.jsp");
+			return null;
+		} catch (EmailNotFoundException e) {
+			return FORM_VIEW;
+		} catch (Exception e) {
+			return FORM_VIEW;
+		}
+		
 	}
 
 }

@@ -40,16 +40,36 @@ public class JoinService {
 							null, // 로그인 유지 토큰
 							null)); // 접근 토큰 //*나중에 생성하기
 			
-			MailInfo mailInfo = new MailInfo(joinRequest.getEmail(), joinRequest.getRegisterCode());
-			mailInfo.setRegisterContent();
-			SendEmail.send(mailInfo);
+			sendEmail(joinRequest.getEmail(), joinRequest.getRegisterCode());
 			conn.commit();
-			
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException();
 		} finally {
 			JdbcUtil.close(conn);
 		}
+	}
+	
+	public void sendEmail(String email, String registerCode) {
+		Connection conn = null;
+		Member member = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			
+			if (registerCode == null) {
+				member = memberDAO.selectByEmail(conn, email);
+				registerCode = member.getRegisterCode();
+			}
+
+			MailInfo mailInfo = new MailInfo(email, registerCode);
+			mailInfo.setRegisterContent();
+			SendEmail.send(mailInfo);
+		} catch (SQLException e) {
+			JdbcUtil.rollback(conn);
+			throw new RuntimeException();
+		} finally {
+			JdbcUtil.close(conn);
+		}
+
 	}
 }

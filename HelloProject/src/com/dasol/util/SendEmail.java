@@ -16,6 +16,7 @@ import com.dasol.member.service.MailInfo;
 public class SendEmail {
 	public static void send(MailInfo mailInfo) {
 		String admin = "emailAccount";
+		String password = "emailPassword";
 		
 		//네이버 이용
 		Properties props = System.getProperties();
@@ -31,7 +32,7 @@ public class SendEmail {
 
 		Authenticator auth = new Authenticator(){
             protected PasswordAuthentication getPasswordAuthentication() {
-            	return new PasswordAuthentication(admin+"@naver.com", "password");
+            	return new PasswordAuthentication(admin+"@naver.com", password);
             }
         };
 		
