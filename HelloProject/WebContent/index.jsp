@@ -13,9 +13,10 @@
 		Map<String, String> cookiesMap = null;
 		cookiesMap = CookieBox.getCookiesValueMap(request);
 		System.out.println(cookiesMap);
-		if(cookiesMap.get("aT") != null) // 쿠키 존재 한다면 자동 로그인
+		if(cookiesMap.get("aT") != null) { // 쿠키 존재 한다면 자동 로그인
+			System.out.println("aT="+cookiesMap.get("aT"));
 			response.sendRedirect("/alogin.do");
-		else
+		} else
 			response.sendRedirect("/board/list.do");
 	%>
 </body>

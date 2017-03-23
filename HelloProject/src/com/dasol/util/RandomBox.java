@@ -8,7 +8,7 @@ public class RandomBox {
 	public static String getRandomImage() {
 		Random random = new Random();
 		int num = random.nextInt(3);
-		return "profileimg\\user-default" + num + ".png";
+		return "/profileimg/user-default" + num + ".png";
 	}
 
 	public static String getRandomRegisterCode() {

@@ -21,16 +21,21 @@ public class AutoLoginHandler implements CommandHandler {
 		cookiesMap = CookieBox.getCookiesValueMap(request);
 		String token = cookiesMap.get("aT");
 		
-		User user = autoLoginService.autoLogin(token);
+		// 세션이 있다면 유지하자
+		User authUser = (User)request.getSession().getAttribute("authUser");
 		
-		if (user.getRememberToken() != null) {
-			System.out.println("userToken=" + user.getRememberToken());
-			Cookie cookie = new Cookie("aT", user.getRememberToken());
+		if (authUser == null) { 
+			authUser = autoLoginService.autoLogin(token);
+		}
+		 
+		if (authUser.getRememberToken() != null) {
+			System.out.println("userToken=" + authUser.getRememberToken());
+			Cookie cookie = new Cookie("aT", authUser.getRememberToken());
 			cookie.setMaxAge(14*24*60*60);
 			response.addCookie(cookie);
 		}
 		
-		request.getSession().setAttribute("authUser", user);
+		request.getSession().setAttribute("authUser", authUser);
 		response.sendRedirect("/board/list.do");
 		return null;
 	}

@@ -20,8 +20,15 @@
     	<%@ include file="/WEB-INF/view/header.jsp" %>
         <section>
         <h3>회원정보</h3>
-        
-        <c:if test="${isSuccess }">
+
+		<c:if test="${empty authUser.nickname}">
+			<div class="alert alert-warning alert-dismissable">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+				<strong>주의!</strong> 닉네임을 설정하지 않으면 게시글을 작성하실 수 없습니다.
+			</div>
+		</c:if>
+
+		<c:if test="${isSuccess }">
 		<div class="alert alert-info alert-dismissable">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
 			<strong>알림!</strong> 입력하신 정보가 성공적으로 변경되었습니다.

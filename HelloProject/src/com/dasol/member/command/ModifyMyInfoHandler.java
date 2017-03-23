@@ -35,10 +35,7 @@ public class ModifyMyInfoHandler implements CommandHandler {
 		User authUser = (User) request.getSession().getAttribute("authUser");
 		int memberId = authUser.getId();
 		MyInfo myInfo = readMyInfoService.getMyInfo(memberId);
-		
-		if (myInfo.getProfileImage() == null)
-			myInfo.setDefaultProfile();
-		
+		myInfo.setProfileImage(authUser.getProfileImage());
 		request.setAttribute("myinfo", myInfo);
 		return FORM_VIEW;
 	}
@@ -56,7 +53,7 @@ public class ModifyMyInfoHandler implements CommandHandler {
 			MultipartRequest multi 
 				= new MultipartRequest(request, path, size, "UTF-8", new DefaultFileRenamePolicy());
 
-			String nickname = multi.getParameter("nickname");
+			String nickname = multi.getParameter("nickname").trim();
 			Enumeration files = multi.getFileNames();
 
 			String str = (String) files.nextElement();
@@ -79,7 +76,10 @@ public class ModifyMyInfoHandler implements CommandHandler {
 			authUser.setNickname(myInfo.getNickname());
 			authUser.setProfileImage(myInfo.getProfileImage());
 			request.getSession().setAttribute("authUser", authUser);
-			request.setAttribute("isSuccess", true);
+			
+			if(myInfo.getNickname() != null && myInfo.getNickname().length() > 0)
+				request.setAttribute("isSuccess", true);
+			
 			return FORM_VIEW;
 
 		} catch (MemberNotFoundException e) {

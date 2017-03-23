@@ -86,6 +86,42 @@
 		<url-pattern>/changePwd.do</url-pattern>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>NicknameCheckFilter</filter-name>
+		<filter-class>com.dasol.filter.NicknameCheckFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>NicknameCheckFilter</filter-name>
+		<url-pattern>/board/write.do</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>ProfileImageNullCheckFilter</filter-name>
+		<filter-class>com.dasol.filter.ProfileImageCheckFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>ProfileImageNullCheckFilter</filter-name>
+		<url-pattern>/myinfo.do</url-pattern>
+		<url-pattern>/board/write.do</url-pattern>
+		<url-pattern>/board/modify.do</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>RegisterEmailCheckFilter</filter-name>
+		<filter-class>com.dasol.filter.RegisterEmailCheckFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>RegisterEmailCheckFilter</filter-name>
+		<url-pattern>/myinfo.do</url-pattern>
+		<url-pattern>/changePwd.do</url-pattern>
+		<url-pattern>/noti.do</url-pattern>
+		<url-pattern>/deleteMyAccount.do</url-pattern>
+		<url-pattern>/board/write.do</url-pattern>
+	</filter-mapping>
+	
 	<servlet>
 		<servlet-name>ControllerUsingURI</servlet-name>
 		<servlet-class>com.dasol.mvc.controller.ControllerUsingURI</servlet-class>
