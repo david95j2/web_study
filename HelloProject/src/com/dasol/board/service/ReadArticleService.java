@@ -36,6 +36,6 @@ public class ReadArticleService {
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		}
+		} 
 	}
 }

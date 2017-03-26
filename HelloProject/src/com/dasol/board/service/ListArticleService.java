@@ -25,6 +25,6 @@ public class ListArticleService {
 			return new ArticlePage(total, pageNum, articleList, PAGE_SIZE, PAGE_GROUP_SIZE, sort);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		}
+		} 
 	}
 }

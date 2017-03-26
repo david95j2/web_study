@@ -1,25 +1,26 @@
 package com.dasol.board.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.dasol.util.TransferDate;
-
+//라이크 재설계
 public class Article {
 	private Integer number;
 	private String title;
 	private int replyCnt;
-	private int likeCnt;
+	private List<ArticleLike> articleLikeList;
 	private int readCnt;
 	private Date regDate;
 	private Date modDate;
 	private Writer writer;
 
-	public Article(Integer number, String title, int replyCnt, int likeCnt, int readCnt, Date regDate, Date modDate,
+	public Article(Integer number, String title, int replyCnt, List<ArticleLike> articleLikeList, int readCnt, Date regDate, Date modDate,
 			Writer writer) {
 		this.number = number;
 		this.title = title;
 		this.replyCnt = replyCnt;
-		this.likeCnt = likeCnt;
+		this.articleLikeList = articleLikeList;
 		this.readCnt = readCnt;
 		this.regDate = regDate;
 		this.modDate = modDate;
@@ -38,8 +39,8 @@ public class Article {
 		return replyCnt;
 	}
 
-	public int getLikeCnt() {
-		return likeCnt;
+	public List<ArticleLike> getArticleLikeList() {
+		return articleLikeList;
 	}
 
 	public int getReadCnt() {
@@ -64,6 +65,14 @@ public class Article {
 
 	public Writer getWriter() {
 		return writer;
+	}
+	
+	public int getArticleLikeSize() {
+		return this.articleLikeList.size();
+	}
+	
+	public boolean hasArticleLikeSize() {
+		return this.articleLikeList.size() > 0;
 	}
 
 }

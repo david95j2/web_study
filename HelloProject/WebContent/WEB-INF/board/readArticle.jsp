@@ -12,7 +12,7 @@
    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title></title>
     
 	<style type="text/css">
@@ -42,7 +42,7 @@
 		}
 		
 		.bsummary ul li {
-			font-size: 11px;
+			font-size: 12px;
 			display: inline;
 		}
 		
@@ -51,6 +51,16 @@
 			float: right;
 			margin-right: 15px;
 		}
+		
+		.likezone ul {
+			padding-left: 0;
+		}
+		
+		.likezone ul li {
+			font-size: 12px;
+			display: inline;		
+		}
+		
 	</style>
 </head>
 
@@ -71,19 +81,23 @@
 				<img src="${articleData.article.writer.profileImage}" class="img-circle" id="profile" style="width: 70px; height: 70px;">
 				${articleData.article.writer.nickname}
 			
-				<i class="fa fa-heart" style="font-size:15px"> ${articleData.article.likeCnt }</i>
 				<i class="fa fa-eye" style="font-size:15px">  ${articleData.article.readCnt }</i>
 				<i class="fa fa-clock-o" style="font-size:15px"> ${articleData.article.transferRegDate }전</i>
 			</div>
 			
 		<!-- title -->	
 			<div class="panel-body title">
-				<p>${articleData.article.number }번째 글 
+				<p><strong id="article_no">${articleData.article.number }</strong>번째 글 </p>
 				<h3><strong>${articleData.article.title }</strong></h3>
 			</div>
 			<hr>
 		<!-- content -->			
-			<div class="panel-body">${articleData.articleContent.content }</div>
+			<div class="panel-body content">${articleData.articleContent.content }
+			
+			<c:if test="${articleData.article.modDate != null }">
+				<p id="moddate"><i class="fa fa-history" style="font-size: 11px;padding-bottom:0px; margin-top: 50px;"> ${articleData.article.transferModDate } 에 마지막 수정됨</i></p>
+			</c:if>
+			</div>
 			
 			<!-- Modal -->
 			<div class="modal fade" id="myModal" role="dialog">
@@ -118,16 +132,94 @@
 					<li><a href="#" data-toggle="modal" data-target="#myModal" ><i class="fa fa-trash-o"> 삭제</i></a></li>
 					<li><a href="/board/modify.do?no=${articleData.article.number }"><i class="fa fa-edit"> 수정</i></a></li>
 				</c:if>
-			
-				<c:if test="${articleData.article.modDate != null }">
-					<li><p id="moddate"><i class="fa fa-history"> ${articleData.article.transferModDate } 에 마지막 수정됨</i></p></li>
-				</c:if>
 			</ul>
 			</div>
 		</div>
-		</section>
-	</div>
 
+		<div class="likezone">
+			<!-- like zone -->
+			<c:if test="${articleData.article.getArticleLikeSize() == 0}">
+			<ul id="likelist">
+				<li id='countzero' class="likelist"><p>가장 먼저 좋아요를 눌러주세요.</p></li>
+			</ul>
+			</c:if>
+			
+			<c:if test="${articleData.article.getArticleLikeSize() >= 10}">
+			<ul id="likelist">
+				<li class="likelist"><i class="fa fa-heart" style="font-size:12px;">
+					<b> 좋아요 <strong id="likeupdown">${articleData.article.getArticleLikeSize() }</strong>개</b></i>
+				</li>
+				
+				<c:forEach var="like" items="${articleData.article.articleLikeList }">
+					<li id="${like.number}" class="likelist" style="display: none;"><b>
+					<span id="like_nickname">${like.nickname}</span>
+					<span id="${like.memberId}" style="display: none;">${like.number}</span>
+					</b></li>
+				</c:forEach>
+				
+			</ul>
+			</c:if>
+			
+			<c:if test="${articleData.article.getArticleLikeSize() < 10 && articleData.article.getArticleLikeSize() > 0}">
+			<!-- <i class="fa fa-heart" style="font-size:12px;"></i> -->
+			<ul id="likelist">
+				<c:forEach var="like" items="${articleData.article.articleLikeList }">
+					<li id="${like.number}" class="likelist"><b>
+					<span id="like_nickname">${like.nickname}</span>
+					<span id="${like.memberId}" style="display: none;">${like.number}</span>
+					</b></li>
+				</c:forEach>
+				<li id="like_end" class="likelist">님이 좋아합니다.</li>
+			</ul>
+			</c:if>
+			
+		</div>
+			
+			
+		<p>			
+		<i class="fa fa-comment-o" style="font-size:12px;"> 댓글 ${articleData.article.replyCnt }개</i>	
+		</p>
+		
+		<!-- reply zone -->
+		<div class="row">
+			<div class="col-sm-12">
+					<p>
+					<b>Anja</b>
+					<small>안녕하세요.</small>
+					<small style="color:#9C9C9C;"><i>7day ago</i> </small>
+					<i class="material-icons" style="font-size:14px">clear</i>
+					</p>
+			</div>
+		</div>
+		<hr>
+		
+		<c:if test="${!empty authUser}">
+		<form class="form-horizontal">
+			<div class="form-group">
+				
+				<c:if test="${isLikeIt }">
+					<label class="control-label col-sm-1" for="comment"><i id="heart" class="fa fa-heart" style="color:red;"> 좋아요</i></label>
+				</c:if>
+				
+				<c:if test="${!isLikeIt }">
+					<label class="control-label col-sm-1" for="comment"><i id="heart" class="fa fa-heart-o" style="color:#9C9C9C;"> 좋아요</i></label>
+				</c:if>
+
+				
+				<div class="col-sm-11">
+					<input type="text" class="form-control" id="comment" name="comment" placeholder="댓글 달기.." style="border: none;">
+				</div>
+			</div>
+			<input type="submit" class="btn btn-success" style="display:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;">
+		</form>
+		</c:if>
+		<br> <br>
+		<br> <br>
+		<br> <br>
+
+	</section>
+	</div>
+	<script src="/js/readArticle.js?version=4"></script>
 </body>
 
 </html>

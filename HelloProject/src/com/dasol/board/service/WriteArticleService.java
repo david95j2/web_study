@@ -2,6 +2,7 @@ package com.dasol.board.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.dasol.board.dao.ArticleContentDAO;
@@ -53,6 +54,13 @@ public class WriteArticleService {
 
 	private Article toArticle(WriteRequest writeRequest) {
 		Date now = new Date();
-		return new Article(null, writeRequest.getTitle(), 0, 0, 0, now, null, writeRequest.getWriter());
+		return new Article(null,  // article_no
+				writeRequest.getTitle(), // title 
+				0, // reply
+				new ArrayList<>(), // articlelike_list
+				0, // read_cnt
+				now, // regdate
+				null, //moddate
+				writeRequest.getWriter()); // writer
 	}
 }

@@ -53,7 +53,7 @@ h1 > a {
 				<a class="menu" href="/myinfo.do">[내정보]</a>
 				<a class="menu" href="/logout.do">[로그아웃]</a>
 				<c:if test="${!empty authUser.nickname}">
-					<p><strong>${authUser.nickname}</strong>님,반가워요.</p>
+					<p><strong id="usernickname">${authUser.nickname}</strong>님, 반가워요.<strong id="memberId" style="visibility: hidden;">${authUser.id}</strong></p>
 				</c:if>
 				<c:if test="${empty authUser.nickname }">
 					<p><strong style="color: red;">닉네임</strong>을 설정하세요.</p>

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.dasol.board.model.Article;
+import com.dasol.board.model.ArticleLike;
 import com.dasol.board.model.Writer;
 import com.dasol.jdbc.JdbcUtil;
 
@@ -46,7 +47,7 @@ public class ArticleDAO {
 			rs = pstmt.executeQuery();
 			List<Article> articleList = new ArrayList<>();
 			while (rs.next()) {
-				articleList.add(convertArticle(rs));
+				articleList.add(convertArticle(rs, conn));
 			}
 			
 			return articleList;
@@ -56,11 +57,11 @@ public class ArticleDAO {
 		}
 	}
 
-	private Article convertArticle(ResultSet rs) throws SQLException {
+	private Article convertArticle(ResultSet rs, Connection conn) throws SQLException {
 		return new Article(rs.getInt("article_no"), 
 				rs.getString("title"), 
-				rs.getInt("reply_cnt"), 
-				rs.getInt("like_cnt"), 
+				rs.getInt("tot_reply_cnt"), 
+				getArticleLikeList(conn, rs.getInt("article_no")), 
 				rs.getInt("read_cnt"), 
 				toDate(rs.getTimestamp("regdate")),
 				toDate(rs.getTimestamp("moddate")), 
@@ -80,11 +81,11 @@ public class ArticleDAO {
 		
 		try {
 			pstmt = conn.prepareStatement("insert into article "
-					+ "(title, reply_cnt, like_cnt, read_cnt, regdate, moddate, writer_id, nickname, profile_image) "
+					+ "(title, tot_reply_cnt, tot_like_cnt, read_cnt, regdate, moddate, writer_id, nickname, profile_image) "
 					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, article.getTitle());
 			pstmt.setInt(2, article.getReplyCnt());
-			pstmt.setInt(3, article.getLikeCnt());
+			pstmt.setInt(3, article.getArticleLikeSize());
 			pstmt.setInt(4, article.getReadCnt());
 			pstmt.setTimestamp(5, toTimestamp(article.getRegDate()));
 			pstmt.setTimestamp(6, toTimestamp(article.getModDate()));
@@ -101,7 +102,7 @@ public class ArticleDAO {
 					return new Article(newNum, 
 							article.getTitle(), 
 							article.getReplyCnt(), 
-							article.getLikeCnt(), 
+							article.getArticleLikeList(), 
 							article.getReadCnt(), 
 							article.getRegDate(), 
 							article.getModDate(), 
@@ -129,7 +130,7 @@ public class ArticleDAO {
 			rs = pstmt.executeQuery();
 			Article article = null;
 			if(rs.next()) {
-				article = convertArticle(rs);
+				article = convertArticle(rs, conn);
 			}
 			return article;
 		} finally {
@@ -147,14 +148,92 @@ public class ArticleDAO {
 		}
 	}
 	
-	public void increaseLikeCount(Connection conn, int no) throws SQLException {
-		try (PreparedStatement pstmt 
-				= conn.prepareStatement("update article set like_cnt = like_cnt + 1 "
-				+ "where article_no=?")) {
-			pstmt.setInt(1, no);
-			pstmt.executeUpdate();
+	public ArticleLike insertLike(Connection conn, int memberId, String nickname, int articleNo) throws SQLException {
+		PreparedStatement pstmt = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try { 
+			pstmt = conn.prepareStatement("insert into article_like(member_id, nickname, article_no) "
+				+ "value(?, ?, ?);");
+			pstmt.setInt(1, memberId);
+			pstmt.setString(2, nickname);
+			pstmt.setInt(3, articleNo);
+			int insertedCount = pstmt.executeUpdate();
+			
+			if(insertedCount > 0) {
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery("select last_insert_id() from article");
+				if(rs.next()) {
+					Integer newNum = rs.getInt(1);
+					return new ArticleLike(newNum, memberId, nickname, articleNo);
+				}
+			}
+			return null;
+			
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(stmt);
+			JdbcUtil.close(pstmt);
 		}
 	}
+	
+
+	public List<ArticleLike> getArticleLikeList(Connection conn, int articleNo) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement("select * from article_like where article_no=?");
+			pstmt.setInt(1, articleNo);
+			rs = pstmt.executeQuery();
+			List<ArticleLike> articleLikeList = new ArrayList<>();
+			while(rs.next()) {
+				articleLikeList.add(convertArticleLike(rs));
+			}
+			return articleLikeList;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+		
+	}
+	
+	public ArticleLike getArticleLike(Connection conn, int likeNo) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from article_like where like_no=?");
+			pstmt.setInt(1, likeNo);
+			rs = pstmt.executeQuery();
+			ArticleLike articleLike = null;
+			if(rs.next()) {
+				articleLike = convertArticleLike(rs);
+			}
+			
+			return articleLike;
+			
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public int deleteArticleLike(Connection conn, int likeNo) throws SQLException {
+		try (PreparedStatement pstmt 
+				= conn.prepareStatement("delete from article_like where like_no=?")) {
+			pstmt.setInt(1, likeNo);
+			return pstmt.executeUpdate();
+		}
+	}
+	
+	private ArticleLike convertArticleLike(ResultSet rs) throws SQLException {
+		return new ArticleLike(rs.getInt("like_no"), 
+				rs.getInt("member_Id"), 
+				rs.getString("nickname"), 
+				rs.getInt("article_no"));
+	}
+	
 
 	public int update(Connection conn, int no, String title) throws SQLException {
 		try (PreparedStatement pstmt 

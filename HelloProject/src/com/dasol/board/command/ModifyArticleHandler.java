@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dasol.auth.service.User;
-import com.dasol.board.model.Writer;
 import com.dasol.board.service.ArticleData;
 import com.dasol.board.service.ArticleNotFoundException;
 import com.dasol.board.service.ModifyArticleService;
@@ -14,7 +13,6 @@ import com.dasol.board.service.ModifyRequest;
 import com.dasol.board.service.PermissionChecker;
 import com.dasol.board.service.PermissionDeniedException;
 import com.dasol.board.service.ReadArticleService;
-import com.dasol.board.service.WriteRequest;
 import com.dasol.mvc.command.CommandHandler;
 
 

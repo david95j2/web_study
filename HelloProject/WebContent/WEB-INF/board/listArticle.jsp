@@ -32,8 +32,8 @@ div .paginator {
 		<!-- board sort -->
 		<div class="boardsort">
 			<a href="/board/list.do?sort=article_no">[최신순]</a>
-			<a href="/board/list.do?sort=like_cnt">[추천순]</a>
-			<a href="/board/list.do?sort=reply_cnt">[댓글순]</a>
+			<a href="/board/list.do?sort=tot_like_cnt">[추천순]</a>
+			<a href="/board/list.do?sort=tot_reply_cnt">[댓글순]</a>
 			<a href="/board/list.do?sort=read_cnt">[조회순]</a>
 			<a href="/board/write.do" class="btn btn-primary" role="button"><i class="fa fa-pencil"></i> 새 글쓰기</a>
 		</div>
@@ -56,9 +56,8 @@ div .paginator {
 					<td colspan="6">게시글이 없습니다.</td>
 				</tr>
 			</c:if>
-
-			<c:forEach var="article" items="${articlePage.articleList }">
 				<tbody>
+				<c:forEach var="article" items="${articlePage.articleList }">
 					<tr>
 						<td width="10%" nowrap><p>${article.number}</p></td>
 						<td width="40%" nowrap>
@@ -73,10 +72,10 @@ div .paginator {
 						</td>
 						<td width="10%" nowrap><p>${article.transferRegDate }전</p></td>
 						<td width="10%" nowrap><p>${article.readCnt }</p></td>
-						<td width="10%" nowrap><p>${article.likeCnt }</p></td>
+						<td width="10%" nowrap><p>${article.getArticleLikeSize() }</p></td>
 					</tr>
+				</c:forEach>
 				</tbody>
-			</c:forEach>
 		</table>
 		
 		<!-- board pagination -->
