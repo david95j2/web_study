@@ -30,6 +30,8 @@ public class ArticleLikeUpdateService {
 
 			List<ArticleLike> articleLikeList = articleDAO.getArticleLikeList(conn, savedArticleLike.getArticleNo());
 
+			updateArticleLikeCnt(conn, savedArticleLike.getArticleNo(), articleLikeList.size());
+			
 			return new ArticleLikeData(savedArticleLike.getNumber(), savedArticleLike.getMemberId(),
 					savedArticleLike.getNickname(), articleLikeList.size());
 
@@ -52,8 +54,10 @@ public class ArticleLikeUpdateService {
 			}
 
 			articleDAO.deleteArticleLike(conn, likeNo);
-
+			
 			List<ArticleLike> articleLikeList = articleDAO.getArticleLikeList(conn, articleNo);
+			
+			updateArticleLikeCnt(conn, articleNo, articleLikeList.size());
 
 			return articleLikeList.size();
 		} catch (SQLException e) {
@@ -80,6 +84,10 @@ public class ArticleLikeUpdateService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
+	}
+	
+	private void updateArticleLikeCnt(Connection conn, int no, int totLikeCnt) throws SQLException {
+		articleDAO.updateLikeCnt(conn, no, totLikeCnt);
 	}
 
 }

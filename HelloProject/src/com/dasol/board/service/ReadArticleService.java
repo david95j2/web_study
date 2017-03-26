@@ -31,7 +31,7 @@ public class ReadArticleService {
 			if (increadReadCount) {
 				articleDAO.increaseReadCount(conn, articleNo);
 			}
-
+			
 			return new ArticleData(article, content);
 
 		} catch (SQLException e) {

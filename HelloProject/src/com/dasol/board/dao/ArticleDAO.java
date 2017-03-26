@@ -245,6 +245,16 @@ public class ArticleDAO {
 		}
 	}
 	
+	public int updateLikeCnt(Connection conn, int no, int totLikeCnt) throws SQLException {
+		try (PreparedStatement pstmt 
+				= conn.prepareStatement("update article set tot_like_cnt = ? "
+						+ "where article_no=?")) {
+			pstmt.setInt(1, totLikeCnt);
+			pstmt.setInt(2, no);
+			return pstmt.executeUpdate();
+		}
+	}
+	
 	public int delete(Connection conn, int no) throws SQLException {
 		try (PreparedStatement pstmt 
 				= conn.prepareStatement("delete from article where article_no=?")) {
