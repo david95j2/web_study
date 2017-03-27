@@ -8,6 +8,19 @@ $(document).ready(function() {
 	var likeNo = $("#"+userId+"").text();
 	var countzero = $("#countzero").val();
 	
+	$("#replyForm").on("submit", function() {
+		event.preventDefault();
+		var comment = $("#comment").val();
+		replyInsert(articleNo, userNickName, userId, comment)
+		location.reload();
+	});
+	
+	
+	$(".material-icons").click(function() {
+		var replyNo = $(this).attr("id");
+		replyDelete(replyNo, articleNo)
+	});
+	
 	$heart.click(function(){
 		if($heart.attr("class") === "fa fa-heart") {
 			$heart.attr("class", "fa fa-heart-o")
@@ -22,6 +35,44 @@ $(document).ready(function() {
 	
 });
 
+function replyInsert(articleNo, userNickName, userId, comment) {
+	$.ajax({
+        url:'/board/replywrite.do',
+        dataType:'json',
+        type : 'post',
+        async: false,
+        data: {article_no : articleNo,
+        	nickname : userNickName,
+        	member_id : userId, 
+        	comment : comment},
+        success:function(data) {
+        	$("#replyupdown").text("  "+data.totReplyCnt);
+        	$('#replylist').prepend("<li id='"+data.reply_no+"'><p>" +
+        			"<b><span id='reply_nickname'>"+data.nickname+"</span></b> " +
+        			"<span id='reply_content'>"+data.comment+"</span> " +
+        			"<small style='color:#9C9C9C;'><i><span id='reply_regdate'>"+data.regDate+"</span>전</i> </small>" +
+        			"<button style='background-color: white; border: none; width: 14px; height: 14px'>" +
+        			"<i id='"+data.reply_no+"' class='material-icons' style='font-size:14px'>clear</i></button>" +
+        			"<span id='"+data.member_id+"' style='display: none;'>"+data.reply_no+"</span></p></li>");
+        }
+    });
+}
+
+function replyDelete(replyNo, articleNo) {
+	$.ajax({
+        url:'/board/replydelete.do',
+        dataType:'json',
+        type : 'post',
+        async: false,
+        data: {reply_no : replyNo, 
+        		article_no : articleNo},
+        success:function(data){
+        	$("#replyupdown").text("  "+data.totReplyCnt);
+        	$('#replylist li').remove("#"+replyNo+"");
+        }
+    });
+}
+
 function likeupdate(articleNo, userNickName, userId, countzero) {
 	var likeNo = "";
 	
@@ -34,13 +85,19 @@ function likeupdate(articleNo, userNickName, userId, countzero) {
 	        	nickname : userNickName,
 	        	member_id : userId},
 	        success:function(data) {
-	        	$("#likeupdown").text(data.totLikeCnt);
+	        	$("#likeupdown").text(data.totReplyCnt);
 	           
 	        	if(countzero === undefined) {
 	        		if(data.totLikeCnt > 10) {
 			        $('#likelist').prepend("<li id='"+data.like_no+"' class='likelist' style='display: none;'><b>"+
 			        		"<span id='like_nickname'>"+data.nickname+"</span>"+
 			        		"<span id='"+data.member_id+"' style='display: none;'>"+data.like_no+"</span></b></li>");
+	        		} else if (data.totLikeCnt <= 1) {
+	        		$('li').remove("#countzero");
+		        	$('#likelist').prepend("<li id='"+data.like_no+"' class='likelist'><b>"+
+				        	"<span id='like_nickname'>"+data.nickname+"</span>"+
+				        	"<span id='"+data.member_id+"' style='display: none;'>"+data.like_no+"</span></b></li>" +
+				        	"<li id='like_end' class='likelist'>님이 좋아합니다.</li>");
 	        		} else {
 	        		$('#likelist').prepend("<li id='"+data.like_no+"' class='likelist'><b>"+
 				        	"<span id='like_nickname'>"+data.nickname+"</span>"+

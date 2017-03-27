@@ -8,18 +8,18 @@ import com.dasol.util.TransferDate;
 public class Article {
 	private Integer number;
 	private String title;
-	private int replyCnt;
+	private List<ArticleReply> articleReplyList;
 	private List<ArticleLike> articleLikeList;
 	private int readCnt;
 	private Date regDate;
 	private Date modDate;
 	private Writer writer;
 
-	public Article(Integer number, String title, int replyCnt, List<ArticleLike> articleLikeList, int readCnt, Date regDate, Date modDate,
+	public Article(Integer number, String title, List<ArticleReply> articleReplyList, List<ArticleLike> articleLikeList, int readCnt, Date regDate, Date modDate,
 			Writer writer) {
 		this.number = number;
 		this.title = title;
-		this.replyCnt = replyCnt;
+		this.articleReplyList = articleReplyList;
 		this.articleLikeList = articleLikeList;
 		this.readCnt = readCnt;
 		this.regDate = regDate;
@@ -35,8 +35,8 @@ public class Article {
 		return title;
 	}
 
-	public int getReplyCnt() {
-		return replyCnt;
+	public List<ArticleReply> getArticleReplyList() {
+		return articleReplyList;
 	}
 
 	public List<ArticleLike> getArticleLikeList() {
@@ -73,6 +73,14 @@ public class Article {
 	
 	public boolean hasArticleLikeSize() {
 		return this.articleLikeList.size() > 0;
+	}
+	
+	public int getArticleReplySize() {
+		return this.articleReplyList.size();
+	}
+	
+	public boolean hasArticleReplySize() {
+		return this.articleReplyList.size() > 0;
 	}
 
 }

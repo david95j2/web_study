@@ -61,6 +61,15 @@
 			display: inline;		
 		}
 		
+		.row ul {
+			padding-left: 0;
+		}
+		
+		.row ul li {
+			font-size: 12px;
+			display: inline;
+		}
+		
 	</style>
 </head>
 
@@ -175,26 +184,37 @@
 			
 		</div>
 			
-			
+		<!-- reply zone -->	
 		<p>			
-		<i class="fa fa-comment-o" style="font-size:12px;"> 댓글 ${articleData.article.replyCnt }개</i>	
+		<i class="fa fa-comment-o" style="font-size:12px;"> 댓글<span id="replyupdown"> ${articleData.article.getArticleReplySize() }</span>개</i>	
 		</p>
 		
-		<!-- reply zone -->
+		
 		<div class="row">
 			<div class="col-sm-12">
+							
+				<ul id="replylist">
+				<c:forEach var="reply" items="${articleData.article.articleReplyList }">
+				<li id="${reply.replyNo }">
 					<p>
-					<b>Anja</b>
-					<small>안녕하세요.</small>
-					<small style="color:#9C9C9C;"><i>7day ago</i> </small>
-					<i class="material-icons" style="font-size:14px">clear</i>
+						<b><span id="reply_nickname">${reply.nickname }</span></b>
+						<span id="reply_content">${reply.content }</span>
+						<small style="color:#9C9C9C;"><i><span id="reply_regdate">${reply.transferRegDate }</span>전</i></small>
+						
+						<c:if test="${authUser.id == reply.memberId }">
+						<button style="background-color: white; border: none; width: 14px; height: 14px"><i id="${reply.replyNo}" class="material-icons" style="font-size:14px">clear</i></button>
+						</c:if>
 					</p>
+				</li>
+				</c:forEach>
+				</ul>
+				
 			</div>
 		</div>
 		<hr>
 		
-		<c:if test="${!empty authUser}">
-		<form class="form-horizontal">
+		<c:if test="${!empty authUser && authUser.nickname != null && authUser.register_check }">
+		<form class="form-horizontal" id="replyForm">
 			<div class="form-group">
 				
 				<c:if test="${isLikeIt }">
@@ -208,9 +228,14 @@
 				
 				<div class="col-sm-11">
 					<input type="text" class="form-control" id="comment" name="comment" placeholder="댓글 달기.." style="border: none;">
+					<input type="hidden" id="reply_userId" value="${authUser.id }">
+					<input type="hidden" id="reply_nickname" value="${authUser.nickname }">
+					<input type="hidden" id="article_no" value="${articleData.article.number }">
 				</div>
+				
 			</div>
-			<input type="submit" class="btn btn-success" style="display:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;">
+			
+			<input type="submit" id="reply-submitButton"class="btn btn-success" style="display:none;">
 		</form>
 		</c:if>
 		<br> <br>
@@ -219,7 +244,7 @@
 
 	</section>
 	</div>
-	<script src="/js/readArticle.js?version=4"></script>
+	<script src="/js/readArticle.js?version=7"></script>
 </body>
 
 </html>

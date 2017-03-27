@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.dasol.board.model.Article;
 import com.dasol.board.model.ArticleLike;
+import com.dasol.board.model.ArticleReply;
 import com.dasol.board.model.Writer;
 import com.dasol.jdbc.JdbcUtil;
 
@@ -60,7 +61,7 @@ public class ArticleDAO {
 	private Article convertArticle(ResultSet rs, Connection conn) throws SQLException {
 		return new Article(rs.getInt("article_no"), 
 				rs.getString("title"), 
-				rs.getInt("tot_reply_cnt"), 
+				getArticleReplyList(conn, rs.getInt("article_no")), 
 				getArticleLikeList(conn, rs.getInt("article_no")), 
 				rs.getInt("read_cnt"), 
 				toDate(rs.getTimestamp("regdate")),
@@ -84,7 +85,7 @@ public class ArticleDAO {
 					+ "(title, tot_reply_cnt, tot_like_cnt, read_cnt, regdate, moddate, writer_id, nickname, profile_image) "
 					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, article.getTitle());
-			pstmt.setInt(2, article.getReplyCnt());
+			pstmt.setInt(2, article.getArticleReplySize());
 			pstmt.setInt(3, article.getArticleLikeSize());
 			pstmt.setInt(4, article.getReadCnt());
 			pstmt.setTimestamp(5, toTimestamp(article.getRegDate()));
@@ -101,7 +102,7 @@ public class ArticleDAO {
 					Integer newNum = rs.getInt(1);
 					return new Article(newNum, 
 							article.getTitle(), 
-							article.getReplyCnt(), 
+							article.getArticleReplyList(), 
 							article.getArticleLikeList(), 
 							article.getReadCnt(), 
 							article.getRegDate(), 
@@ -137,6 +138,74 @@ public class ArticleDAO {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+	}
+	
+	public ArticleReply insertReply(Connection conn, ArticleReply articleReply) throws SQLException {
+		PreparedStatement pstmt = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try { 
+			pstmt = conn.prepareStatement("insert into article_reply(member_id, nickname, content, regdate, article_no) "
+				+ "value(?, ?, ?, ?, ?)");
+			pstmt.setInt(1, articleReply.getMemberId());
+			pstmt.setString(2, articleReply.getNickname());
+			pstmt.setString(3, articleReply.getContent());
+			pstmt.setTimestamp(4, toTimestamp(articleReply.getRegdate()));
+			pstmt.setInt(5, articleReply.getArticleNo());
+			int insertedCount = pstmt.executeUpdate();
+			
+			if(insertedCount > 0) {
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery("select last_insert_id() from article");
+				if(rs.next()) {
+					Integer newNum = rs.getInt(1);
+					return new ArticleReply(newNum, articleReply.getMemberId(), 
+							articleReply.getNickname(), articleReply.getContent(), 
+							articleReply.getRegdate(), articleReply.getArticleNo());
+				}
+			}
+			return null;
+			
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(stmt);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public List<ArticleReply> getArticleReplyList(Connection conn, int articleNo) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement("select * from article_reply where article_no=? order by reply_no desc ");
+			pstmt.setInt(1, articleNo);
+			rs = pstmt.executeQuery();
+			List<ArticleReply> articleReplyList = new ArrayList<>();
+			while(rs.next()) {
+				articleReplyList.add(convertArticleReply(rs));
+			}
+			return articleReplyList;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+		
+	}
+	
+	public int deleteArticleReply(Connection conn, int replyNo) throws SQLException {
+		try (PreparedStatement pstmt 
+				= conn.prepareStatement("delete from article_reply where reply_no=?")) {
+			pstmt.setInt(1, replyNo);
+			return pstmt.executeUpdate();
+		}
+	}
+	
+	private ArticleReply convertArticleReply(ResultSet rs) throws SQLException {
+		return new ArticleReply(rs.getInt("reply_no"), rs.getInt("member_id"), 
+				rs.getString("nickname"), rs.getString("content"), 
+				toDate(rs.getTimestamp("regdate")), rs.getInt("article_no"));
 	}
 	
 	public void increaseReadCount(Connection conn, int no) throws SQLException {
@@ -177,7 +246,6 @@ public class ArticleDAO {
 			JdbcUtil.close(pstmt);
 		}
 	}
-	
 
 	public List<ArticleLike> getArticleLikeList(Connection conn, int articleNo) throws SQLException {
 		PreparedStatement pstmt = null;
@@ -250,6 +318,16 @@ public class ArticleDAO {
 				= conn.prepareStatement("update article set tot_like_cnt = ? "
 						+ "where article_no=?")) {
 			pstmt.setInt(1, totLikeCnt);
+			pstmt.setInt(2, no);
+			return pstmt.executeUpdate();
+		}
+	}
+	
+	public int updateReplyCnt(Connection conn, int no, int totReplyCnt) throws SQLException {
+		try (PreparedStatement pstmt 
+				= conn.prepareStatement("update article set tot_reply_cnt = ? "
+						+ "where article_no=?")) {
+			pstmt.setInt(1, totReplyCnt);
 			pstmt.setInt(2, no);
 			return pstmt.executeUpdate();
 		}

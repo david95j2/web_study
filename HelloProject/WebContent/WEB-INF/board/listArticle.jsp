@@ -63,7 +63,7 @@ div .paginator {
 						<td width="40%" nowrap>
 						<p><a href="/board/read.do?no=${article.number}&pageNo=${articlePage.currentPage}">
 						<c:out value="${article.title }" />
-						<span class="badge">${article.replyCnt }</span>
+						<span class="badge">${article.getArticleReplySize()}</span>
 						</a></p>
 						</td>
 						<td width="20%" nowrap>

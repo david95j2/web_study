@@ -56,8 +56,8 @@ public class WriteArticleService {
 		Date now = new Date();
 		return new Article(null,  // article_no
 				writeRequest.getTitle(), // title 
-				0, // reply
-				new ArrayList<>(), // articlelike_list
+				new ArrayList<>(), // reply_list
+				new ArrayList<>(), // like_list
 				0, // read_cnt
 				now, // regdate
 				null, //moddate
