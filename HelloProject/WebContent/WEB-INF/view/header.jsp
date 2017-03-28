@@ -11,7 +11,8 @@
    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> 
    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
    <!-- include summernote css/js--> 
    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet"> 
    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
@@ -49,8 +50,16 @@ h1 > a {
 			</div>
 			<!-- login true -->
 			<c:if test="${!empty authUser.email}">
-				<a class="menu" href="/noti.do">[알림]<span class="badge" style="background-color: red;">1</span></a>
-				<a class="menu" href="/myinfo.do">[내정보]</a>
+			
+				<c:if test="${!notiCheck }">			
+				<a class="menu" href="/noti.do">[<i class="fa fa-bell" style="font-size:14px; color: red;"></i>알림]</a>
+				</c:if>
+				
+				<c:if test="${notiCheck }">			
+				<a class="menu" href="/noti.do">[<i class="fa fa-bell-o" style="font-size:14px">알림</i>]</a>
+				</c:if>
+				
+				<a class="menu" href="/myinfo.do">[<i class="fa fa-cog" style="font-size:14px">내정보</i>]</a>
 				<a class="menu" href="/logout.do">[로그아웃]</a>
 				<c:if test="${!empty authUser.nickname}">
 					<p><strong id="usernickname">${authUser.nickname}</strong>님, 반가워요.<strong id="memberId" style="visibility: hidden;">${authUser.id}</strong></p>

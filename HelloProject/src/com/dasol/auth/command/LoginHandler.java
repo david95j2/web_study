@@ -12,10 +12,12 @@ import com.dasol.auth.service.LoginService;
 import com.dasol.auth.service.PasswordNotFoundException;
 import com.dasol.auth.service.User;
 import com.dasol.mvc.command.CommandHandler;
+import com.dasol.noti.service.ReadMyNotiService;
 
 public class LoginHandler implements CommandHandler {
 	private static final String FORM_VIEW = "/WEB-INF/view/loginForm.jsp";
 	private LoginService loginService = new LoginService();
+	private ReadMyNotiService notiService = new ReadMyNotiService();
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -42,15 +44,18 @@ public class LoginHandler implements CommandHandler {
 		request.setAttribute("errors", errors);
 		
 		try {
-			User user = loginService.login(email, password, remember);
+			User authUser = loginService.login(email, password, remember);
 			
-			if (user.getRememberToken() != null) {
-				Cookie cookie = new Cookie("aT", user.getRememberToken());
+			if (authUser.getRememberToken() != null) {
+				Cookie cookie = new Cookie("aT", authUser.getRememberToken());
 				cookie.setMaxAge(14*24*60*60);
 				response.addCookie(cookie);
 			}
 			
-			request.getSession().setAttribute("authUser", user);
+			boolean notiCheck = notiService.isNotiCheck(authUser.getId());
+			request.getSession().setAttribute("notiCheck", notiCheck);
+			
+			request.getSession().setAttribute("authUser", authUser);
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 			return null;
 			

@@ -3,6 +3,7 @@ $(document).ready(function() {
 
 	var $heart = $("#heart");
 	var articleNo = $("#article_no").text();
+	var articleUserId = $("#article_userId").text();
 	var userNickName = $("#usernickname").text();
 	var userId = $("#memberId").text();
 	var likeNo = $("#"+userId+"").text();
@@ -11,7 +12,7 @@ $(document).ready(function() {
 	$("#replyForm").on("submit", function() {
 		event.preventDefault();
 		var comment = $("#comment").val();
-		replyInsert(articleNo, userNickName, userId, comment)
+		replyInsert(articleNo, userNickName, userId, comment, articleUserId)
 		location.reload();
 	});
 	
@@ -29,13 +30,13 @@ $(document).ready(function() {
 		} else if($heart.attr("class") === "fa fa-heart-o") {
 			$heart.attr("class", "fa fa-heart")
 			$heart.attr("style", "color:red;")
-			likeNo = likeupdate(articleNo, userNickName, userId, countzero);
+			likeNo = likeupdate(articleNo, userNickName, userId, countzero, articleUserId);
 		}
     });
 	
 });
 
-function replyInsert(articleNo, userNickName, userId, comment) {
+function replyInsert(articleNo, userNickName, userId, comment, articleUserId) {
 	$.ajax({
         url:'/board/replywrite.do',
         dataType:'json',
@@ -44,7 +45,8 @@ function replyInsert(articleNo, userNickName, userId, comment) {
         data: {article_no : articleNo,
         	nickname : userNickName,
         	member_id : userId, 
-        	comment : comment},
+        	comment : comment, 
+        	article_userId : articleUserId},
         success:function(data) {
         	$("#replyupdown").text("  "+data.totReplyCnt);
         	$('#replylist').prepend("<li id='"+data.reply_no+"'><p>" +
@@ -73,7 +75,7 @@ function replyDelete(replyNo, articleNo) {
     });
 }
 
-function likeupdate(articleNo, userNickName, userId, countzero) {
+function likeupdate(articleNo, userNickName, userId, countzero, articleUserId) {
 	var likeNo = "";
 	
 		$.ajax({
@@ -83,7 +85,8 @@ function likeupdate(articleNo, userNickName, userId, countzero) {
 	        async: false,
 	        data: {article_no : articleNo,
 	        	nickname : userNickName,
-	        	member_id : userId},
+	        	member_id : userId, 
+	        	article_userId : articleUserId},
 	        success:function(data) {
 	        	$("#likeupdown").text(data.totReplyCnt);
 	           

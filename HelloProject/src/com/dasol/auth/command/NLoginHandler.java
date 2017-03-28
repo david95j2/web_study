@@ -7,10 +7,12 @@ import com.dasol.auth.service.LoginRequest;
 import com.dasol.auth.service.NLoginService;
 import com.dasol.auth.service.User;
 import com.dasol.mvc.command.CommandHandler;
+import com.dasol.noti.service.ReadMyNotiService;
 
 public class NLoginHandler implements CommandHandler {
 	private static final String FORM_VIEW = "/WEB-INF/view/loginForm.jsp";
 	private NLoginService nLoginService = new NLoginService();
+	private ReadMyNotiService notiService = new ReadMyNotiService();
 	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -31,8 +33,12 @@ public class NLoginHandler implements CommandHandler {
 		loginRequest.setProfileImage(request.getParameter("profile_image"));
 		loginRequest.setAccessToken(request.getParameter("access_token"));
 		
-		User user = nLoginService.login(loginRequest);
-		request.getSession().setAttribute("authUser", user);
+		User authUser = nLoginService.login(loginRequest);
+		
+		boolean notiCheck = notiService.isNotiCheck(authUser.getId());
+		request.getSession().setAttribute("notiCheck", notiCheck);
+		
+		request.getSession().setAttribute("authUser", authUser);
 		response.sendRedirect(request.getContextPath() + "/index.jsp");
 		return null;
 	}

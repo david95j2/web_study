@@ -12,7 +12,7 @@
    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  	
     <title></title>
     
 	<style type="text/css">
@@ -88,8 +88,8 @@
 		<div class="panel panel-default">
 			<div class="panel-heading summary">
 				<img src="${articleData.article.writer.profileImage}" class="img-circle" id="profile" style="width: 70px; height: 70px;">
-				${articleData.article.writer.nickname}
-			
+				${articleData.article.writer.nickname} <span id="article_userId" style="display: none;">${articleData.article.writer.id}</span>
+				
 				<i class="fa fa-eye" style="font-size:15px">  ${articleData.article.readCnt }</i>
 				<i class="fa fa-clock-o" style="font-size:15px"> ${articleData.article.transferRegDate }전</i>
 			</div>

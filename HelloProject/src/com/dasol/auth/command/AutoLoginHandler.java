@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.dasol.auth.service.AutoLoginService;
 import com.dasol.auth.service.User;
 import com.dasol.mvc.command.CommandHandler;
+import com.dasol.noti.service.ReadMyNotiService;
 import com.dasol.util.CookieBox;
 
 public class AutoLoginHandler implements CommandHandler {
 
 	private AutoLoginService autoLoginService = new AutoLoginService();
+	private ReadMyNotiService notiService = new ReadMyNotiService();
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -35,6 +37,8 @@ public class AutoLoginHandler implements CommandHandler {
 			response.addCookie(cookie);
 		}
 		
+		boolean notiCheck = notiService.isNotiCheck(authUser.getId());
+		request.getSession().setAttribute("notiCheck", notiCheck);
 		request.getSession().setAttribute("authUser", authUser);
 		response.sendRedirect("/board/list.do");
 		return null;
