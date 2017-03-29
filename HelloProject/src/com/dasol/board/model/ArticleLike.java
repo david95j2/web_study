@@ -1,15 +1,21 @@
 package com.dasol.board.model;
 
+import java.util.Date;
+
+import com.dasol.util.TransferDate;
+
 public class ArticleLike {
 	private Integer number;
 	private Integer memberId;
 	private String nickname;
+	private Date regdate;
 	private Integer articleNo;
 
-	public ArticleLike(Integer number, Integer memberId, String nickname, Integer articleNo) {
+	public ArticleLike(Integer number, Integer memberId, String nickname, Date regdate, Integer articleNo) {
 		this.number = number;
 		this.memberId = memberId;
 		this.nickname = nickname;
+		this.regdate = regdate;
 		this.articleNo = articleNo;
 	}
 
@@ -27,6 +33,10 @@ public class ArticleLike {
 
 	public Integer getArticleNo() {
 		return articleNo;
+	}
+	
+	public String getTransferRegDate() {
+		return TransferDate.getDate(regdate);
 	}
 	
 	public boolean isLikeIt(Integer memberId) {

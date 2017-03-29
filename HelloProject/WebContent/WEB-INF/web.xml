@@ -71,6 +71,7 @@
 		<url-pattern>/myinfo.do</url-pattern>
 		<url-pattern>/changePwd.do</url-pattern>
 		<url-pattern>/noti.do</url-pattern>
+		<url-pattern>/user.do</url-pattern>
 		<url-pattern>/deleteMyAccount.do</url-pattern>
 		<url-pattern>/board/write.do</url-pattern>
 	</filter-mapping>
@@ -120,6 +121,7 @@
 		<url-pattern>/noti.do</url-pattern>
 		<url-pattern>/deleteMyAccount.do</url-pattern>
 		<url-pattern>/board/write.do</url-pattern>
+		<url-pattern>/user.do</url-pattern>
 	</filter-mapping>
 	
 	<servlet>

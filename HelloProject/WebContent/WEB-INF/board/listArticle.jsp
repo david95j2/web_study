@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -43,12 +44,12 @@ div .paginator {
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="10%" nowrap>번호</th>
-					<th width="40%" nowrap>제목</th>
-					<th width="20%" nowrap>작성자</th>
-					<th width="10%" nowrap><i class="fa fa-clock-o" style="font-size:15px"></i></th>
-					<th width="10%" nowrap><i class="fa fa-eye" style="font-size:18px"></i></th>
-					<th width="10%" nowrap><i class="fa fa-heart" style="font-size:18px;color:red"></i></th>
+					<th width="10%">번호</th>
+					<th width="48%">제목</th>
+					<th width="12%">작성자</th>
+					<th width="10%" class="hidden-xs"><i class="fa fa-clock-o" style="font-size:15px"></i></th>
+					<th width="10%" class="hidden-xs"><i class="fa fa-eye" style="font-size:18px"></i></th>
+					<th width="10%" class="hidden-xs"><i class="fa fa-heart" style="font-size:18px;color:red"></i></th>
 				</tr>
 			</thead>
 			<c:if test="${articlePage.hasNoArticles() }">
@@ -59,20 +60,20 @@ div .paginator {
 				<tbody>
 				<c:forEach var="article" items="${articlePage.articleList }">
 					<tr>
-						<td width="10%" nowrap><p>${article.number}</p></td>
-						<td width="40%" nowrap>
+						<td><p>${article.number}</p></td>
+						<td>
 						<p><a href="/board/read.do?no=${article.number}&pageNo=${articlePage.currentPage}">
 						<c:out value="${article.title }" />
 						<span class="badge">${article.getArticleReplySize()}</span>
 						</a></p>
 						</td>
-						<td width="20%" nowrap>
-						<a href="#"><img src="${article.writer.profileImage}" class="img-circle" id="profile" style="width: 40px; height: 40px;"></a>
-						<a href="#">${article.writer.nickname }</a>
+						<td>
+						<a href="/user.do?user=${article.writer.id }"><img src="${article.writer.profileImage}" class="img-circle" id="profile" style="width: 40px; height: 40px;"></a>
+						<a href="/user.do?user=${article.writer.id }">${article.writer.nickname }</a>
 						</td>
-						<td width="10%" nowrap><p>${article.transferRegDate }전</p></td>
-						<td width="10%" nowrap><p>${article.readCnt }</p></td>
-						<td width="10%" nowrap><p>${article.getArticleLikeSize() }</p></td>
+						<td class="hidden-xs"><p>${article.transferRegDate }전</p></td>
+						<td class="hidden-xs"><p>${article.readCnt }</p></td>
+						<td class="hidden-xs"><p>${article.getArticleLikeSize() }</p></td>
 					</tr>
 				</c:forEach>
 				</tbody>

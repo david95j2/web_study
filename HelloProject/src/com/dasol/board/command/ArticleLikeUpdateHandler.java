@@ -33,7 +33,7 @@ public class ArticleLikeUpdateHandler implements CommandHandler {
 		int no = Integer.parseInt(articleNo);
 		int myId = Integer.parseInt(articleUserId);
 		
-		ArticleLike articleLike = new ArticleLike(null, id, nickname, no);
+		ArticleLike articleLike = new ArticleLike(null, id, nickname, new Date(), no);
 		ArticleLikeData articleLikeData = service.likeUpdate(articleLike);
 		
 		MyNotification myNoti 

@@ -6,7 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
    <!-- include libraries(jQuery, bootstrap) --> 
    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> 
    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
@@ -38,7 +39,7 @@ h1 > a {
 <body>
 	<div class="container">
 		<header>
-			<h1><a href="http://localhost:8080">게시판 프로젝트</a></h1>
+			<h1><a href="${pageContext.request.contextPath}/index.jsp">게시판 프로젝트</a></h1>
 			
 			<div class="notlogin">
 			<!-- login false -->
@@ -62,7 +63,7 @@ h1 > a {
 				<a class="menu" href="/myinfo.do">[<i class="fa fa-cog" style="font-size:14px">내정보</i>]</a>
 				<a class="menu" href="/logout.do">[로그아웃]</a>
 				<c:if test="${!empty authUser.nickname}">
-					<p><strong id="usernickname">${authUser.nickname}</strong>님, 반가워요.<strong id="memberId" style="visibility: hidden;">${authUser.id}</strong></p>
+					<p><a href="/user.do?user=${authUser.id }" style="color: black;"><strong id="usernickname">${authUser.nickname}</strong></a>님, 반가워요.<strong id="memberId" style="visibility: hidden;">${authUser.id}</strong></p>
 				</c:if>
 				<c:if test="${empty authUser.nickname }">
 					<p><strong style="color: red;">닉네임</strong>을 설정하세요.</p>

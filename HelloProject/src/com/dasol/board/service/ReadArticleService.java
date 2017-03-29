@@ -16,7 +16,7 @@ public class ReadArticleService {
 	public ArticleData getArticle(int articleNo, boolean increadReadCount) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 
-			Article article = articleDAO.selectById(conn, articleNo);
+			Article article = articleDAO.selectByNo(conn, articleNo);
 
 			if (article == null) {
 				throw new ArticleNotFoundException();

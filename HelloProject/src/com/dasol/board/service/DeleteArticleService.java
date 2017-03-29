@@ -21,7 +21,7 @@ public class DeleteArticleService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 			
-			Article article = articleDAO.selectById(conn, no);
+			Article article = articleDAO.selectByNo(conn, no);
 			if(article == null) {
 				throw new ArticleNotFoundException();
 			}

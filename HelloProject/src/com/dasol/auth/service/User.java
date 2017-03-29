@@ -9,6 +9,13 @@ public class User {
 	private String nickname;
 	private String profileImage; // *
 
+	public User(int memberId, String email, String nickname, String profileImage) {
+		this.id = memberId;
+		this.email = email;
+		this.nickname = nickname;
+		this.profileImage = profileImage;
+	}
+	
 	public User(int memberId, String email, boolean registerCheck, String rememberToken,
 			boolean hasPassword, String nickname, String profileImage) {
 		this.id = memberId;

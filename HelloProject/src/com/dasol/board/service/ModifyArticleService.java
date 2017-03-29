@@ -20,7 +20,7 @@ public class ModifyArticleService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			Article article = articleDAO.selectById(conn, modReq.getArticleNumber());
+			Article article = articleDAO.selectByNo(conn, modReq.getArticleNumber());
 			if (article == null) {
 				throw new ArticleNotFoundException();
 			}

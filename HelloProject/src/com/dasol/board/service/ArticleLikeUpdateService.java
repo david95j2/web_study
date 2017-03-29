@@ -2,6 +2,7 @@ package com.dasol.board.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import com.dasol.board.dao.ArticleDAO;
@@ -19,14 +20,14 @@ public class ArticleLikeUpdateService {
 		try {
 			conn = ConnectionProvider.getConnection();
 
-			Article article = articleDAO.selectById(conn, articleLike.getArticleNo());
+			Article article = articleDAO.selectByNo(conn, articleLike.getArticleNo());
 
 			if (article == null) {
 				throw new ArticleNotFoundException();
 			}
 
 			ArticleLike savedArticleLike = articleDAO.insertLike(conn, articleLike.getMemberId(),
-					articleLike.getNickname(), article.getNumber());
+					articleLike.getNickname(), article.getNumber(), new Date());
 
 			List<ArticleLike> articleLikeList = articleDAO.getArticleLikeList(conn, savedArticleLike.getArticleNo());
 

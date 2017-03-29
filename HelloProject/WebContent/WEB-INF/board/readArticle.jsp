@@ -6,7 +6,8 @@
 <html>
 
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
    <!-- include libraries(jQuery, bootstrap) --> 
    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> 
    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
@@ -87,8 +88,8 @@
 		<!-- head summary -->		
 		<div class="panel panel-default">
 			<div class="panel-heading summary">
-				<img src="${articleData.article.writer.profileImage}" class="img-circle" id="profile" style="width: 70px; height: 70px;">
-				${articleData.article.writer.nickname} <span id="article_userId" style="display: none;">${articleData.article.writer.id}</span>
+				<a href="/user.do?user=${articleData.article.writer.id}"><img src="${articleData.article.writer.profileImage}" class="img-circle" id="profile" style="width: 70px; height: 70px;"></a>
+				<a href="/user.do?user=${articleData.article.writer.id}" style="color: black;">${articleData.article.writer.nickname}</a> <span id="article_userId" style="display: none;">${articleData.article.writer.id}</span>
 				
 				<i class="fa fa-eye" style="font-size:15px">  ${articleData.article.readCnt }</i>
 				<i class="fa fa-clock-o" style="font-size:15px"> ${articleData.article.transferRegDate }전</i>
@@ -174,7 +175,7 @@
 			<ul id="likelist">
 				<c:forEach var="like" items="${articleData.article.articleLikeList }">
 					<li id="${like.number}" class="likelist"><b>
-					<span id="like_nickname">${like.nickname}</span>
+					<span id="like_nickname"><a href="/user.do?user=${like.memberId }" style="color: black;">${like.nickname}</a></span>
 					<span id="${like.memberId}" style="display: none;">${like.number}</span>
 					</b></li>
 				</c:forEach>
@@ -197,7 +198,7 @@
 				<c:forEach var="reply" items="${articleData.article.articleReplyList }">
 				<li id="${reply.replyNo }">
 					<p>
-						<b><span id="reply_nickname">${reply.nickname }</span></b>
+						<b><span id="reply_nickname"><a href="/user.do?user=${reply.memberId }" style="color: black;">${reply.nickname }</a></span></b>
 						<span id="reply_content">${reply.content }</span>
 						<small style="color:#9C9C9C;"><i><span id="reply_regdate">${reply.transferRegDate }</span>전</i></small>
 						

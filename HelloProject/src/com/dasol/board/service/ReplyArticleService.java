@@ -19,7 +19,7 @@ public class ReplyArticleService {
 		try {
 			conn = ConnectionProvider.getConnection();
 			
-			Article article = articleDAO.selectById(conn, articleReply.getArticleNo());
+			Article article = articleDAO.selectByNo(conn, articleReply.getArticleNo());
 			
 			if (article == null) {
 				throw new ArticleNotFoundException();
@@ -49,7 +49,7 @@ public class ReplyArticleService {
 		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection();
-			Article article = articleDAO.selectById(conn, articleNo);
+			Article article = articleDAO.selectByNo(conn, articleNo);
 			
 			if (article == null) {
 				throw new ArticleNotFoundException();
