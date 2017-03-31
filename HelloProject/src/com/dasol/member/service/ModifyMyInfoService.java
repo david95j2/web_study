@@ -3,6 +3,7 @@ package com.dasol.member.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.dasol.auth.service.User;
 import com.dasol.jdbc.ConnectionProvider;
 import com.dasol.jdbc.JdbcUtil;
 import com.dasol.member.dao.MemberDAO;
@@ -11,7 +12,7 @@ import com.dasol.member.model.Member;
 public class ModifyMyInfoService {
 	MemberDAO memberDAO = new MemberDAO();
 
-	public MyInfo modify(MyInfo myInfo, int memberId) {
+	public User modify(int memberId, MyInfo myInfo) {
 		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection();
@@ -19,20 +20,36 @@ public class ModifyMyInfoService {
 
 			Member member = memberDAO.selectByMemberId(conn, memberId);
 
-			if (member == null) {
+			if (member == null) { // 회원 존재 여부 체크
 				JdbcUtil.rollback(conn);
 				new MemberNotFoundException();
 			}
-
-			if (myInfo.getProfileImage() == null 
-					&& member.getProfileImage() != null) {
-				myInfo.setProfileImage(member.getProfileImage());
+			
+			boolean isDuplicatedNickname = false;
+			
+			if (!myInfo.compareNickname(member.getNickname())) {
+				isDuplicatedNickname = memberDAO.selectByNickname(conn, myInfo.getNickname());
 			}
-
+			
+			if (isDuplicatedNickname) {
+				JdbcUtil.rollback(conn);
+				throw new DuplicatedNickNameException();
+			}
+			
 			member.changeMyInfo(myInfo);
 			memberDAO.updateMyInfo(conn, member);
+			
+			boolean passwordCheck = member.getPassword() == null ? false : true;
+			
 			conn.commit();
-			return myInfo;
+			return new User(member.getMemberId(), 
+					member.getEmail(), 
+					member.isRegisterCheck(), 
+					member.getRememberToken(), 
+					passwordCheck, 
+					member.getNickname(), 
+					member.getProfileImage());
+			
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException(e);

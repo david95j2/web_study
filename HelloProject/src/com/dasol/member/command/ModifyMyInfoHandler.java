@@ -1,22 +1,23 @@
 package com.dasol.member.command;
 
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dasol.auth.service.User;
+import com.dasol.member.service.DuplicatedNickNameException;
 import com.dasol.member.service.MemberNotFoundException;
 import com.dasol.member.service.ModifyMyInfoService;
 import com.dasol.member.service.MyInfo;
-import com.dasol.member.service.ReadMyInfoService;
 import com.dasol.mvc.command.CommandHandler;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class ModifyMyInfoHandler implements CommandHandler {
 	private static final String FORM_VIEW = "/WEB-INF/view/modifyMyInfoForm.jsp";
-	private ReadMyInfoService readMyInfoService = new ReadMyInfoService();
 	private ModifyMyInfoService modifyMyInfoService = new ModifyMyInfoService();
 
 	@Override
@@ -32,26 +33,24 @@ public class ModifyMyInfoHandler implements CommandHandler {
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		User authUser = (User) request.getSession().getAttribute("authUser");
-		int memberId = authUser.getId();
-		MyInfo myInfo = readMyInfoService.getMyInfo(memberId);
-		myInfo.setProfileImage(authUser.getProfileImage());
-		request.setAttribute("myinfo", myInfo);
 		return FORM_VIEW;
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String path = request.getSession().getServletContext().getRealPath("profileimg");
 		User authUser = (User) request.getSession().getAttribute("authUser");
-		int memberId = authUser.getId();
 
+		Map<String, Boolean> errors = new HashMap<>();
+		request.setAttribute("errors", errors);
+		
 		int size = 1024 * 1024 * 10;
 		String file = "";
-		String oriFile = "";
+//		String oriFile = "";
 
 		try {
 			MultipartRequest multi 
-				= new MultipartRequest(request, path, size, "UTF-8", new DefaultFileRenamePolicy());
+				= new MultipartRequest(request, path, size, "UTF-8", 
+						new DefaultFileRenamePolicy());
 
 			String nickname = multi.getParameter("nickname").trim();
 			Enumeration files = multi.getFileNames();
@@ -59,25 +58,21 @@ public class ModifyMyInfoHandler implements CommandHandler {
 			String str = (String) files.nextElement();
 			
 			file = multi.getFilesystemName(str);
-			oriFile = multi.getOriginalFileName(str);
+//			oriFile = multi.getOriginalFileName(str);
 			
 			String profileImage = file;
 			
-			if(file != null)
+			if (file != null) // 프로필 이미지 경로 셋팅
 				profileImage = "/profileimg/" + file;
+			else // 이미지 입력 null 처리
+				profileImage = authUser.getProfileImage();
 			
 			MyInfo myInfo = new MyInfo(nickname, profileImage);
-			myInfo = modifyMyInfoService.modify(myInfo, memberId);
+			authUser = modifyMyInfoService.modify(authUser.getId(), myInfo);
 			
-			if (myInfo.getProfileImage() == null)
-				myInfo.setDefaultProfile();
-			
-			request.setAttribute("myinfo", myInfo);
-			authUser.setNickname(myInfo.getNickname());
-			authUser.setProfileImage(myInfo.getProfileImage());
 			request.getSession().setAttribute("authUser", authUser);
 			
-			if(myInfo.getNickname() != null && myInfo.getNickname().length() > 0)
+			if(authUser.getNickname() != null && authUser.getNickname().length() > 0)
 				request.setAttribute("isSuccess", true);
 			
 			return FORM_VIEW;
@@ -85,6 +80,9 @@ public class ModifyMyInfoHandler implements CommandHandler {
 		} catch (MemberNotFoundException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
+		} catch (DuplicatedNickNameException e) {
+			errors.put("duplicatedNickname", Boolean.TRUE);
+			return FORM_VIEW;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} 

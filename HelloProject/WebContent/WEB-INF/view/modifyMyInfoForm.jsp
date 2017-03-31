@@ -39,15 +39,18 @@
         <!-- modify myinfo form -->
         <form action="/myinfo.do" method="post" enctype="multipart/form-data">
             <div class="content">
-                <p><img src="${myinfo.profileImage}" class="img-circle" id="profile" style="width: 100px; height: 100px;">
+                <p><img src="${authUser.profileImage}" class="img-circle" id="profile" style="width: 100px; height: 100px;">
                 <a id="profileChange" href="#">사진 변경하기</a>
                 <input type="file" id="file" name="profile_image" style="display:none;"><p>
-            	<p><i class="fa fa-user"> ${myinfo.nickname}</i></p>
+            	<p><i class="fa fa-user"> ${authUser.nickname}</i></p>
             	<p><i class="fa fa-envelope"> ${authUser.email}</i></p>
             </div>
             <div class="form-group">
                 <input type="text"
-                    class="form-control" id="nickname" name="nickname" value="${myinfo.nickname}">	
+                    class="form-control" id="nickname" name="nickname" value="${authUser.nickname}">
+                <c:if test="${errors.duplicatedNickname }"> 
+					<p class="help-block" id="nickname-error">*중복된 닉네임 입니다.</p>
+				</c:if>
             </div>
 
             <button type="submit" id="btn_submit" class="btn btn-primary btn-block">회원정보 변경</button>

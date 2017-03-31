@@ -30,5 +30,9 @@ public class MyInfo {
 	public void setDefaultProfile() {
 		this.profileImage = RandomBox.getRandomImage();
 	}
+	
+	public boolean compareNickname(String nickname) {
+		return this.nickname.equals(nickname);
+	}
 
 }

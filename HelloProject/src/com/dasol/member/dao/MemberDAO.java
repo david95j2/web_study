@@ -139,4 +139,21 @@ public class MemberDAO {
 		}
 	}
 	
+	public boolean selectByNickname(Connection conn, String nickname) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from members where nickname=?");
+			pstmt.setString(1, nickname);
+			rs = pstmt.executeQuery();
+			boolean isDuplicated = false;
+			if (rs.next()) {
+				isDuplicated = true;
+			}
+			return isDuplicated;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
 }
