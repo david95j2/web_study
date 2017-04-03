@@ -194,7 +194,7 @@ public class ArticleDAO {
 		}
 	}
 	
-	public ArticleReply insertReply(Connection conn, ArticleReply articleReply) throws SQLException {
+	public Article insertReply(Connection conn, ArticleReply articleReply) throws SQLException {
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -211,12 +211,9 @@ public class ArticleDAO {
 			
 			if(insertedCount > 0) {
 				stmt = conn.createStatement();
-				rs = stmt.executeQuery("select last_insert_id() from article");
+				rs = stmt.executeQuery("select * from article where article_no=" + articleReply.getArticleNo());
 				if(rs.next()) {
-					Integer newNum = rs.getInt(1);
-					return new ArticleReply(newNum, articleReply.getMemberId(), 
-							articleReply.getNickname(), articleReply.getContent(), 
-							articleReply.getRegdate(), articleReply.getArticleNo());
+					return convertArticle(rs, conn);
 				}
 			}
 			return null;
@@ -233,8 +230,30 @@ public class ArticleDAO {
 		ResultSet rs = null;
 		
 		try {
-			pstmt = conn.prepareStatement("select * from article_reply where article_no=? order by reply_no desc ");
+			pstmt = conn.prepareStatement("select * from article_reply where article_no=? order by reply_no desc");
 			pstmt.setInt(1, articleNo);
+			rs = pstmt.executeQuery();
+			List<ArticleReply> articleReplyList = new ArrayList<>();
+			while(rs.next()) {
+				articleReplyList.add(convertArticleReply(rs));
+			}
+			return articleReplyList;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+		
+	}
+	
+	public List<ArticleReply> getArticleReplyList(Connection conn, int articleNo, int replyPage, int replySize) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement("select * from article_reply where article_no=? order by reply_no desc limit ?,?");
+			pstmt.setInt(1, articleNo);
+			pstmt.setInt(2, replyPage);
+			pstmt.setInt(3, replySize);
 			rs = pstmt.executeQuery();
 			List<ArticleReply> articleReplyList = new ArrayList<>();
 			while(rs.next()) {

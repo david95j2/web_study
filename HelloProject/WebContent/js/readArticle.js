@@ -13,13 +13,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var comment = $("#comment").val();
 		replyInsert(articleNo, userNickName, userId, comment, articleUserId)
-		location.reload();
-	});
-	
-	
-	$(".material-icons").click(function() {
-		var replyNo = $(this).attr("id");
-		replyDelete(replyNo, articleNo)
+		$("#comment").val('');
 	});
 	
 	$heart.click(function(){
@@ -38,7 +32,7 @@ $(document).ready(function() {
 
 function replyInsert(articleNo, userNickName, userId, comment, articleUserId) {
 	$.ajax({
-        url:'/board/replywrite.do',
+        url:'/board/writereply.do',
         dataType:'json',
         type : 'post',
         async: false,
@@ -49,20 +43,32 @@ function replyInsert(articleNo, userNickName, userId, comment, articleUserId) {
         	article_userId : articleUserId},
         success:function(data) {
         	$("#replyupdown").text("  "+data.totReplyCnt);
-        	$('#replylist').prepend("<li id='"+data.reply_no+"'><p>" +
-        			"<b><span id='reply_nickname'>"+data.nickname+"</span></b> " +
-        			"<span id='reply_content'>"+data.comment+"</span> " +
-        			"<small style='color:#9C9C9C;'><i><span id='reply_regdate'>"+data.regDate+"</span>전</i> </small>" +
-        			"<button style='background-color: white; border: none; width: 14px; height: 14px'>" +
-        			"<i id='"+data.reply_no+"' class='material-icons' style='font-size:14px'>clear</i></button>" +
-        			"<span id='"+data.member_id+"' style='display: none;'>"+data.reply_no+"</span></p></li>");
+        	
+        	var list = data.replyList;
+        	var str = '';
+        	var articleNo
+        	
+        	$.each(list, function(index, reply) {
+        				str +=
+            			"<li id='"+reply.replyNo+"'><p>" +
+            			"<b><span id='reply_nickname'><a href='/user.do?user="+reply.memberId+"' style='color: black;'>"+reply.nickname+"</a></span></b> " +
+            			"<span id='reply_content'>"+reply.content+"</span> " +
+            			"<small style='color:#9C9C9C;'><i><span id='reply_regdate'>"+reply.transferRegDate+"</span>전</i> </small>" +
+            			"<button style='background-color: white; border: none; width: 14px; height: 14px' " +
+            			"onclick='deletereply("+reply.replyNo+", "+reply.articleNo+");'>" +
+            			"<i class='material-icons' style='font-size:14px'>clear</i></button></p></li>";
+        				articleNo = reply.articleNo
+        	});
+	
+        	$('#replylist').html('<ul>'+str+'</ul>');
+        	
         }
     });
 }
 
-function replyDelete(replyNo, articleNo) {
+function deletereply(replyNo, articleNo) {
 	$.ajax({
-        url:'/board/replydelete.do',
+        url:'/board/deletereply.do',
         dataType:'json',
         type : 'post',
         async: false,

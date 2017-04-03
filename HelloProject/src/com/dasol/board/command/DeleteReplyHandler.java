@@ -7,12 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import com.dasol.board.service.ReplyArticleService;
+import com.dasol.board.service.ReplyData;
+import com.dasol.board.service.ReplyService;
 import com.dasol.mvc.command.CommandHandler;
 
-public class ReplyDeleteArticleHandler implements CommandHandler {
+public class DeleteReplyHandler implements CommandHandler {
 
-	ReplyArticleService replyArticleService = new ReplyArticleService();
+	ReplyService replyArticleService = new ReplyService();
 	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -22,10 +23,11 @@ public class ReplyDeleteArticleHandler implements CommandHandler {
 		int replyNo = Integer.parseInt(reply_no);
 		int articleNo = Integer.parseInt(article_no);
 		
-		int totReplyCnt = replyArticleService.deleteReply(articleNo, replyNo);
+		ReplyData replyData = replyArticleService.deleteReply(articleNo, replyNo);
 		
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("totReplyCnt", totReplyCnt);
+		//jsonObj.put("replyList", replyData.getReplyList());
+		jsonObj.put("totReplyCnt", replyData.getTotCnt());
 		
 		response.setContentType("text/html;charset=UTF-8"); 
 		PrintWriter out;

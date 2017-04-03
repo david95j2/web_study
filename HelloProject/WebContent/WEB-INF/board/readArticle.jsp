@@ -135,9 +135,11 @@
 			<!-- bottom summary -->
 			<div class="panel-heading bsummary">
 			<ul>
-				<li><c:set var="pageNo"
-					value="${empty param.pageNo ? '1' : param.pageNo}" />
-				<a href="/board/list.do?pageNo=${pageNo }">목록보기</a> </li>
+				<li><c:set var="page"
+					value="${empty param.page ? '1' : param.page}" />
+					<c:set var="sort"
+					value="${empty param.sort ? 'article_no' : param.sort}" />
+				<a href="/board/list.do?page=${page }&sort=${sort }">목록보기</a> </li>
 				<c:if test="${authUser.id == articleData.article.writer.id}">
 					<li><a href="#" data-toggle="modal" data-target="#myModal" ><i class="fa fa-trash-o"> 삭제</i></a></li>
 					<li><a href="/board/modify.do?no=${articleData.article.number }"><i class="fa fa-edit"> 수정</i></a></li>
@@ -193,7 +195,7 @@
 		
 		<div class="row">
 			<div class="col-sm-12">
-							
+						<!-- 	
 				<ul id="replylist">
 				<c:forEach var="reply" items="${articleData.article.articleReplyList }">
 				<li id="${reply.replyNo }">
@@ -209,7 +211,26 @@
 				</li>
 				</c:forEach>
 				</ul>
-				
+				 -->
+				 
+				<ul id="replylist">
+				<c:forEach var="reply" items="${articleData.article.articleReplyList }">
+				<li id="${reply.replyNo }">
+					<p>
+						<b><span id="reply_nickname"><a href="/user.do?user=${reply.memberId }" style="color: black;">${reply.nickname }</a></span></b>
+						<span id="reply_content">${reply.content }</span>
+						<small style="color:#9C9C9C;"><i><span id="reply_regdate">${reply.transferRegDate }</span>전</i></small>
+						
+						<c:if test="${authUser.id == reply.memberId }">
+						<button style="background-color: white; border: none; width: 14px; height: 14px" onclick="deletereply(${reply.replyNo}, ${reply.articleNo });">
+						<i class="material-icons" style="font-size:14px">clear</i>
+						</button>
+						</c:if>
+					</p>
+				</li>
+				</c:forEach>
+				</ul>
+				 
 			</div>
 		</div>
 		<hr>
@@ -245,7 +266,7 @@
 
 	</section>
 	</div>
-	<script src="/js/readArticle.js?version=7"></script>
+	<script src="/js/readArticle.js"></script>
 </body>
 
 </html>

@@ -10,66 +10,92 @@ import com.dasol.board.model.ArticleReply;
 import com.dasol.jdbc.ConnectionProvider;
 import com.dasol.jdbc.JdbcUtil;
 
-public class ReplyArticleService {
+public class ReplyService {
 	ArticleDAO articleDAO = new ArticleDAO();
-	
-	public ArticleReplyData insertReply(ArticleReply articleReply) {
+	private static final int REPLY_SIZE = 5;
+
+	public ReplyData insertReply(ArticleReply articleReply, int replyPage) {
 		Connection conn = null;
-		
+
 		try {
 			conn = ConnectionProvider.getConnection();
-			
+			conn.setAutoCommit(false);
+
 			Article article = articleDAO.selectByNo(conn, articleReply.getArticleNo());
-			
+
 			if (article == null) {
+				JdbcUtil.rollback(conn);
 				throw new ArticleNotFoundException();
 			}
-			
-			ArticleReply savedArticleReply = articleDAO.insertReply(conn, articleReply);
-			
-			List<ArticleReply> articleReplyList = articleDAO.getArticleReplyList(conn, article.getNumber());
 
-			updateArticleReplyCnt(conn, article.getNumber(), articleReplyList.size());
-			
-			return new ArticleReplyData(savedArticleReply.getArticleNo(), 
-					savedArticleReply.getNickname(), 
-					savedArticleReply.getMemberId(), 
-					savedArticleReply.getContent(),
-					savedArticleReply.getRegdate(),
-					articleReplyList.size());
-			
+			article = articleDAO.insertReply(conn, articleReply);
+
+			updateArticleReplyCnt(conn, article.getNumber(), article.getArticleReplySize());
+
+			List<ArticleReply> articleReplyList 
+				= articleDAO.getArticleReplyList(conn, article.getNumber());
+
+			conn.commit();
+			return new ReplyData(article.getArticleReplySize(), articleReplyList);
+
 		} catch (SQLException e) {
+			JdbcUtil.rollback(conn);
 			throw new RuntimeException(e);
 		} finally {
 			JdbcUtil.close(conn);
 		}
 	}
-	
-	public int deleteReply(int articleNo, int replyNo) {
+
+	public ReplyData selectReply(int articleNo) {
+		Connection conn = null;
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			
+			Article article = articleDAO.selectByNo(conn, articleNo);
+
+			if (article == null) {
+				JdbcUtil.rollback(conn);
+				throw new ArticleNotFoundException();
+			}
+			
+			List<ArticleReply> articleReplyList = articleDAO.getArticleReplyList(conn, articleNo);
+			
+			return new ReplyData(article.getArticleReplySize(), articleReplyList);
+			
+		} catch (SQLException e) {
+			JdbcUtil.rollback(conn);
+			throw new RuntimeException(e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+	}
+
+	public ReplyData deleteReply(int articleNo, int replyNo) {
 		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			Article article = articleDAO.selectByNo(conn, articleNo);
-			
+
 			if (article == null) {
 				throw new ArticleNotFoundException();
 			}
-			
+
 			articleDAO.deleteArticleReply(conn, replyNo);
-			
+
 			List<ArticleReply> articleReplyList = articleDAO.getArticleReplyList(conn, articleNo);
 			updateArticleReplyCnt(conn, articleNo, articleReplyList.size());
-			return articleReplyList.size();
 			
+			return new ReplyData(articleReplyList.size(), articleReplyList);
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		
-	
+
 	}
-	
+
 	private void updateArticleReplyCnt(Connection conn, int no, int totReplyCnt) throws SQLException {
 		articleDAO.updateReplyCnt(conn, no, totReplyCnt);
 	}
