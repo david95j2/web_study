@@ -37,7 +37,7 @@ div .paginator {
 			<thead>
 				<tr>
 					<th width="10%" nowrap>번호</th>
-					<th width="90%" nowrap>내용</th>
+					<th>내용</th>
 				</tr>
 			</thead>
 			<c:if test="${!notiData.hasNotiList() }">
@@ -53,7 +53,7 @@ div .paginator {
 						<td width="10%" nowrap><p>${noti.number}</p></td>
 
 						<c:if test="${noti.type == 'like'}">
-						<td width="90%" nowrap><p><a href="/user.do?user=${noti.anotherMemberId }">${noti.anotherUserNickname }</a> 님이 
+						<td><p><a href="/user.do?user=${noti.anotherMemberId }">${noti.anotherUserNickname }</a> 님이 
 									<a href="/board/read.do?no=${noti.articleNo }" onclick="readNoti(${noti.number});" >
 									${noti.articleNo }번째 글</a>에 
 									<strong>좋아요</strong> 하였습니다.</p> 
@@ -65,7 +65,7 @@ div .paginator {
 						</c:if>
 						
 						<c:if test="${noti.type == 'reply'}">
-						<td width="90%" nowrap><p><a href="/user.do?user=${noti.anotherMemberId }">${noti.anotherUserNickname }</a> 님이 
+						<td><p><a href="/user.do?user=${noti.anotherMemberId }">${noti.anotherUserNickname }</a> 님이 
 									<a href="/board/read.do?no=${noti.articleNo }" onclick="readNoti(${noti.number});">
 									${noti.articleNo }번째 글</a>에 
 									<strong>댓글</strong>을 작성하였습니다.</p> 
@@ -84,7 +84,7 @@ div .paginator {
 						<td width="10%" nowrap><p>${noti.number}</p></td>
 
 						<c:if test="${noti.type == 'like'}">
-						<td width="90%" nowrap><p><a href="/user.do?user=${noti.anotherMemberId }">${noti.anotherUserNickname }</a> 님이 
+						<td><p><a href="/user.do?user=${noti.anotherMemberId }">${noti.anotherUserNickname }</a> 님이 
 									<a href="/board/read.do?no=${noti.articleNo }">
 									${noti.articleNo }번째 글</a>에 <strong>좋아요</strong> 하였습니다.</p> 
 									<small><i>${noti.getTransferRegDate() }전</i></small> 
@@ -95,7 +95,7 @@ div .paginator {
 						</c:if>
 						
 						<c:if test="${noti.type == 'reply'}">
-						<td width="90%" nowrap><p><a href="/user.do?user=${noti.anotherMemberId }">${noti.anotherUserNickname }</a> 님이 
+						<td><p><a href="/user.do?user=${noti.anotherMemberId }">${noti.anotherUserNickname }</a> 님이 
 									<a href="/board/read.do?no=${noti.articleNo }">
 									${noti.articleNo }번째 글</a>에 <strong>댓글</strong>을 작성하였습니다.</p> 
 									<small><i>${noti.getTransferRegDate() }전</i></small>

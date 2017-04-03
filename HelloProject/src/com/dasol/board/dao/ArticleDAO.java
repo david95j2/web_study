@@ -290,7 +290,7 @@ public class ArticleDAO {
 		}
 	}
 	
-	public ArticleLike insertLike(Connection conn, int memberId, String nickname, int articleNo, Date date) throws SQLException {
+	public ArticleLike insertLike(Connection conn, ArticleLike articleLike) throws SQLException {
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -298,18 +298,22 @@ public class ArticleDAO {
 		try { 
 			pstmt = conn.prepareStatement("insert into article_like(member_id, nickname, regdate, article_no) "
 				+ "value(?, ?, ?, ?);");
-			pstmt.setInt(1, memberId);
-			pstmt.setString(2, nickname);
-			pstmt.setTimestamp(3, toTimestamp(date));
-			pstmt.setInt(4, articleNo);
+			pstmt.setInt(1, articleLike.getMemberId());
+			pstmt.setString(2, articleLike.getNickname());
+			pstmt.setTimestamp(3, toTimestamp(articleLike.getRegdate()));
+			pstmt.setInt(4, articleLike.getArticleNo());
 			int insertedCount = pstmt.executeUpdate();
 			
 			if(insertedCount > 0) {
 				stmt = conn.createStatement();
-				rs = stmt.executeQuery("select last_insert_id() from article");
+				rs = stmt.executeQuery("select last_insert_id() from article_like");
 				if(rs.next()) {
 					Integer newNum = rs.getInt(1);
-					return new ArticleLike(newNum, memberId, nickname, date, articleNo);
+					return new ArticleLike(newNum, 
+							articleLike.getMemberId(), 
+							articleLike.getNickname(), 
+							articleLike.getRegdate(), 
+							articleLike.getArticleNo());
 				}
 			}
 			return null;

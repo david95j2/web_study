@@ -1,48 +1,30 @@
 package com.dasol.board.service;
 
+import com.dasol.board.model.ArticleLike;
+
 public class ArticleLikeData {
-	private Integer likeNo;
-	private Integer memberId;
-	private String nickname;
-	private Integer totLikeCnt;
+	private int totCnt;
+	private ArticleLike articleLike;
 
-	public ArticleLikeData(Integer likeNo, Integer memberId, String nickname, Integer totLikeCnt) {
-		this.likeNo = likeNo;
-		this.memberId = memberId;
-		this.nickname = nickname;
-		this.totLikeCnt = totLikeCnt;
+	public ArticleLikeData(int totCnt, ArticleLike articleLike) {
+		this.totCnt = totCnt;
+		this.articleLike = articleLike;
 	}
 
-	public Integer getLikeNo() {
-		return likeNo;
+	public int getTotCnt() {
+		return totCnt;
 	}
 
-	public void setLikeNo(Integer likeNo) {
-		this.likeNo = likeNo;
+	public void setTotCnt(int totCnt) {
+		this.totCnt = totCnt;
 	}
 
-	public Integer getMemberId() {
-		return memberId;
+	public ArticleLike getArticleLike() {
+		return articleLike;
 	}
 
-	public void setMemberId(Integer memberId) {
-		this.memberId = memberId;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	public Integer getTotLikeCnt() {
-		return totLikeCnt;
-	}
-
-	public void setTotLikeCnt(Integer totLikeCnt) {
-		this.totLikeCnt = totLikeCnt;
+	public void setArticleLike(ArticleLike articleLike) {
+		this.articleLike = articleLike;
 	}
 
 }

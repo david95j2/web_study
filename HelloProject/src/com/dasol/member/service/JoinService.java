@@ -33,7 +33,7 @@ public class JoinService {
 					new Member(joinRequest.getEmail(), 
 							joinRequest.getPassword(),
 							null, // 유저 닉네임 생성
-							new Date(), 
+							new Date(), // 가입일 
 							null, // 유저 기본 프로필 설정
 							joinRequest.getRegisterCode(), // 이메일 인증 코드
 							false, // 이메일 인증 체크 기본 false
@@ -50,20 +50,20 @@ public class JoinService {
 		}
 	}
 	
-	public void sendEmail(String email, String registerCode) {
+	public void sendEmail(String email, String registerCode) { // 이메일 전송 메소드
 		Connection conn = null;
 		Member member = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			
-			if (registerCode == null) {
+			if (registerCode == null) { // 이메일 재전송 시 기존 발급했던 인증 코드 DB에서 가져옴
 				member = memberDAO.selectByEmail(conn, email);
 				registerCode = member.getRegisterCode();
 			}
 
-			MailInfo mailInfo = new MailInfo(email, registerCode);
-			mailInfo.setRegisterContent();
-			SendEmail.send(mailInfo);
+			MailInfo mailInfo = new MailInfo(email, registerCode); // 메일 정보 
+			mailInfo.setRegisterContent(); // 메일 설정 (인증)
+			SendEmail.send(mailInfo); // 이메일 전송 관련 static 메소드
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException();

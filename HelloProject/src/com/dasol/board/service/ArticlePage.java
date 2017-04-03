@@ -33,7 +33,7 @@ public class ArticlePage {
 
 			int pageGroupNumber = (int) Math.ceil((double) currentPage / pageGroupSize);
 			
-			if (currentPage < 9) {
+			if (currentPage < pageGroupSize) {
 				startPage = (pageGroupNumber - 1) * pageGroupSize + 1;
 				endPage = startPage + pageGroupSize - 1;
 			} else {

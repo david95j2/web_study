@@ -51,18 +51,18 @@ public class JoinHandler implements CommandHandler {
 			User user = (User) request.getSession().getAttribute("authUser");
 			String email = user.getEmail();
 			
-			if (email.equals("") && email.isEmpty()) {
+			if (email.equals("") && email.isEmpty()) { // 회원 인증 이메일 재전송 시 이메일 체크
 				email = request.getParameter("email");
 				if (email.equals("") && email.isEmpty()) {
 					throw new EmailNotFoundException();
 				}
 			}
-			System.out.println("email=" + email);
-			joinService.sendEmail(email, null);
+
+			joinService.sendEmail(email, null); // 회원인증 이메일 재전송
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 			return null;
 		} catch (EmailNotFoundException e) {
-			return FORM_VIEW;
+			return FORM_VIEW; // 기본 가입 폼
 		} catch (Exception e) {
 			return FORM_VIEW;
 		}

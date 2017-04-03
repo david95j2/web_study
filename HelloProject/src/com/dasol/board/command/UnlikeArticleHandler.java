@@ -10,13 +10,12 @@ import org.json.JSONObject;
 import com.dasol.board.service.ArticleLikeUpdateService;
 import com.dasol.mvc.command.CommandHandler;
 
-public class ArticleLikeDeleteHandler implements CommandHandler {
+public class UnlikeArticleHandler implements CommandHandler {
 	
 	private ArticleLikeUpdateService service = new ArticleLikeUpdateService();
 	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("likedelHandler");
 		
 		String likeNoVal = request.getParameter("like_no");
 		String articleNoVal = request.getParameter("article_no");
@@ -28,7 +27,7 @@ public class ArticleLikeDeleteHandler implements CommandHandler {
 		
 		System.out.println(likeNo);
 		
-		int totLikeCnt = service.likeDelete(likeNo, articleNo);
+		int totLikeCnt = service.unlike(likeNo, articleNo);
 		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("totLikeCnt", totLikeCnt);

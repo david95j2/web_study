@@ -46,15 +46,16 @@ public class LoginHandler implements CommandHandler {
 		try {
 			User authUser = loginService.login(email, password, remember);
 			
-			if (authUser.getRememberToken() != null) {
+			if (authUser.getRememberToken() != null) { // 자동 로그인 유저 쿠키 재발급
 				Cookie cookie = new Cookie("aT", authUser.getRememberToken());
 				cookie.setMaxAge(14*24*60*60);
 				response.addCookie(cookie);
 			}
 			
-			boolean notiCheck = notiService.isNotiCheck(authUser.getId());
-			request.getSession().setAttribute("notiCheck", notiCheck);
+			boolean notiCheck = notiService.isNotiCheck(authUser.getId()); // 로그인 한 유저의 노티 체크
 			
+			// 해당 유저 정보 세션에 저장 (노티, 유저)
+			request.getSession().setAttribute("notiCheck", notiCheck); 
 			request.getSession().setAttribute("authUser", authUser);
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 			return null;

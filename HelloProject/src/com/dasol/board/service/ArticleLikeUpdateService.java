@@ -2,7 +2,6 @@ package com.dasol.board.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 import com.dasol.board.dao.ArticleDAO;
@@ -14,36 +13,37 @@ import com.dasol.jdbc.JdbcUtil;
 public class ArticleLikeUpdateService {
 	ArticleDAO articleDAO = new ArticleDAO();
 
-	public ArticleLikeData likeUpdate(ArticleLike articleLike) {
+	public ArticleLikeData like(ArticleLike articleLike) {
 		Connection conn = null;
 
 		try {
 			conn = ConnectionProvider.getConnection();
-
+			conn.setAutoCommit(false);
 			Article article = articleDAO.selectByNo(conn, articleLike.getArticleNo());
 
 			if (article == null) {
+				JdbcUtil.rollback(conn);
 				throw new ArticleNotFoundException();
 			}
 
-			ArticleLike savedArticleLike = articleDAO.insertLike(conn, articleLike.getMemberId(),
-					articleLike.getNickname(), article.getNumber(), new Date());
-
-			List<ArticleLike> articleLikeList = articleDAO.getArticleLikeList(conn, savedArticleLike.getArticleNo());
-
-			updateArticleLikeCnt(conn, savedArticleLike.getArticleNo(), articleLikeList.size());
+			ArticleLike savedArticleLike = articleDAO.insertLike(conn, articleLike);
 			
-			return new ArticleLikeData(savedArticleLike.getNumber(), savedArticleLike.getMemberId(),
-					savedArticleLike.getNickname(), articleLikeList.size());
+			List<ArticleLike> likeList = articleDAO.getArticleLikeList(conn, savedArticleLike.getArticleNo());
+					
+			updateArticleLikeCnt(conn, savedArticleLike.getArticleNo(), likeList.size());
+			
+			conn.commit();
+			return new ArticleLikeData(likeList.size(), savedArticleLike);
 
 		} catch (SQLException e) {
+			JdbcUtil.rollback(conn);
 			throw new RuntimeException(e);
 		} finally {
 			JdbcUtil.close(conn);
 		}
 	}
 
-	public int likeDelete(int likeNo, int articleNo) {
+	public int unlike(int likeNo, int articleNo) {
 		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection();

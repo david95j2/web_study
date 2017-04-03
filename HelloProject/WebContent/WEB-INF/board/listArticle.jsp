@@ -62,7 +62,7 @@ div .paginator {
 					<tr>
 						<td><p>${article.number}</p></td>
 						<td>
-						<p><a href="/board/read.do?no=${article.number}&pageNo=${articlePage.currentPage}">
+						<p><a href="/board/read.do?no=${article.number}&page=${articlePage.currentPage}&sort=${articlePage.sort }">
 						<c:out value="${article.title }" />
 						<span class="badge">${article.getArticleReplySize()}</span>
 						</a></p>

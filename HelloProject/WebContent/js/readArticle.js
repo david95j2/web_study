@@ -20,11 +20,11 @@ $(document).ready(function() {
 		if($heart.attr("class") === "fa fa-heart") {
 			$heart.attr("class", "fa fa-heart-o")
 			$heart.attr("style", "color:#9C9C9C;")
-			likedelete(likeNo, articleNo);
+			unlike(likeNo, articleNo);
 		} else if($heart.attr("class") === "fa fa-heart-o") {
 			$heart.attr("class", "fa fa-heart")
 			$heart.attr("style", "color:red;")
-			likeNo = likeupdate(articleNo, userNickName, userId, countzero, articleUserId);
+			likeNo = like(articleNo, userNickName, userId, countzero, articleUserId);
 		}
     });
 	
@@ -81,11 +81,11 @@ function deletereply(replyNo, articleNo) {
     });
 }
 
-function likeupdate(articleNo, userNickName, userId, countzero, articleUserId) {
+function like(articleNo, userNickName, userId, countzero, articleUserId) {
 	var likeNo = "";
 	
 		$.ajax({
-	        url:'/board/likeupdate.do',
+	        url:'/board/like.do',
 	        dataType:'json',
 	        type : 'post',
 	        async: false,
@@ -126,9 +126,9 @@ function likeupdate(articleNo, userNickName, userId, countzero, articleUserId) {
 		return likeNo;
 }
 
-function likedelete(likeNo, articleNo) {
+function unlike(likeNo, articleNo) {
 	$.ajax({
-        url:'/board/likedelete.do',
+        url:'/board/unlike.do',
         dataType:'json',
         type : 'post',
         async: false,

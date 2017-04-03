@@ -35,6 +35,10 @@ public class ArticleLike {
 		return articleNo;
 	}
 	
+	public Date getRegdate() {
+		return regdate;
+	}
+
 	public String getTransferRegDate() {
 		return TransferDate.getDate(regdate);
 	}

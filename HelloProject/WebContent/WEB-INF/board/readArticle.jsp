@@ -59,7 +59,7 @@
 		
 		.likezone ul li {
 			font-size: 12px;
-			display: inline;		
+			display: inline;
 		}
 		
 		.row ul {
