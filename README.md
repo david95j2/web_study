@@ -1,15 +1,15 @@
 반응형 웹 커뮤니티 게시판
 ================
 
-* 1. 제 블로그에서 함께 진행합니다.
+### * 제 블로그에서 함께 진행합니다.
 
 	http://blog.naver.com/PostList.nhn?blogId=gksdnr89&from=postList&categoryNo=56
 
-* 2. 포트폴리오 
+### * 포트폴리오 
 
 	https://drive.google.com/file/d/0B8TuPRNLNLWlNU4zbXhTMFBjSGM/view?usp=sharing
 
-* 3. TestCase 
+### * TestCase 
 
 	https://docs.google.com/spreadsheets/d/1wQKsVKwPJMOrVQETKaCMhdPUi2gHtvqjF6hm8hgWpdk/edit?usp=sharing
  
