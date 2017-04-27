@@ -1,19 +1,19 @@
 반응형 웹 커뮤니티 게시판
 ================
 
->제 블로그에서 함께 진행합니다.
+1. 제 블로그에서 함께 진행합니다.
 
 
->>http://blog.naver.com/PostList.nhn?blogId=gksdnr89&from=postList&categoryNo=56
+>http://blog.naver.com/PostList.nhn?blogId=gksdnr89&from=postList&categoryNo=56
 
->포트폴리오 
+2. 포트폴리오 
 
 >>https://drive.google.com/file/d/0B8TuPRNLNLWlNU4zbXhTMFBjSGM/view?usp=sharing
 
->TestCase 
+3. TestCase 
 
->>https://docs.google.com/spreadsheets/d/1wQKsVKwPJMOrVQETKaCMhdPUi2gHtvqjF6hm8hgWpdk/edit?usp=sharing
+>https://docs.google.com/spreadsheets/d/1wQKsVKwPJMOrVQETKaCMhdPUi2gHtvqjF6hm8hgWpdk/edit?usp=sharing
  
-최범균의 JSP 2.3 웹 프로그래밍 책을 보고 응용해서 제작합니다.
+최범균의 JSP 2.3 웹 프로그래밍 책을 보고 공부하여 응용해서 제작합니다.
 
 \#helloproject \#웹 게시판제작하기 \#JSP \#Servlet
